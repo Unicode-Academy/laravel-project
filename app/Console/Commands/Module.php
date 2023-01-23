@@ -132,6 +132,35 @@ class Module extends Command
                 if (!File::exists($modelsFolder)) {
                     File::makeDirectory($modelsFolder, 0755, true, true);
                 }
+
+                //Repositories
+                $repositoriesFolder = base_path('modules/'.$name.'/src/Repositories');
+
+                if (!File::exists($repositoriesFolder)) {
+                    File::makeDirectory($repositoriesFolder, 0755, true, true);
+
+                    //Module Repository
+                    $moduleRepositoryFile = base_path('modules/'.$name.'/src/Repositories/'.$name.'Repository.php');
+
+                    if (!File::exists($moduleRepositoryFile)) {
+                        $moduleRepositoryFileContent = file_get_contents(app_path('Console/Commands/Templates/ModuleRepository.txt'));
+
+                        $moduleRepositoryFileContent = str_replace('{module}', $name, $moduleRepositoryFileContent);
+
+                        File::put($moduleRepositoryFile, $moduleRepositoryFileContent);
+                    }
+
+                    //Module Repository Interface
+                    $moduleRepositoryInterfaceFile = base_path('modules/'.$name.'/src/Repositories/'.$name.'RepositoryInterface.php');
+
+                    if (!File::exists($moduleRepositoryInterfaceFile)) {
+                        $moduleRepositoryInterfaceFileContent = file_get_contents(app_path('Console/Commands/Templates/ModuleRepositoryInterface.txt'));
+
+                        $moduleRepositoryInterfaceFileContent = str_replace('{module}', $name, $moduleRepositoryInterfaceFileContent);
+
+                        File::put($moduleRepositoryInterfaceFile, $moduleRepositoryInterfaceFileContent);
+                    }
+                }
             }
 
 
