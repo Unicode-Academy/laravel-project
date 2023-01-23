@@ -4,18 +4,15 @@ namespace Modules;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
-use Modules\User\src\Commands\TestCommand;
-use Modules\User\src\Repositories\UserRepository;
-use Modules\User\src\Http\Middlewares\DemoMiddleware;
 
 class ModuleServiceProvider extends ServiceProvider
 {
     private $middlewares = [
-        'demo' => DemoMiddleware::class
+
     ];
 
     private $commands = [
-        TestCommand::class
+
     ];
 
     public function boot()
