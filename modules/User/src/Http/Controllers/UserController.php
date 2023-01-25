@@ -3,6 +3,7 @@
 namespace Modules\User\src\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Modules\User\src\Http\Requests\UserRequest;
 use Modules\User\src\Repositories\UserRepository;
 
 class UserController extends Controller
@@ -24,5 +25,9 @@ class UserController extends Controller
     {
         $pageTitle = 'Thêm người dùng';
         return view('user::add', compact('pageTitle'));
+    }
+
+    public function store(UserRequest $request)
+    {
     }
 }

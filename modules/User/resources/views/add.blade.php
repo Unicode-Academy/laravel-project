@@ -5,27 +5,48 @@
         <div class="col-6">
             <div class="mb-3">
                 <label for="">Tên</label>
-                <input type="text" class="form-control" placeholder="Tên..." value="">
+                <input type="text" name="name" class="form-control {{$errors->has('name')?'is-invalid':''}}" placeholder="Tên..." value="">
+                @error('name')
+                <div class="invalid-feedback">
+                    {{$message}}
+                 </div>
+                @enderror
+               
             </div>
         </div>
         <div class="col-6">
             <div class="mb-3">
                 <label for="">Email</label>
-                <input type="text" class="form-control" placeholder="Email..." value="">
+                <input type="text" name="email" class="form-control {{$errors->has('email')?'is-invalid':''}}" placeholder="Email..." value="">
+                @error('email')
+                <div class="invalid-feedback">
+                    {{$message}}
+                 </div>
+                @enderror
             </div>
         </div>
         <div class="col-6">
             <div class="mb-3">
                 <label for="">Nhóm</label>
-                <select name="" id="" class="form-select">
-                    <option value="">Chọn Nhóm</option>
+                <select name="group_id" id="" class="form-select {{$errors->has('group_id')?'is-invalid':''}}">
+                    <option value="0">Chọn Nhóm</option>
                 </select>
+                @error('group_id')
+                <div class="invalid-feedback">
+                    {{$message}}
+                 </div>
+                @enderror
             </div>
         </div>
         <div class="col-6">
             <div class="mb-3">
                 <label for="">Mật khẩu</label>
-                <input type="password" name="" class="form-control" placeholder="Mật khẩu..." id="">
+                <input type="password" name="password" class="form-control {{$errors->has('password')?'is-invalid':''}}" placeholder="Mật khẩu..." id="">
+                @error('password')
+                <div class="invalid-feedback">
+                    {{$message}}
+                 </div>
+                @enderror
             </div>
         </div>
         <div class="col-12">
@@ -33,6 +54,6 @@
             <a href="{{route('admin.users.index')}}" class="btn btn-danger">Hủy</a>
         </div>
     </div>
-    
+    @csrf
 </form>
 @endsection
