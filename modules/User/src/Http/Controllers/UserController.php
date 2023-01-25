@@ -29,5 +29,13 @@ class UserController extends Controller
 
     public function store(UserRequest $request)
     {
+        $this->userRepository->create([
+            'name'=> $request->name,
+            'email' => $request->email,
+            'group_id' => $request->group_id,
+            'password' => bcrypt($request->password),
+        ]);
+
+        return redirect()->route('admin.users.index')->with('msg', __('user::messages.success'));
     }
 }
