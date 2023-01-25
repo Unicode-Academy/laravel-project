@@ -8,8 +8,8 @@
             <th>Email</th>
             <th>Nhóm</th>
             <th>Thời gian</th>
-            <th style="width: 5%;">Sửa</th>
-            <th style="width: 5%;">Xóa</th>
+            <th>Sửa</th>
+            <th>Xóa</th>
         </tr>
     </thead>
     <tfoot>
