@@ -21,6 +21,33 @@ class UserController extends Controller
         return view('user::lists', compact('pageTitle'));
     }
 
+    public function data()
+    {
+        $users = $this->userRepository->getAll();
+
+        $data = [];
+
+        foreach ($users as $user) {
+            array_push($data, [
+                $user->name,
+                $user->email,
+                $user->group_id,
+                $user->created_at,
+                '<a href="#" class="btn btn-warning">Sửa</a>',
+                '<a href="#" class="btn btn-danger">Xóa</a>',
+            ]);
+        }
+
+        $response = [
+            'draw' => 1,
+            'recordsTotal' => count($users),
+            'recordsFiltered' => count($users),
+            'data' => $data
+        ];
+
+        return $response;
+    }
+
     public function create()
     {
         $pageTitle = 'Thêm người dùng';
