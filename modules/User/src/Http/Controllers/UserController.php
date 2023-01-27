@@ -2,6 +2,7 @@
 
 namespace Modules\User\src\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
 use Modules\User\src\Http\Requests\UserRequest;
@@ -20,6 +21,24 @@ class UserController extends Controller
         $pageTitle = 'Quản lý người dùng';
 
         return view('user::lists', compact('pageTitle'));
+    }
+
+    public function data()
+    {
+        $users = $this->userRepository->getAllUsers();
+
+        return DataTables::of($users)
+        ->addColumn('edit', function ($user) {
+            return '<a href="#" class="btn btn-warning">Sửa</a>';
+        })
+        ->addColumn('delete', function ($user) {
+            return '<a href="#" class="btn btn-danger">Xóa</a>';
+        })
+        ->editColumn('created_at', function ($user) {
+            return Carbon::parse($user->created_at)->format('d/m/Y H:i:s');
+        })
+        ->rawColumns(['edit', 'delete'])
+        ->toJson();
     }
 
     public function create()

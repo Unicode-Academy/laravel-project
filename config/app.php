@@ -197,7 +197,9 @@ return [
 
         Modules\ModuleServiceProvider::class,
 
-        Yajra\DataTables\DataTablesServiceProvider::class
+        Yajra\DataTables\DataTablesServiceProvider::class,
+
+        Barryvdh\Debugbar\ServiceProvider::class,
 
     ],
 
