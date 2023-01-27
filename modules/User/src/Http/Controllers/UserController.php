@@ -3,6 +3,7 @@
 namespace Modules\User\src\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Yajra\DataTables\Facades\DataTables;
 use Modules\User\src\Http\Requests\UserRequest;
 use Modules\User\src\Repositories\UserRepository;
 
@@ -23,29 +24,12 @@ class UserController extends Controller
 
     public function data()
     {
-        $users = $this->userRepository->getAll();
+        $users = $this->userRepository->getAllUsers();
 
-        $data = [];
-
-        foreach ($users as $user) {
-            array_push($data, [
-                $user->name,
-                $user->email,
-                $user->group_id,
-                $user->created_at,
-                '<a href="#" class="btn btn-warning">Sửa</a>',
-                '<a href="#" class="btn btn-danger">Xóa</a>',
-            ]);
-        }
-
-        $response = [
-            'draw' => 1,
-            'recordsTotal' => count($users),
-            'recordsFiltered' => count($users),
-            'data' => $data
-        ];
-
-        return $response;
+        return DataTables::of($users)
+        ->addColumn('edit', '<a href="#" class="btn btn-warning">Sửa</a>')
+        ->addColumn('delete', '<a href="#" class="btn btn-danger">Xóa</a>')
+        ->toJson();
     }
 
     public function create()

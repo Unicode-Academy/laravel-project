@@ -19,6 +19,11 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         return $this->model->paginate($limit);
     }
 
+    public function getAllUsers()
+    {
+        return $this->model->select(['name', 'email', 'group_id', 'created_at'])->get();
+    }
+
     public function setPassword($password, $id)
     {
         return $this->update($id, ['password' => Hash::make($password)]);
