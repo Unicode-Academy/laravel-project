@@ -24,4 +24,27 @@ window.addEventListener("DOMContentLoaded", (event) => {
             );
         });
     }
+
+    const tableList = document.querySelector("#datatable");
+    const deleteForm = document.querySelector(".delete-form");
+    tableList.addEventListener("click", (e) => {
+        if (e.target.classList.contains("delete-action")) {
+            e.preventDefault();
+            Swal.fire({
+                title: "Bạn có chắc chắn?",
+                text: "Nếu xóa bạn không thể khôi phục!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ok, Đồng ý xóa!",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const action = e.target.href;
+                    deleteForm.action = action;
+                    deleteForm.submit();
+                }
+            });
+        }
+    });
 });
