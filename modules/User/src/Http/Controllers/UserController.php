@@ -22,16 +22,6 @@ class UserController extends Controller
         return view('user::lists', compact('pageTitle'));
     }
 
-    public function data()
-    {
-        $users = $this->userRepository->getAllUsers();
-
-        return DataTables::of($users)
-        ->addColumn('edit', '<a href="#" class="btn btn-warning">Sửa</a>')
-        ->addColumn('delete', '<a href="#" class="btn btn-danger">Xóa</a>')
-        ->toJson();
-    }
-
     public function create()
     {
         $pageTitle = 'Thêm người dùng';
