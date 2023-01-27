@@ -29,7 +29,7 @@ class UserController extends Controller
 
         return DataTables::of($users)
         ->addColumn('edit', function ($user) {
-            return '<a href="#" class="btn btn-warning">Sửa</a>';
+            return '<a href="'.route('admin.users.edit', $user).'" class="btn btn-warning">Sửa</a>';
         })
         ->addColumn('delete', function ($user) {
             return '<a href="#" class="btn btn-danger">Xóa</a>';
@@ -56,6 +56,32 @@ class UserController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-        return redirect()->route('admin.users.index')->with('msg', __('user::messages.success'));
+        return redirect()->route('admin.users.index')->with('msg', __('user::messages.create.success'));
+    }
+
+    public function edit($id)
+    {
+        $user = $this->userRepository->find($id);
+
+        if (!$user) {
+            abort(404);
+        }
+
+        $pageTitle = 'Cập nhật người dùng';
+
+        return view('user::edit', compact('user', 'pageTitle'));
+    }
+
+    public function update(UserRequest $request, $id)
+    {
+        $data = $request->except('_token', 'password');
+
+        if ($request->password) {
+            $data['password'] = bcrypt($request->password);
+        }
+
+        $this->userRepository->update($id, $data);
+
+        return back()->with('msg', __('user::messages.update.success'));
     }
 }

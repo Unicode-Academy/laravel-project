@@ -12,6 +12,10 @@ Route::group(['namespace' => 'Modules\User\src\Http\Controllers', 'middleware' =
             Route::get('create', 'UserController@create')->name('admin.users.create');
 
             Route::post('create', 'UserController@store')->name('admin.users.store');
+
+            Route::get('edit/{user}', 'UserController@edit')->name('admin.users.edit');
+
+            Route::post('edit/{user}', 'UserController@update')->name('admin.users.update');
         });
     });
 });
