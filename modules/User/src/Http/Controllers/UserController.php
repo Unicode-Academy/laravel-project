@@ -27,7 +27,7 @@ class UserController extends Controller
     {
         $users = $this->userRepository->getAllUsers();
 
-        return DataTables::of($users)
+        $data =  DataTables::of($users)
         ->addColumn('edit', function ($user) {
             return '<a href="'.route('admin.users.edit', $user).'" class="btn btn-warning">Sửa</a>';
         })
@@ -39,6 +39,7 @@ class UserController extends Controller
         })
         ->rawColumns(['edit', 'delete'])
         ->toJson();
+        return $data;
     }
 
     public function create()
