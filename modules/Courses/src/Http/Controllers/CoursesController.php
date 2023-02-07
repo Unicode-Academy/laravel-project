@@ -48,8 +48,9 @@ class CoursesController extends Controller
         return view('courses::add', compact('pageTitle'));
     }
 
-    public function store(UserRequest $request)
+    public function store(CoursesRequest $request)
     {
+        //return redirect()->route('admin.users.index')->with('msg', __('user::messages.create.success'));
     }
 
     public function edit($id)

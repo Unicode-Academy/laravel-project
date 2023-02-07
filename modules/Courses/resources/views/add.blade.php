@@ -48,7 +48,7 @@
                 <div class="mb-3">
                     <label for="">Mã khóa học</label>
                     <input type="text" name="code" class="form-control {{ $errors->has('code') ? 'is-invalid' : '' }}"
-                        placeholder="Mã khóa học..." id="">
+                        placeholder="Mã khóa học..." id="" value="{{ old('code') }}">
                     @error('code')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -61,7 +61,7 @@
                     <label for="">Giá khóa học</label>
                     <input type="number" name="price"
                         class="form-control {{ $errors->has('price') ? 'is-invalid' : '' }}" placeholder="Giá khóa học..."
-                        id="">
+                        id="" value="{{ old('price') }}">
                     @error('price')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -74,7 +74,7 @@
                     <label for="">Giá khuyến mãi</label>
                     <input type="number" name="sale_price"
                         class="form-control {{ $errors->has('sale_price') ? 'is-invalid' : '' }}"
-                        placeholder="Giá khuyến mãi..." id="">
+                        placeholder="Giá khuyến mãi..." id="" value="{{ old('sale_price') }}">
                     @error('sale_price')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -87,8 +87,8 @@
                     <label for="">Tài liệu đính kèm</label>
                     <select name="is_document" id=""
                         class="form-select {{ $errors->has('is_document') ? 'is-invalid' : '' }}">
-                        <option value="0">Không</option>
-                        <option value="1">Có</option>
+                        <option value="0" {{ old('is_document') == 0 ? 'selected' : false }}>Không</option>
+                        <option value="1" {{ old('is_document') == 1 ? 'selected' : false }}>Có</option>
                     </select>
                     @error('is_document')
                         <div class="invalid-feedback">
@@ -103,8 +103,8 @@
                     <label for="">Trạng thái</label>
                     <select name="status" id=""
                         class="form-select {{ $errors->has('status') ? 'is-invalid' : '' }}">
-                        <option value="0">Chưa ra mắt</option>
-                        <option value="1">Đã ra mắt</option>
+                        <option value="0" {{ old('status') == 0 ? 'selected' : false }}>Chưa ra mắt</option>
+                        <option value="1" {{ old('status') == 1 ? 'selected' : false }}>Đã ra mắt</option>
                     </select>
                     @error('status')
                         <div class="invalid-feedback">
@@ -118,7 +118,7 @@
                 <div class="mb-3">
                     <label for="">Hỗ trợ</label>
                     <textarea name="supports" class="form-control {{ $errors->has('supports') ? 'is-invalid' : '' }}"
-                        placeholder="Hỗ trợ..."></textarea>
+                        placeholder="Hỗ trợ...">{{ old('supports') }}</textarea>
                     @error('supports')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -131,7 +131,7 @@
                 <div class="mb-3">
                     <label for="">Nội dung</label>
                     <textarea name="detail" class="form-control ckeditor {{ $errors->has('detail') ? 'is-invalid' : '' }}"
-                        placeholder="Nội dung..."></textarea>
+                        placeholder="Nội dung...">{{ old('detail') }}</textarea>
                     @error('detail')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -147,7 +147,7 @@
                             <label for="">Ảnh đại diện</label>
                             <input type="text" name="thumbnail"
                                 class="form-control {{ $errors->has('thumbnail') ? 'is-invalid' : '' }}"
-                                placeholder="Ảnh đại diện..." id="thumbnail">
+                                placeholder="Ảnh đại diện..." id="thumbnail" value="{{ old('thumbnail') }}">
                             @error('thumbnail')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -161,7 +161,12 @@
                             </button>
                         </div>
                         <div class="col-3">
-                            <div id="holder"></div>
+                            <div id="holder">
+                                @if (old('thumbnail'))
+                                    <img src="{{ old('thumbnail') }}" />
+                                @endif
+
+                            </div>
                         </div>
                     </div>
                 </div>
