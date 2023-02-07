@@ -21,3 +21,7 @@ Route::group(['namespace' => 'Modules\Categories\src\Http\Controllers', 'middlew
         });
     });
 });
+
+Route::group(['prefix' => 'filemanager', 'middleware' => ['web']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});
