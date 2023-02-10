@@ -37,7 +37,23 @@ class CoursesController extends Controller
         ->editColumn('created_at', function ($course) {
             return Carbon::parse($course->created_at)->format('d/m/Y H:i:s');
         })
-        ->rawColumns(['edit', 'delete'])
+        ->editColumn('status', function ($course) {
+            return $course->status == 1 ? '<button class="btn btn-success">Ra mắt</button>' : '<button class="btn btn-warning">Chưa ra mắt</button>';
+        })
+        ->editColumn('price', function ($course) {
+            if ($course->price) {
+                if ($course->sale_price) {
+                    $price = number_format($course->sale_price).'đ';
+                } else {
+                    $price = number_format($course->price).'đ';
+                }
+            } else {
+                $price = 'Miễn phí';
+            }
+
+            return $price;
+        })
+        ->rawColumns(['edit', 'delete', 'status'])
         ->toJson();
         return $data;
     }
@@ -50,7 +66,18 @@ class CoursesController extends Controller
 
     public function store(CoursesRequest $request)
     {
-        //return redirect()->route('admin.users.index')->with('msg', __('user::messages.create.success'));
+        $courses = $request->except(['_token']);
+        if (!$courses['sale_price']) {
+            $courses['sale_price'] = 0;
+        }
+
+        if (!$courses['price']) {
+            $courses['price'] = 0;
+        }
+
+        $this->coursesRepository->create($courses);
+
+        return redirect()->route('admin.courses.index')->with('msg', __('courses::messages.create.success'));
     }
 
     public function edit($id)
