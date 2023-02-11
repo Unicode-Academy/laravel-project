@@ -84,7 +84,7 @@ class CoursesController extends Controller
     {
         $course = $this->coursesRepository->find($id);
 
-        if (!$user) {
+        if (!$course) {
             abort(404);
         }
 
@@ -93,8 +93,20 @@ class CoursesController extends Controller
         return view('courses::edit', compact('course', 'pageTitle'));
     }
 
-    public function update(UserRequest $request, $id)
+    public function update(CoursesRequest $request, $id)
     {
+        $courses = $request->except(['_token', '_method']);
+        if (!$courses['sale_price']) {
+            $courses['sale_price'] = 0;
+        }
+
+        if (!$courses['price']) {
+            $courses['price'] = 0;
+        }
+
+        $this->coursesRepository->update($id, $courses);
+
+        return back()->with('msg', __('courses::messages.update.success'));
     }
 
     public function delete($id)
