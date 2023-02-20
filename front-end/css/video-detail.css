@@ -1,0 +1,96 @@
+/* video */
+.video {
+	padding: 20px;
+}
+.video h3 {
+	margin-bottom: 30px;
+}
+.video .prev,
+.video .next {
+	padding: 10px;
+	background-color: #4d3d3d80;
+	cursor: pointer;
+	border-radius: 5px;
+}
+/* nav */
+.nav {
+	border: 1px solid #4d3d3d80;
+}
+.nav p {
+	flex: 1;
+	padding: 10px;
+	text-align: center;
+	cursor: pointer;
+}
+.nav p.lesson {
+	border-right: 1px solid #4d3d3d80;
+}
+.nav p.active {
+	background-color: #1978dc;
+	color: #fff;
+}
+.group .title {
+	display: none;
+}
+.group .title.active {
+	display: block;
+}
+.group .document-title p {
+	margin-top: 30px;
+	padding: 10px 20px;
+	background-color: antiquewhite;
+	border-radius: 5px;
+	cursor: pointer;
+}
+/* accordion */
+.accordion {
+	background-color: #fff;
+	padding: 20px 0;
+}
+.accordion .accordion-group {
+	border-top: 1px solid #d6d6d6;
+	padding: 10px;
+}
+.accordion .accordion-group:last-child {
+	border-bottom: 1px solid #d6d6d6;
+}
+.accordion .accordion-group h4 {
+	font-weight: 400;
+	cursor: pointer;
+}
+.accordion .accordion-detail {
+	display: none;
+}
+.accordion .accordion-detail.active {
+	display: block;
+}
+.accordion .accordion-detail .card-accordion {
+	padding: 10px 20px;
+	border-top: 1px solid #d6d6d6;
+}
+.accordion .accordion-detail .card-accordion:last-child {
+	border-bottom: 1px solid #d6d6d6;
+}
+.accordion .accordion-detail .card-accordion > div {
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+}
+.accordion .accordion-detail .card-accordion > div i {
+	color: red;
+	flex: 0 1 auto;
+	font-size: 1.3rem;
+}
+.accordion .accordion-detail .card-accordion > div p {
+	flex: 0 1 auto;
+	display: block;
+	padding: 5px 10px;
+	margin: 0 10px;
+	color: #fff;
+	background-color: #1978dc;
+}
+.accordion .accordion-detail .card-accordion > div span {
+	display: block;
+	text-align: right;
+	flex: 1;
+}

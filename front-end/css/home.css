@@ -1,0 +1,214 @@
+.padding {
+	padding: 15px;
+	background-color: #e3ebed;
+}
+/* banner */
+.banner .banner-left,
+.banner .slick-slider,
+.banner .banner-right__img,
+.banner .banner-full img {
+	border-radius: 10px;
+	overflow: hidden;
+}
+.banner .banner-left {
+	height: 100%;
+	padding: 15px;
+	background-color: #fff;
+}
+.banner .banner-left .course-group p {
+	font-size: 1.1rem;
+	color: #0095eb;
+	text-transform: uppercase;
+}
+.banner .banner-left .course-group ul {
+	list-style-type: disc;
+	margin-left: 20px;
+}
+.banner .banner-left .course-group ul li {
+	padding: 5px 0;
+}
+.banner .banner-left .course-group ul a {
+	color: #000;
+}
+.banner .slick-slider,
+.banner .slick-list,
+.banner .slick-slide,
+.banner .slick-track,
+.banner .slick-track img,
+.banner .banner-right,
+.banner .banner-right__img img {
+	height: 100%;
+}
+
+.banner .banner-right__img {
+	margin-bottom: 22px;
+	box-shadow: 2px 2px 18px 2px #4d3d3d80;
+	transition: all 0.3s ease-out;
+	height: calc((100% / 3) - 14px);
+}
+.banner .banner-right__img:hover {
+	box-shadow: 2px 2px 13px 8px #00000080;
+	transition: all 0.3s ease-in;
+}
+.banner .banner-right__img:last-child {
+	margin: 0;
+}
+.banner .banner-full {
+	margin-top: 30px;
+}
+.banner .banner-full:hover img {
+	box-shadow: 2px 2px 13px 8px rgb(0 0 0 / 50%);
+	transition: all 0.3s ease;
+}
+/* course */
+.course {
+	margin-top: 30px;
+	background-color: #fff;
+	border: 1px solid #d7e0e0;
+}
+.course:hover {
+	transform: translateY(-1%);
+	box-shadow: 2px 2px 18px 2px #4d3d3d80;
+	transition: all 0.3s ease;
+}
+.foundation-course h3,
+.intensive-course h3,
+.featured-course h3,
+.skill-extention h3 {
+	text-align: center;
+	padding: 20px 0;
+	font-size: 1.7rem;
+	text-transform: uppercase;
+}
+.banner-course {
+	width: 100%;
+}
+.descreption-course {
+	padding: 20px;
+}
+.descreption-top {
+	display: flex;
+	font-size: 0.6rem;
+	justify-content: space-between;
+	font-weight: 400;
+}
+.descreption-title {
+	font-size: 1.3rem;
+	font-weight: 400;
+	margin-top: 6px;
+	margin-bottom: 20px;
+}
+.descreption-title a {
+	color: #000;
+}
+.descreption-teacher {
+	display: flex;
+	align-items: center;
+	font-weight: 300;
+}
+.descreption-teacher img {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	margin-right: 10px;
+}
+.descreption-price {
+	font-size: 1rem;
+	margin-top: 15px;
+}
+.descreption-price span {
+	text-decoration: underline;
+	color: #1978dc;
+}
+.descreption-price .sale {
+	text-decoration: line-through;
+}
+/* foundation-course */
+.foundation-course h3 {
+	background-color: #98c6ef;
+}
+/* intensive-course */
+.intensive-course h3 {
+	background-color: #66ecec;
+}
+/* featured-course */
+
+.featured-course h3 {
+	background-color: #62da43;
+}
+/* skill-extention */
+.skill-extention h3 {
+	background-color: #f8a6a6;
+}
+/* question */
+.question h3 {
+	margin-top: 30px;
+	padding: 20px 0;
+	text-align: center;
+	font-size: 1.7rem;
+	text-transform: uppercase;
+}
+.question .group {
+	display: flex;
+	align-items: center;
+	margin: 10px 0;
+}
+.question .group .group-icon {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	border: 2px solid #1978dc;
+	margin-right: 20px;
+}
+.question .group .group-icon:hover {
+	background-color: #1978dc;
+	transition: all 0.4s linear;
+}
+.question .group .group-icon:hover i {
+	color: #fff;
+	transition: all 0.4s linear;
+}
+.question .group .group-icon i {
+	color: #1978dc;
+	font-size: 2rem;
+}
+.question .group .group-title p {
+	font-size: 1.2rem;
+	text-transform: uppercase;
+}
+.question .group .group-title ul {
+	list-style-type: disc;
+	margin-left: 40px;
+	font-size: 0.8rem;
+}
+.question .group .group-title ul li {
+	padding: 5px 0;
+}
+/* partner */
+.partner h3 {
+	margin-top: 40px;
+	text-transform: uppercase;
+	font-size: 1.7rem;
+	text-align: center;
+}
+.partner .partner-img {
+	padding: 40px;
+}
+/* about-us */
+.about-us {
+	margin-top: 30px;
+	margin-bottom: 40px;
+}
+.about-us .text {
+	background-color: #597eb8;
+}
+.about-us .text a {
+	text-transform: uppercase;
+	color: #fff;
+	padding: 10px 20px;
+	display: block;
+	text-align: center;
+}
