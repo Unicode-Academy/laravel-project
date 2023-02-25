@@ -13,7 +13,6 @@ class CoursesRepository extends BaseRepository implements CoursesRepositoryInter
         return Course::class;
     }
 
-
     public function getAllCourses()
     {
         return $this->model->select(['id', 'name', 'price', 'status', 'sale_price', 'created_at'])->latest();

@@ -7,14 +7,17 @@ use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
 use Modules\Courses\src\Http\Requests\CoursesRequest;
 use Modules\Courses\src\Repositories\CoursesRepository;
+use Modules\Categories\src\Repositories\CategoriesRepository;
 
 class CoursesController extends Controller
 {
     protected $coursesRepository;
+    protected $categoriesRepository;
 
-    public function __construct(CoursesRepository $coursesRepository)
+    public function __construct(CoursesRepository $coursesRepository, CategoriesRepository $categoriesRepository)
     {
         $this->coursesRepository = $coursesRepository;
+        $this->categoriesRepository = $categoriesRepository;
     }
     public function index()
     {
@@ -61,7 +64,11 @@ class CoursesController extends Controller
     public function create()
     {
         $pageTitle = 'Thêm khóa học';
-        return view('courses::add', compact('pageTitle'));
+
+        $categories = $this->categoriesRepository->getAllCategories();
+
+
+        return view('courses::add', compact('pageTitle', 'categories'));
     }
 
     public function store(CoursesRequest $request)

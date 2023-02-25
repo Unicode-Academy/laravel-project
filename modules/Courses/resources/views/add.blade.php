@@ -142,6 +142,15 @@
 
             <div class="col-12">
                 <div class="mb-3">
+                    <label for="">Chuyên mục</label>
+                    <div class="list-categories">
+                        {{ getCategoriesCheckbox($categories) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="mb-3">
                     <div class="row align-items-end">
                         <div class="col-7">
                             <label for="">Ảnh đại diện</label>
@@ -190,6 +199,12 @@
 
         #holder img {
             width: 100% !important;
+        }
+
+        .list-categories {
+            max-height: 250px;
+            overflow: auto;
+
         }
     </style>
 @endsection
