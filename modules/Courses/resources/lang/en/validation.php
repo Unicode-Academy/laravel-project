@@ -17,6 +17,7 @@ return [
         'is_document' => 'Tài liệu đính kèm',
         'supports' => 'Hỗ trợ',
         'status' => "Trạng thái",
-        'detail' => 'Nội dung'
+        'detail' => 'Nội dung',
+        'categories' => "Chuyên mục"
     ]
 ];

@@ -146,6 +146,11 @@
                     <div class="list-categories">
                         {{ getCategoriesCheckbox($categories) }}
                     </div>
+                    @error('categories')
+                        <div class="invalid-feedback d-block">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
             </div>
 

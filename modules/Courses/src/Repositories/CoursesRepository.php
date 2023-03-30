@@ -17,4 +17,9 @@ class CoursesRepository extends BaseRepository implements CoursesRepositoryInter
     {
         return $this->model->select(['id', 'name', 'price', 'status', 'sale_price', 'created_at'])->latest();
     }
+
+    public function createCourseCategories($course, $data = [])
+    {
+        return $course->categories()->create($data);
+    }
 }
