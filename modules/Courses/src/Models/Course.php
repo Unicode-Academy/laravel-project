@@ -3,6 +3,7 @@
 namespace Modules\Courses\src\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Categories\src\Models\Category;
 
 class Course extends Model
 {
@@ -20,4 +21,9 @@ class Course extends Model
         'supports',
         'status'
     ];
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'categories_courses');
+    }
 }

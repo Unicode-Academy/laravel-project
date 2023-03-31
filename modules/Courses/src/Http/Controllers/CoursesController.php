@@ -85,7 +85,12 @@ class CoursesController extends Controller
 
         $course = $this->coursesRepository->create($courses);
 
-        $this->coursesRepository->createCourseCategories($course, $courses['categories']);
+        $categories = [];
+        foreach ($courses['categories'] as $category) {
+            $categories[$category] = ['created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')];
+        }
+
+        $this->coursesRepository->createCourseCategories($course, $categories);
 
 
         return redirect()->route('admin.courses.index')->with('msg', __('courses::messages.create.success'));

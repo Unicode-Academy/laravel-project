@@ -20,6 +20,6 @@ class CoursesRepository extends BaseRepository implements CoursesRepositoryInter
 
     public function createCourseCategories($course, $data = [])
     {
-        return $course->categories()->create($data);
+        return $course->categories()->attach($data);
     }
 }
