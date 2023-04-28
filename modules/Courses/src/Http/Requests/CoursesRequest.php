@@ -23,6 +23,7 @@ class CoursesRequest extends FormRequest
      */
     public function rules()
     {
+
         $rules = [
             'name' => 'required|max:255',
             'slug' => 'required|max:255',
@@ -33,7 +34,7 @@ class CoursesRequest extends FormRequest
                 }
             }],
             'thumbnail' => 'required|max:255',
-            'code' => 'required|max:255',
+            'code' => 'required|max:255|unique:courses,code',
             'is_document' => 'required|integer',
             'supports' => 'required',
             'status' => 'required|integer',

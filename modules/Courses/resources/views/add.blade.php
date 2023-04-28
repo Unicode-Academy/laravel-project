@@ -144,7 +144,7 @@
                 <div class="mb-3">
                     <label for="">Chuyên mục</label>
                     <div class="list-categories">
-                        {{ getCategoriesCheckbox($categories) }}
+                        {{ getCategoriesCheckbox($categories, old('categories')) }}
                     </div>
                     @error('categories')
                         <div class="invalid-feedback d-block">
@@ -156,7 +156,7 @@
 
             <div class="col-12">
                 <div class="mb-3">
-                    <div class="row align-items-end">
+                    <div class="row {{ $errors->has('thumbnail') ? 'align-items-center' : 'align-items-end' }}">
                         <div class="col-7">
                             <label for="">Ảnh đại diện</label>
                             <input type="text" name="thumbnail"
