@@ -4,6 +4,7 @@ namespace Modules\Courses\src\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
+use Modules\Courses\src\Models\Course;
 use Yajra\DataTables\Facades\DataTables;
 use Modules\Courses\src\Http\Requests\CoursesRequest;
 use Modules\Courses\src\Repositories\CoursesRepository;
@@ -85,10 +86,7 @@ class CoursesController extends Controller
 
         $course = $this->coursesRepository->create($courses);
 
-        $categories = [];
-        foreach ($courses['categories'] as $category) {
-            $categories[$category] = ['created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')];
-        }
+        $categories = $this->getCategories($course);
 
         $this->coursesRepository->createCourseCategories($course, $categories);
 
@@ -100,17 +98,22 @@ class CoursesController extends Controller
     {
         $course = $this->coursesRepository->find($id);
 
+        $categoryIds = $this->coursesRepository->getRelatedCategories($course);
+
+        $categories = $this->categoriesRepository->getAllCategories();
+
         if (!$course) {
             abort(404);
         }
 
         $pageTitle = 'Cập nhật khóa học';
 
-        return view('courses::edit', compact('course', 'pageTitle'));
+        return view('courses::edit', compact('course', 'pageTitle', 'categories', 'categoryIds'));
     }
 
     public function update(CoursesRequest $request, $id)
     {
+
         $courses = $request->except(['_token', '_method']);
         if (!$courses['sale_price']) {
             $courses['sale_price'] = 0;
@@ -120,7 +123,14 @@ class CoursesController extends Controller
             $courses['price'] = 0;
         }
 
+
         $this->coursesRepository->update($id, $courses);
+
+        $categories = $this->getCategories($courses);
+
+        $course = $this->coursesRepository->find($id);
+
+        $this->coursesRepository->updateCourseCategories($course, $categories);
 
         return back()->with('msg', __('courses::messages.update.success'));
     }
@@ -129,5 +139,15 @@ class CoursesController extends Controller
     {
         $this->coursesRepository->delete($id);
         return back()->with('msg', __('courses::messages.delete.success'));
+    }
+
+    public function getCategories($courses)
+    {
+        $categories = [];
+        foreach ($courses['categories'] as $category) {
+            $categories[$category] = ['created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')];
+        }
+
+        return $categories;
     }
 }

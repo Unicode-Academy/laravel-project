@@ -149,7 +149,21 @@
 
             <div class="col-12">
                 <div class="mb-3">
-                    <div class="row align-items-end">
+                    <label for="">Chuyên mục</label>
+                    <div class="list-categories">
+                        {{ getCategoriesCheckbox($categories, old('categories') ?? $categoryIds) }}
+                    </div>
+                    @error('categories')
+                        <div class="invalid-feedback d-block">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="mb-3">
+                    <div class="row {{ $errors->has('thumbnail') ? 'align-items-center' : 'align-items-end' }}">
                         <div class="col-7">
                             <label for="">Ảnh đại diện</label>
                             <input type="text" name="thumbnail"
