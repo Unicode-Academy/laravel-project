@@ -23,8 +23,14 @@ class CoursesRepository extends BaseRepository implements CoursesRepositoryInter
         return $course->categories()->attach($data);
     }
 
-    public function updateCourseCategories($course, $data = []){
+    public function updateCourseCategories($course, $data = [])
+    {
         return $course->categories()->sync($data);
+    }
+
+    public function deleteCourseCategories($course)
+    {
+        return $course->categories()->detach();
     }
 
     public function getRelatedCategories($course)

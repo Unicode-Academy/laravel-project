@@ -86,7 +86,7 @@ class CoursesController extends Controller
 
         $course = $this->coursesRepository->create($courses);
 
-        $categories = $this->getCategories($course);
+        $categories = $this->getCategories($courses);
 
         $this->coursesRepository->createCourseCategories($course, $categories);
 
@@ -137,6 +137,8 @@ class CoursesController extends Controller
 
     public function delete($id)
     {
+        $course = $this->coursesRepository->find($id);
+        $this->coursesRepository->deleteCourseCategories($course);
         $this->coursesRepository->delete($id);
         return back()->with('msg', __('courses::messages.delete.success'));
     }
