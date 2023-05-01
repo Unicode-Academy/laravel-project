@@ -185,7 +185,7 @@
                         <div class="col-3">
                             <div id="holder">
                                 @if (old('thumbnail') || $course->thumbnail)
-                                    <img src="{{ old('thumbnail') ?? $course->thumbnail }}" />
+                                    <img style="height: 5rem;" src="{{ old('thumbnail') ?? $course->thumbnail }}" />
                                 @endif
 
                             </div>

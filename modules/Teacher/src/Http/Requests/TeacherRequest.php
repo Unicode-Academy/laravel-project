@@ -29,7 +29,7 @@ class TeacherRequest extends FormRequest
             'name' => 'required|max:255',
             'slug' => 'required|max:255',
             'description' => 'required',
-            'ext' => 'required|integer',
+            'exp' => 'required|integer',
             'image' => 'required|max:255',
         ];
 

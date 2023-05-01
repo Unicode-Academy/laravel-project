@@ -52,11 +52,11 @@ class TeacherController extends Controller
         return view('teacher::add', compact('pageTitle'));
     }
 
-    public function store(UserRequest $request)
+    public function store(TeacherRequest $request)
     {
         $teacher = $request->except(['_token']);
 
-        $this->teacherRepository->create($teacherRepository);
+        $this->teacherRepository->create($teacher);
 
         return redirect()->route('admin.teacher.index')->with('msg', __('teacher::messages.create.success'));
     }
@@ -65,7 +65,7 @@ class TeacherController extends Controller
     {
         $teacher = $this->teacherRepository->find($id);
 
-        if (!$user) {
+        if (!$teacher) {
             abort(404);
         }
 
@@ -74,7 +74,7 @@ class TeacherController extends Controller
         return view('teacher::edit', compact('teacher', 'pageTitle'));
     }
 
-    public function update(UserRequest $request, $id)
+    public function update(TeacherRequest $request, $id)
     {
         $teacher = $request->except('_token');
 
