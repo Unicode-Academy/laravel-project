@@ -35,7 +35,12 @@
                     <select name="teacher_id" id=""
                         class="form-select {{ $errors->has('teacher_id') ? 'is-invalid' : '' }}">
                         <option value="0">Chọn giảng viên</option>
-                        <option value="1">Hoàng An</option>
+                        @if ($teacher)
+                            @foreach ($teacher as $item)
+                                <option value="{{ $item->id }}"
+                                    {{ old('teacher_id') == $item->id ? 'selected' : false }}>{{ $item->name }}</option>
+                            @endforeach
+                        @endif
                     </select>
                     @error('teacher_id')
                         <div class="invalid-feedback">
@@ -47,8 +52,9 @@
             <div class="col-6">
                 <div class="mb-3">
                     <label for="">Mã khóa học</label>
-                    <input type="text" name="code" class="form-control {{ $errors->has('code') ? 'is-invalid' : '' }}"
-                        placeholder="Mã khóa học..." id="" value="{{ old('code') }}">
+                    <input type="text" name="code"
+                        class="form-control {{ $errors->has('code') ? 'is-invalid' : '' }}" placeholder="Mã khóa học..."
+                        id="" value="{{ old('code') }}">
                     @error('code')
                         <div class="invalid-feedback">
                             {{ $message }}

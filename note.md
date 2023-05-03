@@ -309,3 +309,9 @@ function getSlug(title) {
 ## Xây dựng Module quản lý khóa học
 
 ## Xây dựng Module quản lý giảng viên
+
+## Thiết lập ràng buộc khóa học và giảng viên
+
+-   Ràng buộc khóa ngoại
+    => Nếu giảng viên bị xóa => Các khóa học liên quan đến giảng viên sẽ bị xóa
+-   Ràng buộc hình ảnh
