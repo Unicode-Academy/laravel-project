@@ -148,7 +148,10 @@ class CoursesController extends Controller
     {
         $course = $this->coursesRepository->find($id);
         //$this->coursesRepository->deleteCourseCategories($course);
-        $this->coursesRepository->delete($id);
+        $status = $this->coursesRepository->delete($id);
+        if ($status){
+            deleteFileStorage($course->thumbnail);
+        }
         return back()->with('msg', __('courses::messages.delete.success'));
     }
 

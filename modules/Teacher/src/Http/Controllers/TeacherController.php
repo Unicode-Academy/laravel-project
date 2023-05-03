@@ -4,6 +4,7 @@ namespace Modules\Teacher\src\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
 use Yajra\DataTables\Facades\DataTables;
 use Modules\Teacher\src\Http\Requests\TeacherRequest;
 use Modules\Teacher\src\Repositories\TeacherRepository;
@@ -85,7 +86,14 @@ class TeacherController extends Controller
 
     public function delete($id)
     {
-        $this->teacherRepository->delete($id);
+        $teacher = $this->teacherRepository->find($id);
+
+
+        $status = $this->teacherRepository->delete($id);
+        if ($status) {
+            $image = $teacher->image;
+            deleteFileStorage($image);
+        }
         return back()->with('msg', __('teacher::messages.delete.success'));
     }
 }

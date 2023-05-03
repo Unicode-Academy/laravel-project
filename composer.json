@@ -32,7 +32,8 @@
         "classmap": [
             "database/seeders",
             "database/migrations"
-        ]
+        ],
+        "files": ["app/Helpers/functions.php"]
     },
     "autoload-dev": {
         "psr-4": {

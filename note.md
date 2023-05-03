@@ -314,4 +314,8 @@ function getSlug(title) {
 
 -   Ràng buộc khóa ngoại
     => Nếu giảng viên bị xóa => Các khóa học liên quan đến giảng viên sẽ bị xóa
+
 -   Ràng buộc hình ảnh
+
+*   1 hình ảnh sử dụng nhiều nơi => Xóa 1 bản ghi => Xóa ảnh
+*   Tạo 1 module Media (Database) => Khi chọn ảnh ở các module => Bật popup của module media
