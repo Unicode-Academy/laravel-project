@@ -64,7 +64,7 @@
 -   created_at => timestamp
 -   updated_at => timestamp
 
-3. Table lessions => Quản lý bài giảng
+3. Table lessons => Quản lý bài giảng
 
 -   id => int
 -   name => varchar(255)
