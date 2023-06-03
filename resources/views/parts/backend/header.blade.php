@@ -19,7 +19,11 @@
                 <li>
                     <hr class="dropdown-divider" />
                 </li>
-                <li><a class="dropdown-item" href="#!">Đăng xuất</a></li>
+                <li><a class="dropdown-item logout-action" href="{{ route('logout') }}">Đăng
+                        xuất</a></li>
+                <form action="" method="post" class="logout-form">
+                    @csrf
+                </form>
             </ul>
         </li>
     </ul>
