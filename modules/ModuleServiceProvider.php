@@ -4,6 +4,14 @@ namespace Modules;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
+use Modules\Categories\src\Repositories\CategoriesRepository;
+use Modules\Categories\src\Repositories\CategoriesRepositoryInterface;
+use Modules\Courses\src\Repositories\CoursesRepository;
+use Modules\Courses\src\Repositories\CoursesRepositoryInterface;
+use Modules\Teacher\src\Repositories\TeacherRepository;
+use Modules\Teacher\src\Repositories\TeacherRepositoryInterface;
+use Modules\User\src\Repositories\UserRepository;
+use Modules\User\src\Repositories\UserRepositoryInterface;
 
 class ModuleServiceProvider extends ServiceProvider
 {
@@ -14,6 +22,33 @@ class ModuleServiceProvider extends ServiceProvider
     private $commands = [
 
     ];
+
+    public function bindingRepository()
+    {
+        //User Repository
+        $this->app->singleton(
+            UserRepositoryInterface::class,
+            UserRepository::class
+        );
+
+        //Categories Repository
+        $this->app->singleton(
+            CategoriesRepositoryInterface::class,
+            CategoriesRepository::class
+        );
+
+        //Courses Repository
+        $this->app->singleton(
+            CoursesRepositoryInterface::class,
+            CoursesRepository::class
+        );
+
+        //Teacher Repository
+        $this->app->singleton(
+            TeacherRepositoryInterface::class,
+            TeacherRepository::class
+        );
+    }
 
     public function boot()
     {
@@ -41,11 +76,9 @@ class ModuleServiceProvider extends ServiceProvider
         //Commands
         $this->commands($this->commands);
 
-        $this->app->singleton(
-            UserRepository::class
-        );
+        //Repository
+        $this->bindingRepository();
     }
-
 
     private function getModules()
     {
@@ -56,33 +89,33 @@ class ModuleServiceProvider extends ServiceProvider
     //registerModule
     private function registerModule($module)
     {
-        $modulePath = __DIR__."/{$module}";
+        $modulePath = __DIR__ . "/{$module}";
 
         //Khai báo Routes
-        if (File::exists($modulePath. '/routes/routes.php')) {
-            $this->loadRoutesFrom($modulePath.'/routes/routes.php');
+        if (File::exists($modulePath . '/routes/routes.php')) {
+            $this->loadRoutesFrom($modulePath . '/routes/routes.php');
         }
 
         //Khai báo migrations
-        if (File::exists($modulePath. '/migrations')) {
-            $this->loadMigrationsFrom($modulePath.'/migrations');
+        if (File::exists($modulePath . '/migrations')) {
+            $this->loadMigrationsFrom($modulePath . '/migrations');
         }
 
         //Khai báo languages
-        if (File::exists($modulePath. '/resources/lang')) {
-            $this->loadTranslationsFrom($modulePath.'/resources/lang', strtolower($module));
+        if (File::exists($modulePath . '/resources/lang')) {
+            $this->loadTranslationsFrom($modulePath . '/resources/lang', strtolower($module));
 
-            $this->loadJSONTranslationsFrom($modulePath.'/resources/lang');
+            $this->loadJSONTranslationsFrom($modulePath . '/resources/lang');
         }
 
         //Khai báo views
-        if (File::exists($modulePath. '/resources/views')) {
-            $this->loadViewsFrom($modulePath.'/resources/views', strtolower($module));
+        if (File::exists($modulePath . '/resources/views')) {
+            $this->loadViewsFrom($modulePath . '/resources/views', strtolower($module));
         }
 
         //Khai báo helpers
-        if (File::exists($modulePath. '/helpers')) {
-            $helperList = File::allFiles($modulePath. '/helpers');
+        if (File::exists($modulePath . '/helpers')) {
+            $helperList = File::allFiles($modulePath . '/helpers');
             if (!empty($helperList)) {
                 foreach ($helperList as $helper) {
                     $file = $helper->getPathName();
@@ -95,7 +128,7 @@ class ModuleServiceProvider extends ServiceProvider
     //register configs
     private function registerConfig($module)
     {
-        $configPath = __DIR__.'/'.$module.'/configs';
+        $configPath = __DIR__ . '/' . $module . '/configs';
 
         if (File::exists($configPath)) {
             $configFiles = array_map('basename', File::allFiles($configPath));
@@ -103,7 +136,7 @@ class ModuleServiceProvider extends ServiceProvider
             foreach ($configFiles as $config) {
                 $alias = basename($config, '.php');
 
-                $this->mergeConfigFrom($configPath.'/'.$config, $alias);
+                $this->mergeConfigFrom($configPath . '/' . $config, $alias);
             }
         }
     }

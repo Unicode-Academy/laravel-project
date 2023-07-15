@@ -2,18 +2,18 @@
 
 namespace Modules\Teacher\src\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\File;
-use Yajra\DataTables\Facades\DataTables;
+use Carbon\Carbon;
 use Modules\Teacher\src\Http\Requests\TeacherRequest;
 use Modules\Teacher\src\Repositories\TeacherRepository;
+use Modules\Teacher\src\Repositories\TeacherRepositoryInterface;
+use Yajra\DataTables\Facades\DataTables;
 
 class TeacherController extends Controller
 {
     protected $teacherRepository;
 
-    public function __construct(TeacherRepository $teacherRepository)
+    public function __construct(TeacherRepositoryInterface $teacherRepository)
     {
         $this->teacherRepository = $teacherRepository;
     }
@@ -28,22 +28,22 @@ class TeacherController extends Controller
     {
         $teacher = $this->teacherRepository->getAllTeacher();
 
-        $data =  DataTables::of($teacher)
-        ->addColumn('edit', function ($teacher) {
-            return '<a href="'.route('admin.teacher.edit', $teacher).'" class="btn btn-warning">Sửa</a>';
-        })
-        ->addColumn('delete', function ($teacher) {
-            return '<a href="'.route('admin.teacher.delete', $teacher).'" class="btn btn-danger delete-action">Xóa</a>';
-        })
-        ->editColumn('created_at', function ($teacher) {
-            return Carbon::parse($teacher->created_at)->format('d/m/Y H:i:s');
-        })
-        ->editColumn('image', function ($teacher) {
+        $data = DataTables::of($teacher)
+            ->addColumn('edit', function ($teacher) {
+                return '<a href="' . route('admin.teacher.edit', $teacher) . '" class="btn btn-warning">Sửa</a>';
+            })
+            ->addColumn('delete', function ($teacher) {
+                return '<a href="' . route('admin.teacher.delete', $teacher) . '" class="btn btn-danger delete-action">Xóa</a>';
+            })
+            ->editColumn('created_at', function ($teacher) {
+                return Carbon::parse($teacher->created_at)->format('d/m/Y H:i:s');
+            })
+            ->editColumn('image', function ($teacher) {
 
-            return $teacher->image ? '<img src="'.$teacher->image.'" style="width: 80px;"/>' : '';
-        })
-        ->rawColumns(['edit', 'delete', 'image'])
-        ->toJson();
+                return $teacher->image ? '<img src="' . $teacher->image . '" style="width: 80px;"/>' : '';
+            })
+            ->rawColumns(['edit', 'delete', 'image'])
+            ->toJson();
         return $data;
     }
 
@@ -87,7 +87,6 @@ class TeacherController extends Controller
     public function delete($id)
     {
         $teacher = $this->teacherRepository->find($id);
-
 
         $status = $this->teacherRepository->delete($id);
         if ($status) {

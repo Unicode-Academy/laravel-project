@@ -2,14 +2,16 @@
 
 namespace Modules\Courses\src\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Http\Controllers\Controller;
-use Modules\Courses\src\Models\Course;
-use Yajra\DataTables\Facades\DataTables;
+use Carbon\Carbon;
+use Modules\Categories\src\Repositories\CategoriesRepository;
+use Modules\Categories\src\Repositories\CategoriesRepositoryInterface;
 use Modules\Courses\src\Http\Requests\CoursesRequest;
 use Modules\Courses\src\Repositories\CoursesRepository;
+use Modules\Courses\src\Repositories\CoursesRepositoryInterface;
 use Modules\Teacher\src\Repositories\TeacherRepository;
-use Modules\Categories\src\Repositories\CategoriesRepository;
+use Modules\Teacher\src\Repositories\TeacherRepositoryInterface;
+use Yajra\DataTables\Facades\DataTables;
 
 class CoursesController extends Controller
 {
@@ -18,9 +20,9 @@ class CoursesController extends Controller
     protected $teacherRepository;
 
     public function __construct(
-        CoursesRepository $coursesRepository,
-        CategoriesRepository $categoriesRepository,
-        TeacherRepository $teacherRepository
+        CoursesRepositoryInterface $coursesRepository,
+        CategoriesRepositoryInterface $categoriesRepository,
+        TeacherRepositoryInterface $teacherRepository
     ) {
         $this->coursesRepository = $coursesRepository;
         $this->categoriesRepository = $categoriesRepository;
@@ -37,34 +39,34 @@ class CoursesController extends Controller
     {
         $courses = $this->coursesRepository->getAllCourses();
 
-        $data =  DataTables::of($courses)
-        ->addColumn('edit', function ($course) {
-            return '<a href="'.route('admin.courses.edit', $course).'" class="btn btn-warning">Sửa</a>';
-        })
-        ->addColumn('delete', function ($course) {
-            return '<a href="'.route('admin.courses.delete', $course).'" class="btn btn-danger delete-action">Xóa</a>';
-        })
-        ->editColumn('created_at', function ($course) {
-            return Carbon::parse($course->created_at)->format('d/m/Y H:i:s');
-        })
-        ->editColumn('status', function ($course) {
-            return $course->status == 1 ? '<button class="btn btn-success">Ra mắt</button>' : '<button class="btn btn-warning">Chưa ra mắt</button>';
-        })
-        ->editColumn('price', function ($course) {
-            if ($course->price) {
-                if ($course->sale_price) {
-                    $price = number_format($course->sale_price).'đ';
+        $data = DataTables::of($courses)
+            ->addColumn('edit', function ($course) {
+                return '<a href="' . route('admin.courses.edit', $course) . '" class="btn btn-warning">Sửa</a>';
+            })
+            ->addColumn('delete', function ($course) {
+                return '<a href="' . route('admin.courses.delete', $course) . '" class="btn btn-danger delete-action">Xóa</a>';
+            })
+            ->editColumn('created_at', function ($course) {
+                return Carbon::parse($course->created_at)->format('d/m/Y H:i:s');
+            })
+            ->editColumn('status', function ($course) {
+                return $course->status == 1 ? '<button class="btn btn-success">Ra mắt</button>' : '<button class="btn btn-warning">Chưa ra mắt</button>';
+            })
+            ->editColumn('price', function ($course) {
+                if ($course->price) {
+                    if ($course->sale_price) {
+                        $price = number_format($course->sale_price) . 'đ';
+                    } else {
+                        $price = number_format($course->price) . 'đ';
+                    }
                 } else {
-                    $price = number_format($course->price).'đ';
+                    $price = 'Miễn phí';
                 }
-            } else {
-                $price = 'Miễn phí';
-            }
 
-            return $price;
-        })
-        ->rawColumns(['edit', 'delete', 'status'])
-        ->toJson();
+                return $price;
+            })
+            ->rawColumns(['edit', 'delete', 'status'])
+            ->toJson();
         return $data;
     }
 
@@ -96,7 +98,6 @@ class CoursesController extends Controller
         $categories = $this->getCategories($courses);
 
         $this->coursesRepository->createCourseCategories($course, $categories);
-
 
         return redirect()->route('admin.courses.index')->with('msg', __('courses::messages.create.success'));
     }
@@ -132,7 +133,6 @@ class CoursesController extends Controller
             $courses['price'] = 0;
         }
 
-
         $this->coursesRepository->update($id, $courses);
 
         $categories = $this->getCategories($courses);
@@ -149,7 +149,7 @@ class CoursesController extends Controller
         $course = $this->coursesRepository->find($id);
         //$this->coursesRepository->deleteCourseCategories($course);
         $status = $this->coursesRepository->delete($id);
-        if ($status){
+        if ($status) {
             deleteFileStorage($course->thumbnail);
         }
         return back()->with('msg', __('courses::messages.delete.success'));

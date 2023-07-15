@@ -2,19 +2,17 @@
 
 namespace Modules\Categories\src\Http\Controllers;
 
-use Carbon\Carbon;
-
 use App\Http\Controllers\Controller;
-
-use Yajra\DataTables\Facades\DataTables;
+use Carbon\Carbon;
 use Modules\Categories\src\Http\Requests\CategoryRequest;
-use Modules\Categories\src\Repositories\CategoriesRepository;
+use Modules\Categories\src\Repositories\CategoriesRepositoryInterface;
+use Yajra\DataTables\Facades\DataTables;
 
 class CategoriesController extends Controller
 {
     protected $categoryRepository;
 
-    public function __construct(CategoriesRepository $categoryRepository)
+    public function __construct(CategoriesRepositoryInterface $categoryRepository)
     {
         $this->categoryRepository = $categoryRepository;
     }
@@ -45,29 +43,28 @@ class CategoriesController extends Controller
         // })
 
         // ->rawColumns(['edit', 'delete', 'link'])
-        ->toArray();
-
+            ->toArray();
 
         $categories['data'] = $this->getCategoriesTable($categories['data']);
 
         return $categories;
     }
 
-    public function getCategoriesTable($categories, $char='', &$result=[])
+    public function getCategoriesTable($categories, $char = '', &$result = [])
     {
         if (!empty($categories)) {
             foreach ($categories as $key => $category) {
                 $row = $category;
-                $row['name'] = $char.$row['name'];
-                $row['edit'] = '<a href="'.route('admin.categories.edit', $category['id']).'" class="btn btn-warning">Sửa</a>';
-                $row['delete'] = '<a href="'.route('admin.categories.delete', $category['id']).'" class="btn btn-danger delete-action">Xóa</a>';
-                $row['link'] = '<a target="_blank" href="/danh-muc/'.$category['slug'].'" class="btn btn-primary">Xem</a>';
+                $row['name'] = $char . $row['name'];
+                $row['edit'] = '<a href="' . route('admin.categories.edit', $category['id']) . '" class="btn btn-warning">Sửa</a>';
+                $row['delete'] = '<a href="' . route('admin.categories.delete', $category['id']) . '" class="btn btn-danger delete-action">Xóa</a>';
+                $row['link'] = '<a target="_blank" href="/danh-muc/' . $category['slug'] . '" class="btn btn-primary">Xem</a>';
                 $row['created_at'] = Carbon::parse($category['created_at'])->format('d/m/Y H:i:s');
                 unset($row['sub_categories']);
                 unset($row['updated_at']);
                 $result[] = $row;
                 if (!empty($category['sub_categories'])) {
-                    $this->getCategoriesTable($category['sub_categories'], $char.'|--', $result);
+                    $this->getCategoriesTable($category['sub_categories'], $char . '|--', $result);
                 }
             }
         }
@@ -84,11 +81,10 @@ class CategoriesController extends Controller
         return view('categories::add', compact('pageTitle', 'categories'));
     }
 
-
     public function store(CategoryRequest $request)
     {
         $this->categoryRepository->create([
-            'name'=> $request->name,
+            'name' => $request->name,
             'slug' => $request->slug,
             'parent_id' => $request->parent_id,
         ]);
