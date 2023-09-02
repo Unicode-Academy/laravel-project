@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::prefix('users')->name('users.')->group(function () {
         Route::get('/', 'UserController@index')->name('index');

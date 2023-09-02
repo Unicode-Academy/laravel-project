@@ -1,0 +1,4 @@
+<?php 
+Route::prefix('{module}')->name('{module}.')->group(function () {
+   //Route here
+});
