@@ -319,3 +319,15 @@ function getSlug(title) {
 
 *   1 hình ảnh sử dụng nhiều nơi => Xóa 1 bản ghi => Xóa ảnh
 *   Tạo 1 module Media (Database) => Khi chọn ảnh ở các module => Bật popup của module media
+
+## Hoàn thiện các câu lệnh Artisan Console
+
+### Tạo Module
+
+```php artisan make:module TenModule```
+
+### Tạo Controller
+
+```
+php artisan module:make-controller TenController TenModule 
+```
