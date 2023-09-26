@@ -54,6 +54,6 @@ class Migration extends Command
             return $this->info('Migration created successfully!');
         }
 
-        $this->info($middlewareContent);
+      
     }
 }

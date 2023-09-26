@@ -355,3 +355,9 @@ php artisan module:make-model TenModel TenModule
 ```
 php artisan module:make-migration TenMigration TenModule
 ```
+
+### Tạo Seeder
+
+```
+php artisan module:make-seeder TenSeeder TenModule
+```
