@@ -40,6 +40,9 @@ class CoursesController extends Controller
         $courses = $this->coursesRepository->getAllCourses();
 
         $data = DataTables::of($courses)
+            ->addColumn('lessons', function ($course) {
+                return '<a href="' . route('admin.lessons.index', $course) . '" class="btn btn-primary">Bài giảng</a>';
+            })
             ->addColumn('edit', function ($course) {
                 return '<a href="' . route('admin.courses.edit', $course) . '" class="btn btn-warning">Sửa</a>';
             })
@@ -65,7 +68,7 @@ class CoursesController extends Controller
 
                 return $price;
             })
-            ->rawColumns(['edit', 'delete', 'status'])
+            ->rawColumns(['edit', 'delete', 'status', 'lessons'])
             ->toJson();
         return $data;
     }
