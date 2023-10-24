@@ -5,10 +5,12 @@
     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 </a>
 
-<div class="collapse {{ request()->is(trim(route('admin.' . $name . '.index', [], false), '/') . '/*') || request()->is(trim(route('admin.' . $name . '.index', [], false), '/')) ? 'show' : false }}"
-    id="collapse{{ $name }}" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+<div class="collapse {{ activeSidebar($name, $includes ?? []) ? 'show' : false }}" id="collapse{{ $name }}"
+    aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
     <nav class="sb-sidenav-menu-nested nav">
-        <a class="nav-link" href="{{ route('admin.' . $name . '.index') }}">Danh sách</a>
-        <a class="nav-link" href="{{ route('admin.' . $name . '.create') }}">Thêm mới</a>
+        <a class="nav-link {{ activeMenu('admin.' . $name . '.index') ? 'active' : '' }}"
+            href="{{ route('admin.' . $name . '.index') }}">Danh sách</a>
+        <a class="nav-link {{ activeMenu('admin.' . $name . '.create') ? 'active' : '' }}"
+            href="{{ route('admin.' . $name . '.create') }}">Thêm mới</a>
     </nav>
 </div>

@@ -16,6 +16,7 @@
                 @include('parts.backend.menu_item', [
                     'title' => 'Khóa học',
                     'name' => 'courses',
+                    'includes' => ['/admin/lessons/*'],
                 ])
 
                 @include('parts.backend.menu_item', [
