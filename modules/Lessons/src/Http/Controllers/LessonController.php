@@ -8,7 +8,7 @@ use Modules\Courses\src\Repositories\CoursesRepositoryInterface;
 class LessonController extends Controller
 {
     protected $coursesRepository;
-    public function __construct(CoursesRepositoryInterface $coursesRepository, )
+    public function __construct(CoursesRepositoryInterface $coursesRepository,)
     {
         $this->coursesRepository = $coursesRepository;
     }
@@ -20,5 +20,11 @@ class LessonController extends Controller
         $pageTitle = "Bài giảng: " . $course->name;
 
         return view('lessons::lists', compact('pageTitle', 'course'));
+    }
+
+    public function create($courseId)
+    {
+        $pageTitle = 'Thêm bài giảng';
+        return view('lessons::add', compact('pageTitle', 'courseId'));
     }
 }
