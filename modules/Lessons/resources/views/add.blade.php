@@ -72,8 +72,8 @@
             <div class="mb-3">
                 <label for="">Video</label>
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Video bài giảng" disabled />
-                    <button class="btn btn-success">Chọn</button>
+                    <input type="text" name="video" id="video-url" class="form-control" placeholder="Video bài giảng" />
+                    <button type="button" class="btn btn-success" id="lfm-video" data-input="video-url">Chọn</button>
                 </div>
                 @error('video_id')
                 <div class="invalid-feedback">
@@ -88,8 +88,8 @@
             <div class="mb-3">
                 <label for="">Tài liệu</label>
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Tài liệu bài giảng" disabled />
-                    <button class="btn btn-success">Chọn</button>
+                    <input type="text" class="form-control" id="document-url" placeholder="Tài liệu bài giảng" />
+                    <button class="btn btn-success" type="button" class="btn btn-success" id="lfm-document" data-input="document-url">Chọn</button>
                 </div>
                 @error('document_id')
                 <div class="invalid-feedback">

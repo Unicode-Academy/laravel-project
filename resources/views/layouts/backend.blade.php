@@ -39,7 +39,10 @@
     <script src="{{ asset('backend/js/scripts.js') }}"></script>
     <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
     <script>
-        $('#lfm').filemanager('image');
+    $('#lfm').filemanager('image');
+    $('#lfm-file').filemanager('file');
+    $('#lfm-video').filemanager('video');
+    $('#lfm-document').filemanager('document');
     </script>
     @yield('scripts')
 
