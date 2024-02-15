@@ -3,6 +3,7 @@
 namespace Modules\Lessons\src\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Modules\Lessons\src\Http\Requests\LessonRequest;
 use Modules\Courses\src\Repositories\CoursesRepositoryInterface;
 
 class LessonController extends Controller
@@ -26,5 +27,10 @@ class LessonController extends Controller
     {
         $pageTitle = 'Thêm bài giảng';
         return view('lessons::add', compact('pageTitle', 'courseId'));
+    }
+
+    public function store(LessonRequest $request)
+    {
+        return 'submit';
     }
 }

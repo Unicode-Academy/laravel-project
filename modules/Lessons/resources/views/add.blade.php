@@ -5,7 +5,8 @@
         <div class="col-6">
             <div class="mb-3">
                 <label for="">Tên</label>
-                <input type="text" name="name" class="form-control title {{$errors->has('name')?'is-invalid':''}}" placeholder="Tên..." value="{{old('name')}}">
+                <input type="text" name="name" class="form-control title {{$errors->has('name')?'is-invalid':''}}"
+                    placeholder="Tên..." value="{{old('name')}}">
                 @error('name')
                 <div class="invalid-feedback">
                     {{$message}}
@@ -18,7 +19,8 @@
         <div class="col-6">
             <div class="mb-3">
                 <label for="">Slug</label>
-                <input type="text" name="slug" class="form-control slug {{ $errors->has('slug') ? 'is-invalid' : '' }}" placeholder="Slug..." value="{{ old('slug') }}">
+                <input type="text" name="slug" class="form-control slug {{ $errors->has('slug') ? 'is-invalid' : '' }}"
+                    placeholder="Slug..." value="{{ old('slug') }}">
                 @error('slug')
                 <div class="invalid-feedback">
                     {{ $message }}
@@ -30,7 +32,7 @@
         <div class="col-4">
             <div class="mb-3">
                 <label for="">Nhóm bài giảng</label>
-                <select name="parent_id" class="form-select">
+                <select name="parent_id" class="form-select {{ $errors->has('parent_id') ? 'is-invalid' : '' }}">
                     <option value="0">Trống</option>
                 </select>
                 @error('parent_id')
@@ -44,9 +46,11 @@
         <div class="col-4">
             <div class="mb-3">
                 <label for="">Học thử</label>
-                <select name="is_trial" class="form-select">
-                    <option value="0">Không</option>
-                    <option value="1">Có</option>
+                <select name="is_trial" class="form-select {{ $errors->has('is_trial') ? 'is-invalid' : '' }}">
+                    <option value="0" {{old('is_trial') == 0 ? 'selected': 
+                        ''}}>Không</option>
+                    <option value="1" {{old('is_trial') == 1 ? 'selected': 
+                        ''}}>Có</option>
                 </select>
                 @error('is_trial')
                 <div class="invalid-feedback">
@@ -59,7 +63,8 @@
         <div class="col-4">
             <div class="mb-3">
                 <label for="">Sắp xếp</label>
-                <input type="number" class="form-control" name="position" placeholder="Thứ tự..." />
+                <input type="number" class="form-control {{ $errors->has('parent_id') ? 'is-invalid' : '' }}"
+                    name="position" placeholder="Thứ tự..." value="{{old('position')}}" />
                 @error('position')
                 <div class="invalid-feedback">
                     {{ $message }}
@@ -72,10 +77,11 @@
             <div class="mb-3">
                 <label for="">Video</label>
                 <div class="input-group">
-                    <input type="text" name="video" id="video-url" class="form-control" placeholder="Video bài giảng" />
+                    <input type="text" name="video" id="video-url" class="form-control" placeholder="Video bài giảng"
+                        value="{{old('video')}}" />
                     <button type="button" class="btn btn-success" id="lfm-video" data-input="video-url">Chọn</button>
                 </div>
-                @error('video_id')
+                @error('video')
                 <div class="invalid-feedback">
                     {{$message}}
                 </div>
@@ -88,10 +94,12 @@
             <div class="mb-3">
                 <label for="">Tài liệu</label>
                 <div class="input-group">
-                    <input type="text" class="form-control" id="document-url" placeholder="Tài liệu bài giảng" />
-                    <button class="btn btn-success" type="button" class="btn btn-success" id="lfm-document" data-input="document-url">Chọn</button>
+                    <input type="text" class="form-control" id="document-url" placeholder="Tài liệu bài giảng"
+                        name="document" value="{{old('document')}}" />
+                    <button class="btn btn-success" type="button" class="btn btn-success" id="lfm-document"
+                        data-input="document-url">Chọn</button>
                 </div>
-                @error('document_id')
+                @error('document')
                 <div class="invalid-feedback">
                     {{$message}}
                 </div>
@@ -103,7 +111,7 @@
         <div class="col-12">
             <div class="mb-3">
                 <label for="">Mô tả</label>
-                <textarea name="description" class="ckeditor"></textarea>
+                <textarea name="description" class="ckeditor">{{old('description')}}</textarea>
                 @error('description')
                 <div class="invalid-feedback">
                     {{ $message }}
