@@ -2,18 +2,22 @@
 
 namespace Modules\Lessons\src\Http\Controllers;
 
+use File;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 use Modules\Lessons\src\Http\Requests\LessonRequest;
-use Modules\Courses\src\Repositories\CoursesRepositoryInterface;
 use Modules\Video\src\Repositories\VideoRepositoryInterface;
+use Modules\Courses\src\Repositories\CoursesRepositoryInterface;
+use Modules\Document\src\Repositories\DocumentRepositoryInterface;
 
 class LessonController extends Controller
 {
-    protected $coursesRepository, $videoRepository;
-    public function __construct(CoursesRepositoryInterface $coursesRepository, VideoRepositoryInterface $videoRepository)
+    protected $coursesRepository, $videoRepository, $documentRepository;
+    public function __construct(CoursesRepositoryInterface $coursesRepository, VideoRepositoryInterface $videoRepository, DocumentRepositoryInterface $documentRepository)
     {
         $this->coursesRepository = $coursesRepository;
         $this->videoRepository = $videoRepository;
+        $this->documentRepository = $documentRepository;
     }
 
     public function index($courseId)
@@ -33,8 +37,16 @@ class LessonController extends Controller
 
     public function store(LessonRequest $request)
     {
+        /*
         $video = $request->video;
         $result = $this->videoRepository->createVideo(['url' => $video]);
+        */
+        $path = Storage::disk('public')->path(str_replace('storage', '', $request->document));
+        $name = basename($request->document);
+
+        $size = File::size($path);
+
+        $result = $this->documentRepository->createDocument(['name' => $name, 'url' => $request->document]);
         dd($result);
     }
 }
