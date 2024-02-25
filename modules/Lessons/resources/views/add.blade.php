@@ -63,7 +63,7 @@
         <div class="col-4">
             <div class="mb-3">
                 <label for="">Sắp xếp</label>
-                <input type="number" class="form-control {{ $errors->has('parent_id') ? 'is-invalid' : '' }}"
+                <input type="number" class="form-control {{ $errors->has('position') ? 'is-invalid' : '' }}"
                     name="position" placeholder="Thứ tự..." value="{{old('position')}}" />
                 @error('position')
                 <div class="invalid-feedback">
@@ -76,9 +76,10 @@
         <div class="col-6">
             <div class="mb-3">
                 <label for="">Video</label>
-                <div class="input-group">
-                    <input type="text" name="video" id="video-url" class="form-control" placeholder="Video bài giảng"
-                        value="{{old('video')}}" />
+                <div class="input-group {{ $errors->has('video') ? 'is-invalid' : '' }}">
+                    <input type="text" name="video" id="video-url"
+                        class="form-control {{ $errors->has('video') ? 'is-invalid' : '' }}"
+                        placeholder="Video bài giảng" value="{{old('video')}}" />
                     <button type="button" class="btn btn-success" id="lfm-video" data-input="video-url">Chọn</button>
                 </div>
                 @error('video')
@@ -93,9 +94,10 @@
         <div class="col-6">
             <div class="mb-3">
                 <label for="">Tài liệu</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" id="document-url" placeholder="Tài liệu bài giảng"
-                        name="document" value="{{old('document')}}" />
+                <div class="input-group {{ $errors->has('document') ? 'is-invalid' : '' }}">
+                    <input type="text" class="form-control  {{ $errors->has('document') ? 'is-invalid' : '' }}"
+                        id="document-url" placeholder="Tài liệu bài giảng" name="document"
+                        value="{{old('document')}}" />
                     <button class="btn btn-success" type="button" class="btn btn-success" id="lfm-document"
                         data-input="document-url">Chọn</button>
                 </div>
@@ -111,7 +113,8 @@
         <div class="col-12">
             <div class="mb-3">
                 <label for="">Mô tả</label>
-                <textarea name="description" class="ckeditor">{{old('description')}}</textarea>
+                <textarea name="description"
+                    class="ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}">{{old('description')}}</textarea>
                 @error('description')
                 <div class="invalid-feedback">
                     {{ $message }}

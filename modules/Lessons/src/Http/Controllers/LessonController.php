@@ -5,13 +5,15 @@ namespace Modules\Lessons\src\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Modules\Lessons\src\Http\Requests\LessonRequest;
 use Modules\Courses\src\Repositories\CoursesRepositoryInterface;
+use Modules\Video\src\Repositories\VideoRepositoryInterface;
 
 class LessonController extends Controller
 {
-    protected $coursesRepository;
-    public function __construct(CoursesRepositoryInterface $coursesRepository,)
+    protected $coursesRepository, $videoRepository;
+    public function __construct(CoursesRepositoryInterface $coursesRepository, VideoRepositoryInterface $videoRepository)
     {
         $this->coursesRepository = $coursesRepository;
+        $this->videoRepository = $videoRepository;
     }
 
     public function index($courseId)
@@ -31,6 +33,8 @@ class LessonController extends Controller
 
     public function store(LessonRequest $request)
     {
-        return 'submit';
+        $video = $request->video;
+        $result = $this->videoRepository->createVideo(['url' => $video]);
+        dd($result);
     }
 }

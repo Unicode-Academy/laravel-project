@@ -13,16 +13,14 @@ use Modules\Teacher\src\Repositories\TeacherRepository;
 use Modules\Teacher\src\Repositories\TeacherRepositoryInterface;
 use Modules\User\src\Repositories\UserRepository;
 use Modules\User\src\Repositories\UserRepositoryInterface;
+use Modules\Video\src\Repositories\VideoRepository;
+use Modules\Video\src\Repositories\VideoRepositoryInterface;
 
 class ModuleServiceProvider extends ServiceProvider
 {
-    private $middlewares = [
+    private $middlewares = [];
 
-    ];
-
-    private $commands = [
-
-    ];
+    private $commands = [];
 
     public function bindingRepository()
     {
@@ -48,6 +46,12 @@ class ModuleServiceProvider extends ServiceProvider
         $this->app->singleton(
             TeacherRepositoryInterface::class,
             TeacherRepository::class
+        );
+
+        //Video Repository
+        $this->app->singleton(
+            VideoRepositoryInterface::class,
+            VideoRepository::class
         );
     }
 
