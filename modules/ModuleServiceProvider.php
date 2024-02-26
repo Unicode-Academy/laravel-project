@@ -11,6 +11,8 @@ use Modules\Courses\src\Repositories\CoursesRepository;
 use Modules\Courses\src\Repositories\CoursesRepositoryInterface;
 use Modules\Document\src\Repositories\DocumentRepository;
 use Modules\Document\src\Repositories\DocumentRepositoryInterface;
+use Modules\Lessons\src\Repositories\LessonsRepository;
+use Modules\Lessons\src\Repositories\LessonsRepositoryInterface;
 use Modules\Teacher\src\Repositories\TeacherRepository;
 use Modules\Teacher\src\Repositories\TeacherRepositoryInterface;
 use Modules\User\src\Repositories\UserRepository;
@@ -60,6 +62,12 @@ class ModuleServiceProvider extends ServiceProvider
         $this->app->singleton(
             DocumentRepositoryInterface::class,
             DocumentRepository::class
+        );
+
+        //Lesson Repository
+        $this->app->singleton(
+            LessonsRepositoryInterface::class,
+            LessonsRepository::class
         );
     }
 
