@@ -17,7 +17,7 @@ return new class() extends Migration
             $table->increments('id');
             $table->string('name')->nullable();
             $table->string('url');
-            $table->float('size');
+            $table->float('size')->default(0);
             $table->timestamps();
         });
     }

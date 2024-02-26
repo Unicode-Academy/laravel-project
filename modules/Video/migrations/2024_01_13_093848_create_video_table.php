@@ -15,7 +15,9 @@ return new class() extends Migration
     {
         Schema::create('videos', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name')->nullable();
             $table->string('url');
+            $table->float('size')->default(0);
             $table->timestamps();
         });
     }
