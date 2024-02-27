@@ -13,6 +13,7 @@ class Lesson extends Model
         'name',
         'slug',
         'video_id',
+        'course_id',
         'document_id',
         'parent_id',
         'is_trial',

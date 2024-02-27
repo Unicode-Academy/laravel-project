@@ -70,6 +70,7 @@
 -   name => varchar(255)
 -   slug => varchar(255)
 -   video_id => int
+-   course_id => int
 -   document_id => int
 -   parent_id => int
 -   is_trial => tinyint

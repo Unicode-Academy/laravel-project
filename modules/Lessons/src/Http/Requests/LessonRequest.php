@@ -23,14 +23,19 @@ class LessonRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules =  [
             'name' => 'required|max:255',
             'slug' => 'required|max:255',
             'parent_id' => 'required|integer',
             'is_trial' => 'required|integer',
             'position' => 'required|integer',
-            'video' => 'required'
+
         ];
+        if ($this->parent_id !== 0) {
+            $rules['parent_id'] = 'required';
+        }
+
+        return $rules;
     }
 
     public function messages()

@@ -2,13 +2,14 @@
 
 namespace Modules\Lessons\src\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Modules\Lessons\src\Http\Requests\LessonRequest;
 use Modules\Video\src\Repositories\VideoRepositoryInterface;
 use Modules\Courses\src\Repositories\CoursesRepositoryInterface;
-use Modules\Document\src\Repositories\DocumentRepositoryInterface;
 use Modules\Lessons\src\Repositories\LessonsRepositoryInterface;
+use Modules\Document\src\Repositories\DocumentRepositoryInterface;
 
 class LessonController extends Controller
 {
@@ -30,10 +31,12 @@ class LessonController extends Controller
         return view('lessons::lists', compact('pageTitle', 'course'));
     }
 
-    public function create($courseId)
+    public function create(Request $request, $courseId)
     {
         $pageTitle = 'Thêm bài giảng';
-        return view('lessons::add', compact('pageTitle', 'courseId'));
+        $position = $this->lessonRepository->getPosition($courseId);
+
+        return view('lessons::add', compact('pageTitle', 'courseId', 'position'));
     }
 
     public function store($courseId, LessonRequest $request)
@@ -47,7 +50,7 @@ class LessonController extends Controller
         $isTrail = $request->is_trial;
         $position = $request->position;
         $description = $request->description;
-        $videoInfo = getVideoInfo($video);
+
         $documentId = null;
         $videoId = null;
         if ($document) {
@@ -59,13 +62,17 @@ class LessonController extends Controller
             ], $document);
             $documentId = $document ? $document->id : null;
         }
+        if ($video) {
+            $videoInfo = getVideoInfo($video);
+            $video = $this->videoRepository->createVideo(['url' => $video, 'name' => $videoInfo['filename'], 'size' => $videoInfo['playtime_seconds']], $video);
+            $videoId = $video ? $video->id : null;
+        }
 
-        $video = $this->videoRepository->createVideo(['url' => $video, 'name' => $videoInfo['filename'], 'size' => $videoInfo['playtime_seconds']], $video);
-        $videoId = $video ? $video->id : null;
         $this->lessonRepository->create([
             'name' => $name,
             'slug' => $slug,
             'video_id' => $videoId,
+            'course_id' => $courseId,
             'document_id' => $documentId,
             'parent_id' => $parentId,
             'is_trial' => $isTrail,
