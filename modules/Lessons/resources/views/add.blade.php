@@ -35,8 +35,10 @@
         <div class="col-4">
             <div class="mb-3">
                 <label for="">Nhóm bài giảng</label>
-                <select name="parent_id" class="form-select {{ $errors->has('parent_id') ? 'is-invalid' : '' }}">
+                <select name="parent_id"
+                    class="form-select select2 {{ $errors->has('parent_id') ? 'is-invalid' : '' }}">
                     <option value="0">Trống</option>
+                    {{getLessions($lessons, old('parent_id'))}}
                 </select>
                 @error('parent_id')
                 <div class="invalid-feedback">

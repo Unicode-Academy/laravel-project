@@ -35,8 +35,8 @@ class LessonController extends Controller
     {
         $pageTitle = 'Thêm bài giảng';
         $position = $this->lessonRepository->getPosition($courseId);
-
-        return view('lessons::add', compact('pageTitle', 'courseId', 'position'));
+        $lessons = $this->lessonRepository->getAllLessions();
+        return view('lessons::add', compact('pageTitle', 'courseId', 'position', 'lessons'));
     }
 
     public function store($courseId, LessonRequest $request)
