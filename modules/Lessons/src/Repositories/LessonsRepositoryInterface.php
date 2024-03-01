@@ -6,5 +6,5 @@ use App\Repositories\RepositoryInterface;
 
 interface LessonsRepositoryInterface extends RepositoryInterface
 {
-    
+    public function getLessons($courseId);
 }

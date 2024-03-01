@@ -3,8 +3,10 @@
 namespace Modules\Lessons\src\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use Yajra\DataTables\Facades\DataTables;
 use Modules\Lessons\src\Http\Requests\LessonRequest;
 use Modules\Video\src\Repositories\VideoRepositoryInterface;
 use Modules\Courses\src\Repositories\CoursesRepositoryInterface;
@@ -29,6 +31,50 @@ class LessonController extends Controller
         $pageTitle = "Bài giảng: " . $course->name;
 
         return view('lessons::lists', compact('pageTitle', 'course'));
+    }
+
+    public function data($courseId)
+    {
+        $lessons = $this->lessonRepository->getLessons($courseId);
+
+        $lessons = DataTables::of($lessons)->toArray();
+
+        $lessons['data'] = $this->getLessionsTable($lessons['data']);
+        return $lessons;
+    }
+
+    public function getLessionsTable($lessons, $char = '', &$result = [])
+    {
+        if (!empty($lessons)) {
+            foreach ($lessons as $key => $lesson) {
+                $row = $lesson;
+                $row['name'] = $char . $row['name'];
+                if ($row['parent_id'] == null) {
+                    $row['is_trial'] = '';
+                    $row['view'] = '';
+                    $row['durations'] = '';
+                    $row['created_at'] = '';
+                    $row['edit'] = '<a href="" class="btn btn-warning">Sửa</a>';
+                    $row['delete'] = '<a href="" class="btn btn-danger delete-action">Xóa</a>';
+                } else {
+                    $row['is_trial'] = ($row['is_trial'] == 1 ? 'Có' : 'Không');
+                    $row['view'] = $row['view'];
+                    $row['durations'] = $row['durations'] . ' giây';
+                    $row['edit'] = '<a href="" class="btn btn-warning">Sửa</a>';
+                    $row['delete'] = '<a href="" class="btn btn-danger delete-action">Xóa</a>';
+                    $row['created_at'] = Carbon::parse($lesson['created_at'])->format('d/m/Y H:i:s');
+                }
+
+                unset($row['sub_lessons']);
+                unset($row['updated_at']);
+                $result[] = $row;
+                if (!empty($lesson['sub_lessons'])) {
+                    $this->getLessionsTable($lesson['sub_lessons'], $char . '|--', $result);
+                }
+            }
+        }
+
+        return $result;
     }
 
     public function create(Request $request, $courseId)
