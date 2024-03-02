@@ -53,20 +53,22 @@ class LessonController extends Controller
                     $row['is_trial'] = '';
                     $row['view'] = '';
                     $row['durations'] = '';
-                    $row['created_at'] = '';
-                    $row['edit'] = '<a href="" class="btn btn-warning">Sửa</a>';
-                    $row['delete'] = '<a href="" class="btn btn-danger delete-action">Xóa</a>';
+                    $row['add'] = '<a href="'.route('admin.lessons.create', $row['course_id']).'?module='.$row['id'].'" class="btn btn-primary btn-sm">Thêm bài</a>';
+                    $row['edit'] = '<a href="" class="btn btn-warning btn-sm">Sửa</a>';
+                    $row['delete'] = '<a href="" class="btn btn-danger btn-sm delete-action">Xóa</a>';
                 } else {
                     $row['is_trial'] = ($row['is_trial'] == 1 ? 'Có' : 'Không');
                     $row['view'] = $row['view'];
                     $row['durations'] = $row['durations'] . ' giây';
-                    $row['edit'] = '<a href="" class="btn btn-warning">Sửa</a>';
-                    $row['delete'] = '<a href="" class="btn btn-danger delete-action">Xóa</a>';
-                    $row['created_at'] = Carbon::parse($lesson['created_at'])->format('d/m/Y H:i:s');
+                    $row['add'] = '';
+                    $row['edit'] = '<a href="" class="btn btn-warning btn-sm">Sửa</a>';
+                    $row['delete'] = '<a href="" class="btn btn-danger btn-sm delete-action">Xóa</a>';
+                    
                 }
 
                 unset($row['sub_lessons']);
-                unset($row['updated_at']);
+                unset($row['course_id']);
+               
                 $result[] = $row;
                 if (!empty($lesson['sub_lessons'])) {
                     $this->getLessionsTable($lesson['sub_lessons'], $char . '|--', $result);
@@ -126,6 +128,6 @@ class LessonController extends Controller
             'durations' => $videoInfo['playtime_seconds'] ?? 0,
             'description' => $description,
         ]);
-        return redirect()->route('admin.lessons.create', $courseId)->with('msg', __('lessons::messages.create.success'));
+        return redirect()->route('admin.lessons.index', $courseId)->with('msg', __('lessons::messages.create.success'));
     }
 }
