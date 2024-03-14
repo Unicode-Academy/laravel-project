@@ -1,9 +1,10 @@
 <?php
 function getLessions($lessions, $old = '', $parentId = 0, $char = '')
 {
-    $id = request()->route()->lesson;
+    $id = request()->route()->lessonId;
     if ($lessions) {
         foreach ($lessions as $key => $lesson) {
+          
             if ($lesson->parent_id == $parentId && $id != $lesson->id) {
                 echo '<option value="' . $lesson->id . '"';
                 if ($old == $lesson->id) {
@@ -11,7 +12,7 @@ function getLessions($lessions, $old = '', $parentId = 0, $char = '')
                 }
                 echo '>' . $char . $lesson->name . '</option>';
                 unset($lessions[$key]);
-                getCategories($lessions, $old, $lesson->id, $char . ' |- ');
+                getLessions($lessions, $old, $lesson->id, $char . ' |- ');
             }
         }
     }

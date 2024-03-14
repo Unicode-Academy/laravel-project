@@ -5,5 +5,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::get('/{courseId}/create', "LessonController@create")->name('create');
         Route::get('/{courseId}/data', "LessonController@data")->name('data');
         Route::post('/{courseId}/create', "LessonController@store");
+        Route::get('/edit/{lessonId}', "LessonController@edit")->name('edit');
+        Route::post('/edit/{lessonId}', "LessonController@update");
     });
 });

@@ -54,14 +54,14 @@ class LessonController extends Controller
                     $row['view'] = '';
                     $row['durations'] = '';
                     $row['add'] = '<a href="'.route('admin.lessons.create', $row['course_id']).'?module='.$row['id'].'" class="btn btn-primary btn-sm">Thêm bài</a>';
-                    $row['edit'] = '<a href="" class="btn btn-warning btn-sm">Sửa</a>';
+                    $row['edit'] = '<a href="'.route('admin.lessons.edit', $row['id']).'" class="btn btn-warning btn-sm">Sửa</a>';
                     $row['delete'] = '<a href="" class="btn btn-danger btn-sm delete-action">Xóa</a>';
                 } else {
                     $row['is_trial'] = ($row['is_trial'] == 1 ? 'Có' : 'Không');
                     $row['view'] = $row['view'];
                     $row['durations'] = $row['durations'] . ' giây';
                     $row['add'] = '';
-                    $row['edit'] = '<a href="" class="btn btn-warning btn-sm">Sửa</a>';
+                    $row['edit'] = '<a href="'.route('admin.lessons.edit', $row['id']).'" class="btn btn-warning btn-sm">Sửa</a>';
                     $row['delete'] = '<a href="" class="btn btn-danger btn-sm delete-action">Xóa</a>';
                     
                 }
@@ -129,5 +129,16 @@ class LessonController extends Controller
             'description' => $description,
         ]);
         return redirect()->route('admin.lessons.index', $courseId)->with('msg', __('lessons::messages.create.success'));
+    }
+
+    public function edit(Request $request, $lessonId) {
+        $pageTitle = 'Cập nhật bài giảng';
+        //$position = $this->lessonRepository->getPosition($courseId);
+        $lessons = $this->lessonRepository->getAllLessions();
+        $lesson = $this->lessonRepository->find($lessonId);
+    
+        $courseId = 0;
+        $position = 0;
+        return view('lessons::edit', compact('pageTitle', 'courseId', 'position', 'lessons', 'lesson'));
     }
 }
