@@ -86,7 +86,7 @@
                     <div class="input-group {{ $errors->has('video') ? 'is-invalid' : '' }}">
                         <input type="text" name="video" id="video-url"
                             class="form-control {{ $errors->has('video') ? 'is-invalid' : '' }}"
-                            placeholder="Video bài giảng" value="{{ old('video') }}" />
+                            placeholder="Video bài giảng" value="{{ old('video', $lesson->video) }}" />
                         <button type="button" class="btn btn-success" id="lfm-video" data-input="video-url">Chọn</button>
                     </div>
                     @error('video')
@@ -104,7 +104,7 @@
                     <div class="input-group {{ $errors->has('document') ? 'is-invalid' : '' }}">
                         <input type="text" class="form-control  {{ $errors->has('document') ? 'is-invalid' : '' }}"
                             id="document-url" placeholder="Tài liệu bài giảng" name="document"
-                            value="{{ old('document') }}" />
+                            value="{{ old('document', $lesson->document) }}" />
                         <button class="btn btn-success" type="button" class="btn btn-success" id="lfm-document"
                             data-input="document-url">Chọn</button>
                     </div>

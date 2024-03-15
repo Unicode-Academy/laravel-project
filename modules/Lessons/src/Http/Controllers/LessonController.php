@@ -133,12 +133,14 @@ class LessonController extends Controller
 
     public function edit(Request $request, $lessonId) {
         $pageTitle = 'Cập nhật bài giảng';
-        //$position = $this->lessonRepository->getPosition($courseId);
         $lessons = $this->lessonRepository->getAllLessions();
         $lesson = $this->lessonRepository->find($lessonId);
-    
-        $courseId = 0;
-        $position = 0;
-        return view('lessons::edit', compact('pageTitle', 'courseId', 'position', 'lessons', 'lesson'));
+        $lesson->video = $lesson->video->url;
+        $lesson->document = $lesson->document?->url;
+        if (!$lesson) {
+            return abort(404);
+        }
+        $courseId = $lesson->course_id;
+        return view('lessons::edit', compact('pageTitle', 'courseId', 'lessons', 'lesson'));
     }
 }
