@@ -194,4 +194,11 @@ class LessonController extends Controller
         $this->lessonRepository->delete($lessonId);
         return redirect()->route('admin.lessons.index', $lesson->course_id)->with('msg', __('lessons::messages.delete.success'));
     }
+
+    public function sort(Request $request, $courseId) {
+        $pageTitle = 'Sắp xếp bài giảng';
+        $modules = $this->lessonRepository->getLessons($courseId)->with('children')->get();
+    
+        return view('lessons::sort', compact('pageTitle', 'courseId', 'modules'));
+    }
 }
