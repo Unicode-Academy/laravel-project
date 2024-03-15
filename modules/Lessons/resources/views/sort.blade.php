@@ -11,7 +11,10 @@
                     <input type="hidden" name="lesson[]" value="{{ $module->id }}">
                 </div>
                 @if ($module->children)
-                    @foreach ($module->children as $lesson)
+                    @php
+                        $lessons = $module->children()->orderBy('position', 'asc')->get();
+                    @endphp
+                    @foreach ($lessons as $lesson)
                         <div id="item-{{ $lesson->id }}" data-id="{{ $lesson->id }}" class="list-group-item children">
                             {{ $lesson->name }}
                             <input type="hidden" name="lesson[]" value="{{ $lesson->id }}">

@@ -33,7 +33,7 @@ class Lesson extends Model
 
     public function subLessons()
     {
-        return $this->children()->with('subLessons');
+        return $this->children()->orderBy('position', 'asc')->with('subLessons');
     }
 
     public function video() {

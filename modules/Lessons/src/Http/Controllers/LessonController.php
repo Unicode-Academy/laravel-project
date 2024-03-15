@@ -198,7 +198,18 @@ class LessonController extends Controller
     public function sort(Request $request, $courseId) {
         $pageTitle = 'Sắp xếp bài giảng';
         $modules = $this->lessonRepository->getLessons($courseId)->with('children')->get();
-    
         return view('lessons::sort', compact('pageTitle', 'courseId', 'modules'));
+    }
+    public function handleSort(Request $request, $courseId) {
+        $lessons = $request->lesson;
+        if ($lessons) {
+            foreach($lessons as $index => $lessionId) {
+                $this->lessonRepository->update($lessionId, [
+                    'position' => $index
+                    ]);
+            }
+            return redirect()->route('admin.lessons.sort', $courseId)->with('msg', __('lessons::messages.update.success'));
+        }
+        
     }
 }
