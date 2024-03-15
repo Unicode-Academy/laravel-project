@@ -135,12 +135,56 @@ class LessonController extends Controller
         $pageTitle = 'Cập nhật bài giảng';
         $lessons = $this->lessonRepository->getAllLessions();
         $lesson = $this->lessonRepository->find($lessonId);
-        $lesson->video = $lesson->video->url;
+        $lesson->video = $lesson->video?->url;
         $lesson->document = $lesson->document?->url;
+       
         if (!$lesson) {
             return abort(404);
         }
         $courseId = $lesson->course_id;
+       
         return view('lessons::edit', compact('pageTitle', 'courseId', 'lessons', 'lesson'));
+    }
+
+    public function update(Request $request, $lessonId) {
+         //Xử lý update
+         $name = $request->name;
+        $slug = $request->slug;
+        $video = $request->video;
+        $document = $request->document;
+        $parentId = $request->parent_id == 0 ? null : $request->parent_id;
+        $isTrail = $request->is_trial;
+        $position = $request->position;
+        $description = $request->description;
+
+        $documentId = null;
+        $videoId = null;
+        if ($document) {
+            $documentInfo = getFileInfo($document);
+            $document = $this->documentRepository->createDocument([
+                'name' => $documentInfo['name'],
+                'url' => $document,
+                'size' => $documentInfo['size']
+            ], $document);
+            $documentId = $document ? $document->id : null;
+        }
+        if ($video) {
+            $videoInfo = getVideoInfo($video);
+            $video = $this->videoRepository->createVideo(['url' => $video, 'name' => $videoInfo['filename'], 'size' => $videoInfo['playtime_seconds']], $video);
+            $videoId = $video ? $video->id : null;
+        }
+
+        $this->lessonRepository->update($lessonId, [
+            'name' => $name,
+            'slug' => $slug,
+            'video_id' => $videoId,
+            'document_id' => $documentId,
+            'parent_id' => $parentId,
+            'is_trial' => $isTrail,
+            'position' => $position,
+            'durations' => $videoInfo['playtime_seconds'] ?? 0,
+            'description' => $description,
+        ]);
+        return redirect()->route('admin.lessons.edit', $lessonId)->with('msg', __('lessons::messages.update.success'));
     }
 }

@@ -54,9 +54,9 @@
                 <div class="mb-3">
                     <label for="">Học thử</label>
                     <select name="is_trial" class="form-select {{ $errors->has('is_trial') ? 'is-invalid' : '' }}">
-                        <option value="0" {{ old('is_trial', $lesson->is_trail) == 0 ? 'selected' : '' }}>Không
+                        <option value="0" {{ old('is_trial', $lesson->is_trial) == 0 ? 'selected' : '' }}>Không
                         </option>
-                        <option value="1" {{ old('is_trial', $lesson->is_trail) == 1 ? 'selected' : '' }}>Có
+                        <option value="1" {{ old('is_trial', $lesson->is_trial) == 1 ? 'selected' : '' }}>Có
                         </option>
                     </select>
                     @error('is_trial')
