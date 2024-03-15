@@ -32,7 +32,7 @@ return new class() extends Migration
         Schema::table('lessons', function (Blueprint $table) {
             $table->foreign('video_id')->references('id')->on('videos')->nullOnDelete();
             $table->foreign('document_id')->references('id')->on('documents')->nullOnDelete();
-            $table->foreign('parent_id')->references('id')->on('lessons')->nullOnDelete();
+            $table->foreign('parent_id')->references('id')->on('lessons')->onDelete('cascade');
             $table->foreign('course_id')->references('id')->on('courses')->nullOnDelete();
         });
     }

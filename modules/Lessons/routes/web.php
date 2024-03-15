@@ -7,5 +7,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::post('/{courseId}/create', "LessonController@store");
         Route::get('/edit/{lessonId}', "LessonController@edit")->name('edit');
         Route::post('/edit/{lessonId}', "LessonController@update");
+        Route::delete('/delete/{lessonId}', "LessonController@delete")->name('delete');
     });
 });
