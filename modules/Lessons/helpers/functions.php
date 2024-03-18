@@ -17,3 +17,11 @@ function getLessions($lessions, $old = '', $parentId = 0, $char = '')
         }
     }
 }
+
+function getTime($seconds) {
+    $mins = floor($seconds / 60);
+    $seconds = floor($seconds - $mins * 60);
+    $mins = $mins < 10 ? '0'.$mins: $mins;
+    $seconds = $seconds < 10 ? '0'.$seconds:$seconds;
+    return "$mins:$seconds";
+}

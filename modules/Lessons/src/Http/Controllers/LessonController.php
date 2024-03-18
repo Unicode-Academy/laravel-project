@@ -59,7 +59,7 @@ class LessonController extends Controller
                 } else {
                     $row['is_trial'] = ($row['is_trial'] == 1 ? 'Có' : 'Không');
                     $row['view'] = $row['view'];
-                    $row['durations'] = $row['durations'] . ' giây';
+                    $row['durations'] = getTime($row['durations']);
                     $row['add'] = '';
                     $row['edit'] = '<a href="'.route('admin.lessons.edit', $row['id']).'" class="btn btn-warning btn-sm">Sửa</a>';
                     $row['delete'] = '<a href="' . route('admin.lessons.delete', $row['id']) . '" class="btn btn-danger btn-sm delete-action">Xóa</a>';
