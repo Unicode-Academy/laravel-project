@@ -5,6 +5,7 @@ namespace Modules\Students\src\Http\Controllers;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
+use Modules\Students\src\Http\Requests\StudentRequest;
 use Modules\Students\src\Repositories\StudentsRepositoryInterface;
 
 class StudentController extends Controller
@@ -55,8 +56,10 @@ class StudentController extends Controller
         $this->studentRepository->create([
             'name' => $request->name,
             'email' => $request->email,
-            'group_id' => $request->group_id,
+            'status' => $request->status,
             'password' => bcrypt($request->password),
+            'address' => $request->address,
+            'phone' => $request->phone
         ]);
 
         return redirect()->route('admin.students.index')->with('msg', __('students::messages.create.success'));

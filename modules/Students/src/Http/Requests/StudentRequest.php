@@ -27,11 +27,11 @@ class StudentRequest extends FormRequest
 
         $rules = [
             'name' => 'required|max:255',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email|unique:students,email',
             'password' =>'required|min:6',
             'status' => ['required', 'integer', function ($attribute, $value, $fail) {
-                if ($value==0) {
-                    $fail(__('student::validation.select'));
+                if ($value!=0 && $value!=1) {
+                    $fail(__('students::validation.select'));
                 }
             }],
         ];
@@ -51,21 +51,21 @@ class StudentRequest extends FormRequest
     public function messages()
     {
         return [
-            'required' => __('student::validation.required'),
-            'email' => __('student::validation.email'),
-            'unique' => __('student::validation.unique'),
-            'min' => __('student::validation.min'),
-            'integer' => __('student::validation.integer')
+            'required' => __('students::validation.required'),
+            'email' => __('students::validation.email'),
+            'unique' => __('students::validation.unique'),
+            'min' => __('students::validation.min'),
+            'integer' => __('students::validation.integer')
         ];
     }
 
     public function attributes()
     {
         return [
-            'name' => __('student::validation.attributes.name'),
-            'email' => __('student::validation.attributes.email'),
-            'password' => __('student::validation.attributes.password'),
-            'status' => __('student::validation.attributes.status'),
+            'name' => __('students::validation.attributes.name'),
+            'email' => __('students::validation.attributes.email'),
+            'password' => __('students::validation.attributes.password'),
+            'status' => __('students::validation.attributes.status'),
         ];
     }
 }
