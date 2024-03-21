@@ -1,0 +1,84 @@
+/* sub-header */
+.sub-header {
+	background-image: url("../assets/bg-my-course.jpeg");
+	background-repeat: no-repeat;
+	background-position: right bottom;
+	background-size: cover;
+}
+.sub-header .sub-title {
+	color: #fff;
+	text-align: center;
+	padding: 20px 0;
+}
+.sub-header .sub-title p {
+	font-size: 0.9rem;
+	margin-bottom: 10px;
+}
+.sub-header .sub-title i {
+	padding: 0 10px;
+	font-size: 0.9rem;
+}
+/* all-course */
+.all-course {
+	margin-bottom: 40px;
+}
+.all-course .course {
+	margin-top: 30px;
+	background-color: #fff;
+	border: 1px solid #d7e0e0;
+}
+.all-course .course:hover {
+	transform: translateY(-1%);
+	box-shadow: 2px 2px 18px 2px rgb(77 61 61 / 50%);
+	transition: all 0.3s ease;
+}
+.all-course h3 {
+	background-color: #98c6ef;
+	text-align: center;
+	padding: 20px 0;
+	font-size: 1.7rem;
+	text-transform: uppercase;
+}
+.all-course .banner-course {
+	width: 100%;
+}
+.all-course .descreption-course {
+	padding: 20px;
+}
+.all-course .descreption-top {
+	display: flex;
+	font-size: 0.6rem;
+	justify-content: space-between;
+	font-weight: 400;
+}
+.all-course .descreption-title {
+	font-size: 1.3rem;
+	font-weight: 400;
+	margin-top: 6px;
+	margin-bottom: 20px;
+}
+.all-course .descreption-title a {
+	color: #000;
+}
+.all-course .descreption-teacher {
+	display: flex;
+	align-items: center;
+	font-weight: 300;
+}
+.all-course .descreption-teacher img {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	margin-right: 10px;
+}
+.all-course .descreption-price {
+	font-size: 1rem;
+	margin-top: 15px;
+}
+.all-course .descreption-price span {
+	text-decoration: underline;
+	color: #1978dc;
+}
+.all-course .descreption-price .sale {
+	text-decoration: line-through;
+}
