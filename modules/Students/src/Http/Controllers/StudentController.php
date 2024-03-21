@@ -93,7 +93,13 @@ class StudentController extends Controller
 
     public function delete($id)
     {
+        /*
+        Dữ liệu liên quan: 
+        - Liên kết giữa học viên và khóa học
+        - Trung gian: Thống kê học viên, liên kết tài khoản mạng xã hội
+        */
         $this->studentRepository->delete($id);
+
         return back()->with('msg', __('students::messages.delete.success'));
     }
 }
