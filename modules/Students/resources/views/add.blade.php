@@ -31,8 +31,8 @@
             <div class="mb-3">
                 <label for="">Trạng thái</label>
                 <select name="status" id="" class="form-select {{$errors->has('status')?'is-invalid':''}}">
-                    <option value="0">Chưa kích hoạt</option>
-                    <option value="1">Kích hoạt</option>
+                    <option value="0" {{old("status") == 0 ? 'selected': ''}}>Chưa kích hoạt</option>
+                    <option value="1" {{old("status") == 1 ? 'selected': ''}}>Kích hoạt</option>
                 </select>
                 @error('status')
                 <div class="invalid-feedback">
@@ -79,7 +79,7 @@
         </div>
         <div class="col-12">
             <button type="submit" class="btn btn-primary">Lưu lại</button>
-            <a href="{{route('admin.users.index')}}" class="btn btn-danger">Hủy</a>
+            <a href="{{route('admin.students.index')}}" class="btn btn-danger">Hủy</a>
         </div>
     </div>
     @csrf

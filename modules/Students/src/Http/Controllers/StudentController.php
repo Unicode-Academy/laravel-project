@@ -69,7 +69,7 @@ class StudentController extends Controller
     {
         $student = $this->studentRepository->find($id);
 
-        if (!$Student) {
+        if (!$student) {
             abort(404);
         }
 
