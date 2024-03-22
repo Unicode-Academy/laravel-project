@@ -2,6 +2,7 @@
 
 namespace Modules\Courses\src\Models;
 
+use App\Scopes\ActiveScope;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Teacher\src\Models\Teacher;
 use Modules\Categories\src\Models\Category;
@@ -24,6 +25,11 @@ class Course extends Model
     ];
 
     protected $with = ['teacher'];
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new ActiveScope);
+    }
 
     public function categories()
     {
