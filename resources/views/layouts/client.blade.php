@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{{asset('clients/css/reset.css')}}" />
     <link rel="stylesheet" href="{{asset('clients/css/header.css')}}" />
     <link rel="stylesheet" href="{{asset('clients/css/home.css')}}" />
+    <link rel="stylesheet" href="{{asset('clients/css/course.css')}}" />
     <link rel="stylesheet" href="{{asset('clients/css/footer.css')}}" />
     @yield('stylesheets')
 </head>

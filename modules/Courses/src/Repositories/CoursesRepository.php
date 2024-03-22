@@ -38,4 +38,8 @@ class CoursesRepository extends BaseRepository implements CoursesRepositoryInter
         $categoryIds = $course->categories()->allRelatedIds()->toArray();
         return $categoryIds;
     }
+
+    public function getCourses($limit) {
+        return $this->model->limit($limit)->latest()->get();
+    }
 }

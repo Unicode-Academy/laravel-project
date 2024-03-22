@@ -19,3 +19,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::delete('delete/{course}', 'CoursesController@delete')->name('delete');
     });
 });
+
+Route::group(['as' => 'courses.'], function() {
+    Route::get('/khoa-hoc', 'Clients\CoursesController@index')->name('index');
+}); 
