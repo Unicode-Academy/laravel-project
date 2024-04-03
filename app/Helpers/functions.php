@@ -31,3 +31,7 @@ function activeMenu($name)
 {
     return request()->is(trim(route($name, [], false), '/'));
 }
+
+function money($number, $currency = 'đ') {
+    return !empty($number) ? number_format($number).' '.$currency: 'Miễn phí';
+}

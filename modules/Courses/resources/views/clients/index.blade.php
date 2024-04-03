@@ -15,7 +15,7 @@
                         <div class="descreption-top">
                             <p><i class="fa-solid fa-clock"></i>1,5h học</p>
                             <p><i class="fa-solid fa-video"></i>4 phần/18 bài</p>
-                            <p><i class="fa-solid fa-eye"></i>1000</p>
+                            <p><i class="fa-solid fa-eye"></i> {{$course->view ? number_format($course->view): 0}}</p>
                         </div>
                         <h5 class="descreption-title">
                             <a href="/khoa-hoc/{{$course->slug}}">
@@ -27,8 +27,12 @@
                             <span>{{$course->teacher?->name}}</span>
                         </div>
                         <p class="descreption-price">
-                            <span class="sale">{{number_format($course->price).'đ'}}</span>
-                            <span>{{number_format($course->sale_price). 'đ'}}</span>
+                            @if ($course->sale_price)
+                            <span class="sale">{{money($course->price)}}</span>
+                            <span>{{money($course->sale_price)}}</span>
+                            @else
+                            <span>{{money($course->price)}}</span>
+                            @endif
                         </p>
                     </div>
                 </div>
