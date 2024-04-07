@@ -13,8 +13,9 @@
                     </div>
                     <div class="descreption-course">
                         <div class="descreption-top">
-                            <p><i class="fa-solid fa-clock"></i>1,5h học</p>
-                            <p><i class="fa-solid fa-video"></i>4 phần/18 bài</p>
+                            <p><i class="fa-solid fa-clock"></i> {{getHour($course->durations)}} học</p>
+                            <p><i class="fa-solid fa-video"></i> {{getLessonCount($course)->module}}
+                                phần/{{getLessonCount($course)->lessons}} bài</p>
                             <p><i class="fa-solid fa-eye"></i> {{$course->view ? number_format($course->view): 0}}</p>
                         </div>
                         <h5 class="descreption-title">

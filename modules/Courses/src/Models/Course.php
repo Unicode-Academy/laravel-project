@@ -4,8 +4,9 @@ namespace Modules\Courses\src\Models;
 
 use App\Scopes\ActiveScope;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Teacher\src\Models\Teacher;
 use Modules\Categories\src\Models\Category;
+use Modules\Lessons\src\Models\Lesson;
+use Modules\Teacher\src\Models\Teacher;
 
 class Course extends Model
 {
@@ -21,10 +22,10 @@ class Course extends Model
         'durations',
         'is_document',
         'supports',
-        'status'
+        'status',
     ];
 
-    protected $with = ['teacher'];
+    protected $with = ['teacher', 'lessons'];
 
     protected static function booted(): void
     {
@@ -36,7 +37,13 @@ class Course extends Model
         return $this->belongsToMany(Category::class, 'categories_courses');
     }
 
-    public function teacher() {
+    public function teacher()
+    {
         return $this->belongsTo(Teacher::class, 'teacher_id', 'id');
+    }
+
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class, 'course_id', 'id');
     }
 }

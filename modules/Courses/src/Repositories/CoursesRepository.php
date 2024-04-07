@@ -62,6 +62,5 @@ class CoursesRepository extends BaseRepository implements CoursesRepositoryInter
             return $result->update($data);
         }
         return false;
-
     }
 }

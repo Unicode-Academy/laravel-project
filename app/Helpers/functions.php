@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\File;
 
 function deleteFileStorage($image)
 {
-    $imageThumb = dirname($image).'/thumbs/'.basename($image);
+    $imageThumb = dirname($image) . '/thumbs/' . basename($image);
     File::delete(public_path($image));
     File::delete(public_path($imageThumb));
 }
@@ -24,7 +24,7 @@ function isRoute($routeList)
 
 function activeSidebar($name, $routeList)
 {
-    return request()->is(trim(route('admin.'.$name.'.index', [], false), '/').'/*') || request()->is(trim(route('admin.'.$name.'.index', [], false), '/')) || isRoute($routeList);
+    return request()->is(trim(route('admin.' . $name . '.index', [], false), '/') . '/*') || request()->is(trim(route('admin.' . $name . '.index', [], false), '/')) || isRoute($routeList);
 }
 
 function activeMenu($name)
@@ -32,6 +32,13 @@ function activeMenu($name)
     return request()->is(trim(route($name, [], false), '/'));
 }
 
-function money($number, $currency = 'đ') {
-    return !empty($number) ? number_format($number).' '.$currency: 'Miễn phí';
+function money($number, $currency = 'đ')
+{
+    return !empty($number) ? number_format($number) . ' ' . $currency : 'Miễn phí';
+}
+
+function getHour($seconds)
+{
+    $value = round($seconds / 60, 1);
+    return $value . 'h';
 }
