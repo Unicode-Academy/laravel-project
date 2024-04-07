@@ -2,16 +2,14 @@
 
 namespace Modules\Lessons\src\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Storage;
-use Yajra\DataTables\Facades\DataTables;
-use Modules\Lessons\src\Http\Requests\LessonRequest;
-use Modules\Video\src\Repositories\VideoRepositoryInterface;
+use Illuminate\Http\Request;
 use Modules\Courses\src\Repositories\CoursesRepositoryInterface;
-use Modules\Lessons\src\Repositories\LessonsRepositoryInterface;
 use Modules\Document\src\Repositories\DocumentRepositoryInterface;
+use Modules\Lessons\src\Http\Requests\LessonRequest;
+use Modules\Lessons\src\Repositories\LessonsRepositoryInterface;
+use Modules\Video\src\Repositories\VideoRepositoryInterface;
+use Yajra\DataTables\Facades\DataTables;
 
 class LessonController extends Controller
 {
@@ -53,22 +51,22 @@ class LessonController extends Controller
                     $row['is_trial'] = '';
                     $row['view'] = '';
                     $row['durations'] = '';
-                    $row['add'] = '<a href="'.route('admin.lessons.create', $row['course_id']).'?module='.$row['id'].'" class="btn btn-primary btn-sm">Thêm bài</a>';
-                    $row['edit'] = '<a href="'.route('admin.lessons.edit', $row['id']).'" class="btn btn-warning btn-sm">Sửa</a>';
+                    $row['add'] = '<a href="' . route('admin.lessons.create', $row['course_id']) . '?module=' . $row['id'] . '" class="btn btn-primary btn-sm">Thêm bài</a>';
+                    $row['edit'] = '<a href="' . route('admin.lessons.edit', $row['id']) . '" class="btn btn-warning btn-sm">Sửa</a>';
                     $row['delete'] = '<a href="' . route('admin.lessons.delete', $row['id']) . '" class="btn btn-danger btn-sm delete-action">Xóa</a>';
                 } else {
                     $row['is_trial'] = ($row['is_trial'] == 1 ? 'Có' : 'Không');
                     $row['view'] = $row['view'];
                     $row['durations'] = getTime($row['durations']);
                     $row['add'] = '';
-                    $row['edit'] = '<a href="'.route('admin.lessons.edit', $row['id']).'" class="btn btn-warning btn-sm">Sửa</a>';
+                    $row['edit'] = '<a href="' . route('admin.lessons.edit', $row['id']) . '" class="btn btn-warning btn-sm">Sửa</a>';
                     $row['delete'] = '<a href="' . route('admin.lessons.delete', $row['id']) . '" class="btn btn-danger btn-sm delete-action">Xóa</a>';
-                    
+
                 }
 
                 unset($row['sub_lessons']);
                 unset($row['course_id']);
-               
+
                 $result[] = $row;
                 if (!empty($lesson['sub_lessons'])) {
                     $this->getLessionsTable($lesson['sub_lessons'], $char . '|--', $result);
@@ -83,7 +81,7 @@ class LessonController extends Controller
     {
         $pageTitle = 'Thêm bài giảng';
         $position = $this->lessonRepository->getPosition($courseId);
-        $lessons = $this->lessonRepository->getAllLessions();
+        $lessons = $this->lessonRepository->getAllLessions($courseId);
         return view('lessons::add', compact('pageTitle', 'courseId', 'position', 'lessons'));
     }
 
@@ -106,7 +104,7 @@ class LessonController extends Controller
             $document = $this->documentRepository->createDocument([
                 'name' => $documentInfo['name'],
                 'url' => $document,
-                'size' => $documentInfo['size']
+                'size' => $documentInfo['size'],
             ], $document);
             $documentId = $document ? $document->id : null;
         }
@@ -128,27 +126,33 @@ class LessonController extends Controller
             'durations' => $videoInfo['playtime_seconds'] ?? 0,
             'description' => $description,
         ]);
+
+        $this->updateDurations($courseId);
+
         return redirect()->route('admin.lessons.index', $courseId)->with('msg', __('lessons::messages.create.success'));
     }
 
-    public function edit(Request $request, $lessonId) {
+    public function edit(Request $request, $lessonId)
+    {
         $pageTitle = 'Cập nhật bài giảng';
-        $lessons = $this->lessonRepository->getAllLessions();
         $lesson = $this->lessonRepository->find($lessonId);
+        $lessons = $this->lessonRepository->getAllLessions($lesson->course_id);
+
         $lesson->video = $lesson->video?->url;
         $lesson->document = $lesson->document?->url;
-       
+
         if (!$lesson) {
             return abort(404);
         }
         $courseId = $lesson->course_id;
-       
+
         return view('lessons::edit', compact('pageTitle', 'courseId', 'lessons', 'lesson'));
     }
 
-    public function update(Request $request, $lessonId) {
-         //Xử lý update
-         $name = $request->name;
+    public function update(Request $request, $lessonId)
+    {
+        //Xử lý update
+        $name = $request->name;
         $slug = $request->slug;
         $video = $request->video;
         $document = $request->document;
@@ -164,7 +168,7 @@ class LessonController extends Controller
             $document = $this->documentRepository->createDocument([
                 'name' => $documentInfo['name'],
                 'url' => $document,
-                'size' => $documentInfo['size']
+                'size' => $documentInfo['size'],
             ], $document);
             $documentId = $document ? $document->id : null;
         }
@@ -185,31 +189,55 @@ class LessonController extends Controller
             'durations' => $videoInfo['playtime_seconds'] ?? 0,
             'description' => $description,
         ]);
+        $lesson = $this->lessonRepository->find($lessonId);
+        $this->updateDurations($lesson->course_id);
         return redirect()->route('admin.lessons.edit', $lessonId)->with('msg', __('lessons::messages.update.success'));
     }
 
-    public function delete(Request $request, $lessonId) {
+    public function delete(Request $request, $lessonId)
+    {
         $lesson = $this->lessonRepository->find($lessonId);
-        
+
         $this->lessonRepository->delete($lessonId);
+
+        $this->updateDurations($lesson->course_id);
+
         return redirect()->route('admin.lessons.index', $lesson->course_id)->with('msg', __('lessons::messages.delete.success'));
     }
 
-    public function sort(Request $request, $courseId) {
+    public function sort(Request $request, $courseId)
+    {
         $pageTitle = 'Sắp xếp bài giảng';
         $modules = $this->lessonRepository->getLessons($courseId)->with('children')->get();
         return view('lessons::sort', compact('pageTitle', 'courseId', 'modules'));
     }
-    public function handleSort(Request $request, $courseId) {
+    public function handleSort(Request $request, $courseId)
+    {
         $lessons = $request->lesson;
         if ($lessons) {
-            foreach($lessons as $index => $lessionId) {
+            foreach ($lessons as $index => $lessionId) {
                 $this->lessonRepository->update($lessionId, [
-                    'position' => $index
-                    ]);
+                    'position' => $index,
+                ]);
             }
             return redirect()->route('admin.lessons.sort', $courseId)->with('msg', __('lessons::messages.update.success'));
         }
-        
+
+    }
+
+    private function updateDurations($courseId)
+    {
+        //Lấy tất cả bài học trong 1 khóa học
+        $lessons = $this->lessonRepository->getAllLessions($courseId);
+
+        //Tính tổng durations của các bài học trong 1 khóa học
+        $durations = $lessons->reduce(function ($prev, $item) {
+            return $prev + $item->durations;
+        }, 0);
+
+        //Cập nhật vào bảng courses
+        $this->coursesRepository->updateCourse($courseId, [
+            'durations' => $durations,
+        ]);
     }
 }
