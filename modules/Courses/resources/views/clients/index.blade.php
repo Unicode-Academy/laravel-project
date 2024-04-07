@@ -40,6 +40,9 @@
             </div>
             @endforeach
         </div>
+        <div class="mt-3">
+            {{$courses->links()}}
+        </div>
         @endif
     </div>
 </section>

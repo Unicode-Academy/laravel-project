@@ -14,7 +14,7 @@ class CoursesController extends Controller {
     public function index() {
         $pageTitle = 'Khóa học';
         $pageName = 'Khóa học';
-        $courses = $this->coursesRepository->getCourses(9);
+        $courses = $this->coursesRepository->getCourses(config('paginate.limit'));
         
         return view('courses::clients.index', compact('pageTitle', 'pageName', 'courses'));
     }
