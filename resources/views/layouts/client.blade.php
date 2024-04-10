@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{asset('clients/css/header.css')}}" />
     <link rel="stylesheet" href="{{asset('clients/css/home.css')}}" />
     <link rel="stylesheet" href="{{asset('clients/css/course.css')}}" />
+    <link rel="stylesheet" href="{{asset('clients/css/course-detail.css')}}" />
     <link rel="stylesheet" href="{{asset('clients/css/footer.css')}}" />
     @yield('stylesheets')
 </head>
@@ -31,5 +32,6 @@
 <script src="{{asset('clients/js/slick.min.js')}}"></script>
 <script src="{{asset('clients/js/slider-home.js')}}"></script>
 <script src="{{asset('clients/js/home.js')}}"></script>
+<script src="{{asset('clients/js/accordion.js')}}"></script>
 
 </html>

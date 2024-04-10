@@ -20,6 +20,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 });
 
-Route::group(['as' => 'courses.'], function() {
+Route::group(['as' => 'courses.'], function () {
     Route::get('/khoa-hoc', 'Clients\CoursesController@index')->name('index');
-}); 
+    Route::get('/khoa-hoc/{slug}', 'Clients\CoursesController@detail')->name('detail');
+});
