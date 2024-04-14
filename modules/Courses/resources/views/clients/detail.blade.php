@@ -52,23 +52,32 @@
                     </div>
                     @include('courses::clients.lesson')
                 </div>
-                <!-- <div class="course-video" id="author">
-                    <h4>sản phẩm</h4>
-                    <p class="course-content-infor">
-                        Phòng bơm Cấp nước sinh hoạt, phòng Heat Pump, phòng bơm Chữa
-                        cháy thuộc dự án Mikazuki Spa & Hotel Resort Đà Nẵng DSCons thực
-                        hiện năm 2019.
+                @if ($course->teacher)
+                <div class="course-video mb-4" id="author">
+                    <div class="d-flex">
+                        <div class="flex-shrink-0">
+                            <img src="{{$course->teacher->image}}" alt="" class="rounded-circle" style="width: 80px;">
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <p>Giảng viên</p>
+                            <h4 class="mt-2"><a
+                                    href="/giang-vien/{{$course->teacher->slug}}">{{$course->teacher->name}}</a></h4>
+                        </div>
+                    </div>
+
+                    <p class="course-content-infor mt-3">
+                        {!!$course->teacher->description!!}
                     </p>
-                    <p class="video">
-                        <iframe width="100%" height="515" src="https://www.youtube.com/embed/kYrC0s4B_-I"
-                            title="YouTube video player" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowfullscreen></iframe>
-                    </p>
-                </div> -->
+
+                </div>
+                @endif
+
+                <div class="course-video mb-4" id="evaluate">
+                    <h2 class="fs-4">Học viên đánh giá</h2>
+                </div>
             </div>
             <div class="col-12 col-lg-3">
-                <div class="course-profile">
+                <div class="course-profile mb-4">
                     <div class="img">
                         <img src="{{$course->thumbnail}}" alt="" />
                     </div>
