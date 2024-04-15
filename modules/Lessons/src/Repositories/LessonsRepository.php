@@ -36,4 +36,14 @@ class LessonsRepository extends BaseRepository implements LessonsRepositoryInter
             'lessons' => $course->lessons()->whereNotNull('parent_id')->count(),
         ];
     }
+
+    public function getModuleByPosition($course)
+    {
+        return $course->lessons()->whereNull('parent_id')->orderBy('position')->get();
+    }
+
+    public function getLessonsByPosition($course, $moduleId)
+    {
+        return $course->lessons()->where('parent_id', $moduleId)->orderBy('position')->get();
+    }
 }

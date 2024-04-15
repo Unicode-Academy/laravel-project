@@ -29,6 +29,7 @@ class CoursesController extends Controller
         }
         $pageTitle = $course->name;
         $pageName = $course->name;
-        return view('courses::clients.detail', compact('pageTitle', 'pageName', 'course'));
+        $index = 0;
+        return view('courses::clients.detail', compact('pageTitle', 'pageName', 'course', 'index'));
     }
 }

@@ -1,23 +1,17 @@
-@if ($course->lessons()->whereNull('parent_id')->count())
-@foreach ($course->lessons()->whereNull('parent_id')->orderBy('position')->get() as $module)
-@if ($module->parent_id == NULL)
+@foreach (getModuleByPosition($course) as $key => $module)
 <div class="accordion-group">
-    <h4 class="accordion-title">{{$module->name}}</h4>
-    <div class="accordion-detail">
-        @foreach ($course->lessons()->whereNotNull('parent_id')->orderBy('position')->get() as $lesson)
-        @if ($lesson->parent_id == $module->id)
+    <h4 class="accordion-title {{$key == 0 ? 'active': ''}}">{{$module->name}}</h4>
+    <div class="accordion-detail" style="{{$key == 0 ? 'display: block;':''}}">
+        @foreach (getLessonsByPosition($course, $module->id) as $lesson)
         <div class="card-accordion">
             <div>
                 <i class="fa-brands fa-youtube"></i>
-                {{$lesson->name}}
-                {!!$lesson->is_trial ? '<p>học thử</p>': ''!!}
+                {{"Bài ".(++$index).": ".$lesson->name}}
+                {!!$lesson->is_trial ? '<p>Học thử</p>': ''!!}
                 <span>{{getTime($lesson->durations)}}</span>
             </div>
         </div>
-        @endif
         @endforeach
     </div>
 </div>
-@endif
 @endforeach
-@endif
