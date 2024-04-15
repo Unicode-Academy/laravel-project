@@ -23,4 +23,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 Route::group(['as' => 'courses.'], function () {
     Route::get('/khoa-hoc', 'Clients\CoursesController@index')->name('index');
     Route::get('/khoa-hoc/{slug}', 'Clients\CoursesController@detail')->name('detail');
+    Route::prefix('data')->name('data.')->group(function () {
+        Route::get('/trial/{lessonId?}', 'Clients\CoursesController@getTrialVideo')->name('trial');
+    });
 });

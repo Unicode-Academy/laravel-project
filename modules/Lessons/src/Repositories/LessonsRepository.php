@@ -46,4 +46,5 @@ class LessonsRepository extends BaseRepository implements LessonsRepositoryInter
     {
         return $course->lessons()->where('parent_id', $moduleId)->orderBy('position')->get();
     }
+
 }
