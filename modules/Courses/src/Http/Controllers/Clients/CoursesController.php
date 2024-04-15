@@ -40,6 +40,9 @@ class CoursesController extends Controller
     public function getTrialVideo($lessonId = 0)
     {
         $lesson = $this->lessonsRepository->find($lessonId);
-        return $lesson;
+        if (!$lesson) {
+            return ['success' => false];
+        }
+        return ['success' => true, 'data' => $lesson];
     }
 }
