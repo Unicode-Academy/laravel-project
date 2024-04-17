@@ -60,7 +60,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     preload="auto"
                     controls
                     data-setup="{}">
-                        <source src="${videoUrl}" type="video/mp4" />
+                        <source src="/data/stream?video=${videoUrl}" type="video/mp4" />
                 <p class="vjs-no-js">
                 To view this video please enable JavaScript
                 </p>
@@ -68,8 +68,10 @@ window.addEventListener('DOMContentLoaded', () => {
                 `;
                 }).finally(() => {
                     e.target.innerText = initialBtn;
-                    videojs('my-video');
-
+                    const myVideoEl = modalEl.querySelector('.modal-body')
+                        .querySelector(
+                            '#my-video');
+                    videojs(myVideoEl);
                 })
             })
         })

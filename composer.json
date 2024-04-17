@@ -8,6 +8,7 @@
         "php": "^8.1",
         "doctrine/dbal": "^3.6",
         "guzzlehttp/guzzle": "^7.2",
+        "imanghafoori/laravel-video": "^2.1",
         "james-heinrich/getid3": "^1.9",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.0",

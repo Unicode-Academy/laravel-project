@@ -10,6 +10,13 @@
       'Debugbar' => 'Barryvdh\\Debugbar\\Facades\\Debugbar',
     ),
   ),
+  'imanghafoori/laravel-video' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Iman\\Streamer\\StreamServiceProvider',
+    ),
+  ),
   'kitloong/laravel-migrations-generator' => 
   array (
     'providers' => 
