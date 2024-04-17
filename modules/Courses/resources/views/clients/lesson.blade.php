@@ -52,14 +52,24 @@ window.addEventListener('DOMContentLoaded', () => {
                     }
                     const name = data.name;
                     const videoUrl = data.video.url;
-                    console.log(name, videoUrl);
                     modal.show();
                     modalEl.querySelector('.modal-title').innerText = name;
                     modalEl.querySelector('.modal-body').innerHTML = `
-                <video src="${videoUrl}" width="100%" height="450" controls></video>
+                    <video id="my-video"
+                    class="video-js"
+                    preload="auto"
+                    controls
+                    data-setup="{}">
+                        <source src="${videoUrl}" type="video/mp4" />
+                <p class="vjs-no-js">
+                To view this video please enable JavaScript
+                </p>
+                    </video>
                 `;
                 }).finally(() => {
-                    e.target.innerText = initialBtn
+                    e.target.innerText = initialBtn;
+                    videojs('my-video');
+
                 })
             })
         })

@@ -15,6 +15,9 @@
     <link rel="stylesheet" href="{{asset('clients/css/course.css')}}" />
     <link rel="stylesheet" href="{{asset('clients/css/course-detail.css')}}" />
     <link rel="stylesheet" href="{{asset('clients/css/footer.css')}}" />
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+    <link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet" />
+
     @yield('stylesheets')
 </head>
 
@@ -46,5 +49,6 @@
 <script src="{{asset('clients/js/slider-home.js')}}"></script>
 <script src="{{asset('clients/js/home.js')}}"></script>
 <script src="{{asset('clients/js/accordion.js')}}"></script>
+<script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
 
 </html>
