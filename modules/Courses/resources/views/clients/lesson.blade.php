@@ -6,7 +6,8 @@
         <div class="card-accordion">
             <div>
                 <i class="fa-brands fa-youtube"></i>
-                {{"Bài ".(++$index).": ".$lesson->name}}
+                <a class="text-dark"
+                    href="{{route('lesson.index', $lesson->slug)}}">{{"Bài ".(++$index).": ".$lesson->name}}</a>
                 {!!$lesson->is_trial ? '<p class="trial-btn" data-id="'.$lesson->id.'">Học thử</p>': ''!!}
                 <span>{{getTime($lesson->durations)}}</span>
             </div>
