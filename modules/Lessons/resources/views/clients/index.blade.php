@@ -15,8 +15,17 @@
                     </video>
                 </div>
                 <div class="d-flex justify-content-between mt-3">
-                    <p class="prev">Quay lại</p>
-                    <p class="next">Tiếp theo</p>
+                    <div>
+                        @if ($prevLesson)
+                        <a href="{{route('lesson.index', $prevLesson->slug)}}" class="prev text-white">Quay lại</a>
+                        @endif
+                    </div>
+
+                    <div>
+                        @if ($nextLesson)
+                        <a href="{{route('lesson.index', $nextLesson->slug)}}" class="next text-white">Tiếp theo</a>
+                        @endif
+                    </div>
                 </div>
             </div>
             <div class="col-12 col-lg-4">

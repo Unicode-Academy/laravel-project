@@ -42,12 +42,19 @@ class LessonsRepository extends BaseRepository implements LessonsRepositoryInter
         return $course->lessons()->whereNull('parent_id')->orderBy('position')->get();
     }
 
-    public function getLessonsByPosition($course, $moduleId)
+    public function getLessonsByPosition($course, $moduleId = null)
     {
-        return $course->lessons()->where('parent_id', $moduleId)->orderBy('position')->get();
+        $query = $course->lessons();
+        if ($moduleId) {
+            $query->where('parent_id', $moduleId);
+        } else {
+            $query->whereNotNull('parent_id');
+        }
+        return $query->orderBy('position')->get();
     }
 
-    public function getLesssonActive($slug) {
+    public function getLesssonActive($slug)
+    {
         return $this->model->whereSlug($slug)->first();
     }
 

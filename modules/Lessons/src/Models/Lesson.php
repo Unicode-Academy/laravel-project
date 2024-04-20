@@ -25,7 +25,7 @@ class Lesson extends Model
         'durations',
         'description',
     ];
-    protected $with = ['video'];
+    protected $with = ['video', 'document'];
 
     public function children()
     {
