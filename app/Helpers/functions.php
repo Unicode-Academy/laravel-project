@@ -42,3 +42,15 @@ function getHour($seconds)
     $value = round($seconds / 60, 1);
     return $value . 'h';
 }
+
+function getSize($size, $type = 'KB')
+{
+
+    if ($type == 'KB') {
+        $result = round($size / 1024, 2);
+    } else if ($type == 'MB') {
+        $result = round($size / 1024 / 1024, 2);
+    }
+    return $result;
+
+}

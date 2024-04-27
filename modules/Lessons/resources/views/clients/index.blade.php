@@ -38,7 +38,7 @@
                         @include('lessons::clients.lesson')
                     </div>
                     <div class="document-title title">
-                        <p>tài liệu</p>
+                        @include('lessons::clients.document')
                     </div>
                 </div>
             </div>
