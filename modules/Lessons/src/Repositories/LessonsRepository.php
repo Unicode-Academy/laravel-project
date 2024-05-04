@@ -21,7 +21,7 @@ class LessonsRepository extends BaseRepository implements LessonsRepositoryInter
 
     public function getLessons($courseId)
     {
-        return $this->model->with('subLessons')->whereCourseId($courseId)->whereNull('parent_id')->select(['id', 'name', 'slug', 'is_trial', 'parent_id', 'view', 'durations', 'course_id'])->orderBy('position', 'asc');
+        return $this->model->with('subLessons')->whereCourseId($courseId)->whereNull('parent_id')->select(['id', 'name', 'slug', 'is_trial', 'parent_id', 'view', 'durations', 'course_id'])->position();
     }
 
     public function getAllLessions($courseId)
@@ -39,12 +39,12 @@ class LessonsRepository extends BaseRepository implements LessonsRepositoryInter
 
     public function getModuleByPosition($course)
     {
-        return $course->lessons()->whereStatus(1)->whereNull('parent_id')->orderBy('position')->get();
+        return $course->lessons()->active()->whereNull('parent_id')->position()->get();
     }
 
     public function getLessonsByPosition($course, $moduleId = null, $isDocument = false)
     {
-        $query = $course->lessons()->whereStatus(1);
+        $query = $course->lessons()->active();
         if ($moduleId) {
             $query->where('parent_id', $moduleId);
         } else {
@@ -53,12 +53,12 @@ class LessonsRepository extends BaseRepository implements LessonsRepositoryInter
         if ($isDocument) {
             $query->whereNotNull('document_id');
         }
-        return $query->orderBy('position')->get();
+        return $query->position()->get();
     }
 
     public function getLesssonActive($slug)
     {
-        return $this->model->whereSlug($slug)->whereStatus(1)->first();
+        return $this->model->whereSlug($slug)->active()->first();
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace Modules\Lessons\src\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Courses\src\Models\Course;
@@ -63,5 +64,14 @@ class Lesson extends Model
             'course_id',
             'id'
         );
+    }
+
+    public function scopeActive(Builder $query): void
+    {
+        queryActive($query);
+    }
+
+    public function scopePosition(Builder $query): void {
+        queryPosition($query);
     }
 }

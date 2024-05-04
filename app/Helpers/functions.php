@@ -54,3 +54,13 @@ function getSize($size, $type = 'KB')
     return $result;
 
 }
+
+function queryActive($query)
+{
+    return $query->where('status', 1);
+}
+
+function queryPosition($query)
+{
+    $query->orderBy('position');
+}
