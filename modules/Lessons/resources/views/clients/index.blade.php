@@ -46,10 +46,3 @@
     </div>
 </section>
 @endsection
-@section('scripts')
-<script>
-const myVideoEl = document.querySelector(
-    '#my-video');
-videojs(myVideoEl);
-</script>
-@endsection
