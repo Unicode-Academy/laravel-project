@@ -52,9 +52,9 @@
             <div class="mb-3">
                 <label for="">Học thử</label>
                 <select name="is_trial" class="form-select {{ $errors->has('is_trial') ? 'is-invalid' : '' }}">
-                    <option value="0" {{old('is_trial') == 0 ? 'selected': 
+                    <option value="0" {{old('is_trial') == 0 ? 'selected':
                         ''}}>Không</option>
-                    <option value="1" {{old('is_trial') == 1 ? 'selected': 
+                    <option value="1" {{old('is_trial') == 1 ? 'selected':
                         ''}}>Có</option>
                 </select>
                 @error('is_trial')
@@ -128,6 +128,19 @@
             </div>
         </div>
 
+        <div class="col-12">
+            <div class="mb-3">
+                <label>Trạng thái</label>
+                <label class="d-block">
+                    <input type="checkbox" name="status" value="1" {{old('status') ? 'checked': ''}}> Kích hoạt
+                </label>
+                @error('status')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+                @enderror
+            </div>
+        </div>
 
         <div class="col-12">
             <button type="submit" class="btn btn-primary">Lưu lại</button>

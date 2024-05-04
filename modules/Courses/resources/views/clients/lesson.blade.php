@@ -5,7 +5,7 @@
         @foreach (getLessonsByPosition($course, $module->id) as $lesson)
         <div class="card-accordion">
             <div>
-                <i class="fa-brands fa-youtube"></i>
+                <i class="fa-brands fa-youtube pe-2"></i>
                 <a class="text-dark"
                     href="{{route('lesson.index', $lesson->slug)}}">{{"Bài ".(++$index).": ".$lesson->name}}</a>
                 {!!$lesson->is_trial ? '<p class="trial-btn" data-id="'.$lesson->id.'">Học thử</p>': ''!!}

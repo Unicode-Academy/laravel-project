@@ -24,6 +24,7 @@ class Lesson extends Model
         'position',
         'durations',
         'description',
+        'status',
     ];
     protected $with = ['video', 'document'];
 

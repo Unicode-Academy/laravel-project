@@ -39,7 +39,7 @@
 
                 </div>
                 <div class="accordion" id="curriculum">
-                    <div class="accordion-top">
+                    <div class="accordion-top px-2">
                         <p>
                             <i class="fa-solid fa-book me-1"></i>
                             Gồm: {{getLessonCount($course)->module}} phần - {{getLessonCount($course)->lessons}} bài

@@ -39,12 +39,12 @@ class LessonsRepository extends BaseRepository implements LessonsRepositoryInter
 
     public function getModuleByPosition($course)
     {
-        return $course->lessons()->whereNull('parent_id')->orderBy('position')->get();
+        return $course->lessons()->whereStatus(1)->whereNull('parent_id')->orderBy('position')->get();
     }
 
     public function getLessonsByPosition($course, $moduleId = null, $isDocument = false)
     {
-        $query = $course->lessons();
+        $query = $course->lessons()->whereStatus(1);
         if ($moduleId) {
             $query->where('parent_id', $moduleId);
         } else {
@@ -58,7 +58,7 @@ class LessonsRepository extends BaseRepository implements LessonsRepositoryInter
 
     public function getLesssonActive($slug)
     {
-        return $this->model->whereSlug($slug)->first();
+        return $this->model->whereSlug($slug)->whereStatus(1)->first();
     }
 
 }
