@@ -3,9 +3,9 @@
 namespace Modules\Students\src\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Student extends Model
+class Student extends Authenticatable
 {
     use HasFactory;
 
@@ -15,7 +15,7 @@ class Student extends Model
         'password',
         'status',
         'address',
-        'phone'
+        'phone',
     ];
 
 }

@@ -4,9 +4,8 @@ namespace Modules\Auth\src\Http\Controllers\Clients;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth;
+use Modules\Auth\src\Http\Requests\LoginRequest;
 
 class LoginController extends Controller
 {
@@ -47,16 +46,17 @@ class LoginController extends Controller
 
     }
 
-    // protected function sendFailedLoginResponse(Request $request)
-    // {
-    //     throw ValidationException::withMessages([
-    //         $this->username() => [__('auth::messages.login.failure')],
-    //     ]);
-    // }
+    public function login(LoginRequest $request)
+    {
+        $dataLogin = [
+            'email' => $request->email,
+            'password' => $request->password,
+        ];
+        $status = Auth::guard('students')->attempt($dataLogin);
 
-    // protected function loggedOut(Request $request)
-    // {
-    //     return redirect($this->redirectTo);
-    // }
-
+        if ($status) {
+            return redirect('/');
+        }
+        return back()->with('msg', 'Email hoặc mật khẩu không chính xác');
+    }
 }
