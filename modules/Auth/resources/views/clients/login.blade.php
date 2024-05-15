@@ -24,7 +24,7 @@
             <span class="text-start text-danger mb-3">{{$message}}</span>
             @enderror
             <div class="checker">
-                <input type="checkbox" />
+                <input type="checkbox" name="remember" value="1" />
                 <span>Tự động đăng nhập</span>
             </div>
             <p class="forgot-password">Quên mật khẩu đăng nhập</p>

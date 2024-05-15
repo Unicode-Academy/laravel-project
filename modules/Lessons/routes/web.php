@@ -13,6 +13,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     });
 });
 
-Route::group(['as' => 'lesson.'], function () {
+Route::group(['as' => 'lesson.', 'middleware' => ['auth:students']], function () {
     Route::get('/bai-hoc/{slug}', "Clients\LessonController@index")->name('index');
 });
