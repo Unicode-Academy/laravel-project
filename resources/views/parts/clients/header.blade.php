@@ -22,12 +22,21 @@
                 </div>
                 <div class="col-lg-3">
                     <div class="social">
-                        <button class="btn btn-primary">
+                        @if (auth('students')->check())
+                        <ul class="d-flex gap-2">
+                            <li>Chào bạn, {{auth('students')->user()->name}}</li>
+                            <li><a href="#">Tài khoản</a></li>
+                            <li><a href="#" onclick="document['form-logout'].submit(); return false;">Đăng xuất</a></li>
+
+                        </ul>
+                        @else
+                        <a href="{{route('clients.register')}}" class="btn btn-primary text-white">
                             <i class="fas fa-user"></i> Đăng ký
-                        </button>
-                        <button class="btn btn-primary">
+                        </a>
+                        <a href="{{route('clients.login')}}" class="btn btn-primary text-white">
                             <i class="fas fa-key"></i> Đăng nhập
-                        </button>
+                        </a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -95,3 +104,6 @@
         </div>
     </nav>
 </header>
+<form name="form-logout" method="post" action="{{route('clients.logout')}}">
+    @csrf
+</form>

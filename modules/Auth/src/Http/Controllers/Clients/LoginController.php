@@ -11,7 +11,7 @@ class LoginController extends Controller
 
     public function __construct()
     {
-        $this->middleware('guest:students');
+        $this->middleware('guest:students', ['except' => 'logout']);
     }
 
     public function showLoginForm()
@@ -27,12 +27,18 @@ class LoginController extends Controller
             'email' => $request->email,
             'password' => $request->password,
         ];
-       
-        $status = Auth::guard('students')->attempt($dataLogin, $request->remember == 1 ? true: false);
+
+        $status = Auth::guard('students')->attempt($dataLogin, $request->remember == 1 ? true : false);
 
         if ($status) {
             return redirect('/');
         }
         return back()->with('msg', 'Email hoặc mật khẩu không chính xác');
+    }
+
+    public function logout()
+    {
+        Auth::guard('students')->logout();
+        return redirect()->route('home');
     }
 }
