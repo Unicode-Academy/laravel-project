@@ -11,17 +11,35 @@
     </div>
     <div class="sign-up">
         <h3>Đăng kí</h3>
-        <form action="">
-            <input type="text" placeholder="Họ và tên đệm" />
-            <input type="text" placeholder="Tên" />
-            <input type="text" placeholder="Email" />
-            <input type="text" placeholder="Số điện thoại" />
-            <input type="text" placeholder="Mật khẩu" />
-            <input type="text" placeholder="Lặp lại mật khẩu" />
+        @if (session('msg'))
+        <div class="alert alert-danger">{{session('msg')}}</div>
+        @endif
+        <form action="" method="post">
+            <input type="text" name="name" placeholder="Tên" />
+            @error('name')
+            <span class="text-start text-danger mb-3">{{$message}}</span>
+            @enderror
+            <input type="text" name="email" placeholder="Email" />
+            @error('email')
+            <span class="text-start text-danger mb-3">{{$message}}</span>
+            @enderror
+            <input type="text" name="phone" placeholder="Số điện thoại" />
+            @error('phone')
+            <span class="text-start text-danger mb-3">{{$message}}</span>
+            @enderror
+            <input type="text" name="password" placeholder="Mật khẩu" />
+            @error('password')
+            <span class="text-start text-danger mb-3">{{$message}}</span>
+            @enderror
+            <input type="text" name="confirm_password" placeholder="Lặp lại mật khẩu" />
+            @error('confirm_password')
+            <span class="text-start text-danger mb-3">{{$message}}</span>
+            @enderror
             <button type="submit">
                 <i class="fa-solid fa-user"></i>
                 Đăng kí
             </button>
+            @csrf
         </form>
         <p class="sign-in">
             Bạn đã có tài khoản?

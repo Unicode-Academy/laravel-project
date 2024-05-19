@@ -14,4 +14,5 @@ Route::get('/dang-nhap', 'Clients\LoginController@showLoginForm')->name('clients
 
 Route::post('/dang-nhap', 'Clients\LoginController@login');
 Route::get('/dang-ky', 'Clients\RegisterController@showRegistrationForm')->name('clients.register');
+Route::post('/dang-ky', 'Clients\RegisterController@register');
 Route::post('/dang-xuat', 'Clients\LoginController@logout')->name('clients.logout');

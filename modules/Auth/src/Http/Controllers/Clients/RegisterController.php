@@ -3,41 +3,17 @@
 namespace Modules\Auth\src\Http\Controllers\Clients;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use Modules\Auth\src\Http\Requests\RegisterRequest;
+use Modules\Students\src\Repositories\StudentsRepositoryInterface;
 
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-     */
 
-    // use RegistersUsers;
-
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = RouteServiceProvider::HOME;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    private $studentRepository;
+    public function __construct(StudentsRepositoryInterface $studentRepository)
     {
-        // $this->middleware('guest');
+        $this->middleware('guest');
+        $this->studentRepository = $studentRepository;
     }
 
     public function showRegistrationForm()
@@ -46,33 +22,15 @@ class RegisterController extends Controller
         return view('auth::clients.register', compact('pageTitle'));
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
+    public function register(RegisterRequest $request)
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        $this->studentRepository->create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'status' => 1,
+            'password' => bcrypt($request->password),
+            'phone' => $request->phone,
         ]);
-    }
-
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
-     */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        return redirect()->route('clients.login')->with('msg', 'Đăng ký tài khoản thành công');
     }
 }

@@ -9,6 +9,7 @@ class AuthRepository extends BaseRepository implements AuthRepositoryInterface
 {
     public function getModel()
     {
-   
+
     }
+
 }
