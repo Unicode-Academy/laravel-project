@@ -4,6 +4,7 @@ namespace Modules\Auth\src\Http\Controllers\Clients;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Events\Registered;
 use Modules\Auth\src\Http\Requests\RegisterRequest;
 use Modules\Students\src\Repositories\StudentsRepositoryInterface;
 
@@ -36,8 +37,8 @@ class RegisterController extends Controller
         if (!$user) {
             return back()->with('msg', __('auth::messages.register.failure'));
         }
-
+        event(new Registered($user));
         Auth::guard('students')->login($user);
-        return redirect()->route('home');
+        return redirect()->route('verification.notice');
     }
 }

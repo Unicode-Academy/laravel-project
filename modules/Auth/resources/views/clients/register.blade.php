@@ -27,11 +27,11 @@
             @error('phone')
             <span class="text-start text-danger mb-3">{{$message}}</span>
             @enderror
-            <input type="text" name="password" placeholder="Mật khẩu" />
+            <input type="password" name="password" placeholder="Mật khẩu" />
             @error('password')
             <span class="text-start text-danger mb-3">{{$message}}</span>
             @enderror
-            <input type="text" name="confirm_password" placeholder="Lặp lại mật khẩu" />
+            <input type="password" name="confirm_password" placeholder="Lặp lại mật khẩu" />
             @error('confirm_password')
             <span class="text-start text-danger mb-3">{{$message}}</span>
             @enderror

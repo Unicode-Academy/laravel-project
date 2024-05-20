@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 
 //Auth::routes();
@@ -17,3 +18,11 @@ Route::get('/dang-ky', 'Clients\RegisterController@showRegistrationForm')->name(
 Route::post('/dang-ky', 'Clients\RegisterController@register');
 Route::post('/dang-xuat', 'Clients\LoginController@logout')->name('clients.logout');
 Route::get('/block', 'Clients\BlockController@index')->name('clients.block.index')->middleware('auth:students');
+
+Route::get('/email/verify', 'Clients\VerifyController@index')->middleware('auth:students')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return redirect()->route('home');
+})->middleware(['auth:students', 'signed'])->name('verification.verify');
