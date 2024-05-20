@@ -6,26 +6,29 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Modules\Categories\src\Repositories\CategoriesRepository;
-use Modules\Categories\src\Repositories\CategoriesRepositoryInterface;
-use Modules\Courses\src\Repositories\CoursesRepository;
-use Modules\Courses\src\Repositories\CoursesRepositoryInterface;
-use Modules\Document\src\Repositories\DocumentRepository;
-use Modules\Document\src\Repositories\DocumentRepositoryInterface;
-use Modules\Lessons\src\Repositories\LessonsRepository;
-use Modules\Lessons\src\Repositories\LessonsRepositoryInterface;
-use Modules\Students\src\Repositories\StudentsRepository;
-use Modules\Students\src\Repositories\StudentsRepositoryInterface;
-use Modules\Teacher\src\Repositories\TeacherRepository;
-use Modules\Teacher\src\Repositories\TeacherRepositoryInterface;
 use Modules\User\src\Repositories\UserRepository;
-use Modules\User\src\Repositories\UserRepositoryInterface;
 use Modules\Video\src\Repositories\VideoRepository;
+use Modules\Courses\src\Repositories\CoursesRepository;
+use Modules\Lessons\src\Repositories\LessonsRepository;
+use Modules\Teacher\src\Repositories\TeacherRepository;
+use Modules\Document\src\Repositories\DocumentRepository;
+use Modules\Students\src\Repositories\StudentsRepository;
+use Modules\Auth\src\Http\Middlewares\BlockUserMiddleware;
+use Modules\User\src\Repositories\UserRepositoryInterface;
 use Modules\Video\src\Repositories\VideoRepositoryInterface;
+use Modules\Categories\src\Repositories\CategoriesRepository;
+use Modules\Courses\src\Repositories\CoursesRepositoryInterface;
+use Modules\Lessons\src\Repositories\LessonsRepositoryInterface;
+use Modules\Teacher\src\Repositories\TeacherRepositoryInterface;
+use Modules\Document\src\Repositories\DocumentRepositoryInterface;
+use Modules\Students\src\Repositories\StudentsRepositoryInterface;
+use Modules\Categories\src\Repositories\CategoriesRepositoryInterface;
 
 class ModuleServiceProvider extends ServiceProvider
 {
-    private $middlewares = [];
+    private $middlewares = [
+        'user.block' => BlockUserMiddleware::class
+    ];
 
     private $commands = [];
 

@@ -33,7 +33,7 @@ class LoginController extends Controller
         if ($status) {
             return redirect('/');
         }
-        return back()->with('msg', 'Email hoặc mật khẩu không chính xác');
+        return back()->with('msg', __('auth::messages.login.failure'));
     }
 
     public function logout()

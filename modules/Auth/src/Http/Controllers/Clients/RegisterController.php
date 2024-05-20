@@ -3,6 +3,7 @@
 namespace Modules\Auth\src\Http\Controllers\Clients;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Modules\Auth\src\Http\Requests\RegisterRequest;
 use Modules\Students\src\Repositories\StudentsRepositoryInterface;
 
@@ -24,13 +25,19 @@ class RegisterController extends Controller
 
     public function register(RegisterRequest $request)
     {
-        $this->studentRepository->create([
+        $user = $this->studentRepository->create([
             'name' => $request->name,
             'email' => $request->email,
             'status' => 1,
             'password' => bcrypt($request->password),
             'phone' => $request->phone,
         ]);
-        return redirect()->route('clients.login')->with('msg', 'Đăng ký tài khoản thành công');
+
+        if (!$user) {
+            return back()->with('msg', __('auth::messages.register.failure'));
+        }
+
+        Auth::guard('students')->login($user);
+        return redirect()->route('home');
     }
 }
