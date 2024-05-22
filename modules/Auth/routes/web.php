@@ -28,3 +28,8 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
 })->middleware(['auth:students', 'signed'])->name('verification.verify');
 
 Route::post('/email/verification-notification', 'Clients\VerifyController@resend')->middleware(['auth:students', 'throttle:6,1'])->name('verification.send');
+
+Route::get('/quen-mat-khau', 'Clients\LoginController@showFormForgot')->name('clients.password.forgot');
+Route::post('/quen-mat-khau', 'Clients\LoginController@handleSendForgotLink');
+
+Route::get('/dat-lai-mat-khau/{token}', 'Clients\LoginController@showFormReset')->middleware('guest')->name('password.reset');

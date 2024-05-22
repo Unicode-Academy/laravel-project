@@ -27,7 +27,9 @@
                 <input type="checkbox" name="remember" value="1" />
                 <span>Tự động đăng nhập</span>
             </div>
-            <p class="forgot-password">Quên mật khẩu đăng nhập</p>
+            <p class="forgot-password">
+                <a href="{{route('clients.password.forgot')}}">Quên mật khẩu đăng nhập</a>
+            </p>
             <button type="submit">Đăng nhập</button>
             @csrf
         </form>
