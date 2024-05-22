@@ -14,7 +14,7 @@ class RegisterController extends Controller
     private $studentRepository;
     public function __construct(StudentsRepositoryInterface $studentRepository)
     {
-        $this->middleware('guest');
+        $this->middleware('guest:students');
         $this->studentRepository = $studentRepository;
     }
 
@@ -41,6 +41,7 @@ class RegisterController extends Controller
         Auth::guard('students')->login($user);
         return redirect()->route('verification.notice');
     }
+
 }
 
 //VerifyEmail
