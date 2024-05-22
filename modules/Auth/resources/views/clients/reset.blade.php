@@ -14,7 +14,7 @@
         @if (session('msg'))
         <div class="alert alert-danger">{{session('msg')}}</div>
         @endif
-        <form action="" method="post">
+        <form action="{{route('clients.password.update')}}" method="post">
 
             <input type="password" name="password" placeholder="Mật khẩu" />
             @error('password')
@@ -25,6 +25,7 @@
             <span class="text-start text-danger mb-3">{{$message}}</span>
             @enderror
             <input type="hidden" name="token" value="{{$token}}" />
+            <input type="hidden" name="email" value="{{request()->email}}" />
             <button type="submit">
                 <i class="fa-solid fa-user"></i>
                 Xác nhận

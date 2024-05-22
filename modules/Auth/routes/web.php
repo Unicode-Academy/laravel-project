@@ -33,3 +33,5 @@ Route::get('/quen-mat-khau', 'Clients\LoginController@showFormForgot')->name('cl
 Route::post('/quen-mat-khau', 'Clients\LoginController@handleSendForgotLink');
 
 Route::get('/dat-lai-mat-khau/{token}', 'Clients\LoginController@showFormReset')->middleware('guest')->name('password.reset');
+
+Route::post('/dat-lai-mat-khau', 'Clients\LoginController@updatePassword')->middleware('guest')->name('clients.password.update');
