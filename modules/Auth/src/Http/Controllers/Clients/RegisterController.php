@@ -3,8 +3,8 @@
 namespace Modules\Auth\src\Http\Controllers\Clients;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Auth;
 use Modules\Auth\src\Http\Requests\RegisterRequest;
 use Modules\Students\src\Repositories\StudentsRepositoryInterface;
 
@@ -42,3 +42,5 @@ class RegisterController extends Controller
         return redirect()->route('verification.notice');
     }
 }
+
+//VerifyEmail

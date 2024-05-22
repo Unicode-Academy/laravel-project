@@ -2,6 +2,7 @@
 
 namespace Modules\Students\src\Models;
 
+use App\Notifications\EmailVerifyQueued;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,5 +21,10 @@ class Student extends Authenticatable implements MustVerifyEmail
         'address',
         'phone',
     ];
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new EmailVerifyQueued);
+    }
 
 }
