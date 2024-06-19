@@ -25,7 +25,7 @@
                         @if (auth('students')->check())
                         <ul class="d-flex gap-2">
                             <li>Chào bạn, {{auth('students')->user()->name}}</li>
-                            <li><a href="#">Tài khoản</a></li>
+                            <li><a href="{{route('students.account')}}">Tài khoản</a></li>
                             <li><a href="#" onclick="document['form-logout'].submit(); return false;">Đăng xuất</a></li>
 
                         </ul>
@@ -47,9 +47,7 @@
             <a class="navbar-brand" href="/">
                 <img src="{{asset('clients/assets/logo.png')}}" alt="" />
             </a>
-            <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
-                aria-label="Toggle navigation">
+            <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
