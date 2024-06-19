@@ -21,9 +21,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 });
 
 Route::group(['as' => 'students.'], function () {
-    Route::get('/tai-khoan', 'Clients\AccountController@index')->name('account');
-    Route::get('/tai-khoan/thong-tin', 'Clients\AccountController@profile')->name('account.profile');
-    Route::get('/tai-khoan/khoa-hoc', 'Clients\AccountController@myCourses')->name('account.courses');
-    Route::get('/tai-khoan/don-hang', 'Clients\AccountController@myOrders')->name('account.orders');
-    Route::get('/tai-khoan/doi-mat-khau', 'Clients\AccountController@changePassword')->name('account.password');
+    Route::group(['prefix' => 'tai-khoan', 'as' => 'account.', 'middleware' => ['auth:students', 'verified', 'user.block']], function () {
+        Route::get('/', 'Clients\AccountController@index')->name('index');
+        Route::get('/thong-tin', 'Clients\AccountController@profile')->name('profile');
+        Route::get('/khoa-hoc', 'Clients\AccountController@myCourses')->name('courses');
+        Route::get('/don-hang', 'Clients\AccountController@myOrders')->name('orders');
+        Route::get('/doi-mat-khau', 'Clients\AccountController@changePassword')->name('password');
+    });
 });

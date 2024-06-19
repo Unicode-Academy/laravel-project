@@ -25,9 +25,8 @@
                         @if (auth('students')->check())
                         <ul class="d-flex gap-2">
                             <li>Chào bạn, {{auth('students')->user()->name}}</li>
-                            <li><a href="{{route('students.account')}}">Tài khoản</a></li>
+                            <li><a href="{{route('students.account.index')}}">Tài khoản</a></li>
                             <li><a href="#" onclick="document['form-logout'].submit(); return false;">Đăng xuất</a></li>
-
                         </ul>
                         @else
                         <a href="{{route('clients.register')}}" class="btn btn-primary text-white">
