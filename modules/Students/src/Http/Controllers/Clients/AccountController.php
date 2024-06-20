@@ -3,6 +3,7 @@
 namespace Modules\Students\src\Http\Controllers\Clients;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Modules\Students\src\Repositories\StudentsRepositoryInterface;
 
 class AccountController extends Controller
@@ -26,7 +27,9 @@ class AccountController extends Controller
         $pageTitle = 'Thông tin cá nhân';
         $pageName = 'Thông tin cá nhân';
 
-        return view('students::clients.profile', compact('pageTitle', 'pageName'));
+        $student = Auth::guard('students')->user();
+
+        return view('students::clients.profile', compact('pageTitle', 'pageName', 'student'));
     }
 
     public function myCourses()
