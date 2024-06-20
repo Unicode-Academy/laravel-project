@@ -32,3 +32,42 @@ if (profileBtn) {
         renderTableForm();
     });
 }
+
+//Xử lý update profile
+const profileForm = document.querySelector("form.js-profile");
+if (profileForm) {
+    const updateProfile = async (formData, token) => {
+        const response = await fetch(`/tai-khoan/thong-tin`, {
+            method: "POST",
+            headers: {
+                "X-Csrf-Token": token,
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            },
+            body: JSON.stringify(formData),
+        });
+        const { errors, success } = await response.json();
+        if (errors) {
+            showErrors(errors);
+        } else {
+            //Hiển thị thông báo khi cập nhật DB
+        }
+    };
+    const showErrors = (errors) => {
+        const errorList = profileForm.querySelectorAll(".error");
+        errorList.forEach((error) => {
+            error.innerText = "";
+        });
+        Object.keys(errors).forEach((key) => {
+            const errorEl = profileForm.querySelector(`.error-${key}`);
+            errorEl.innerText = errors[key][0];
+        });
+    };
+    profileForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const formData = Object.fromEntries(new FormData(e.target));
+        const csrfToken =
+            document.head.querySelector(`[name="csrf_token"]`).content;
+        updateProfile(formData, csrfToken);
+    });
+}

@@ -62,24 +62,28 @@
                             <td width="25%">Tên</td>
                             <td>
                                 <input type="text" name="name" class="form-control" placeholder="Tên..." value="{{$student->name}}">
+                                <span class="error error-name text-danger"></span>
                             </td>
                         </tr>
                         <tr>
                             <td>Email</td>
                             <td>
                                 <input type="text" name="email" class="form-control" placeholder="Email..." value="{{$student->email}}">
+                                <span class="error error-email text-danger"></span>
                             </td>
                         </tr>
                         <tr>
                             <td>Điện thoại</td>
                             <td>
                                 <input type="text" name="phone" class="form-control" placeholder="Điện thoại..." value="{{$student->phone}}">
+                                <span class="error error-phone text-danger"></span>
                             </td>
                         </tr>
                         <tr>
                             <td>Địa chỉ</td>
                             <td>
                                 <input type="text" name="address" class="form-control" placeholder="Địa chỉ..." value="{{$student->address}}">
+                                <span class="error error-address text-danger"></span>
                             </td>
                         </tr>
                     </table>

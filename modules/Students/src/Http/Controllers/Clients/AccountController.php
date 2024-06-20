@@ -2,8 +2,10 @@
 
 namespace Modules\Students\src\Http\Controllers\Clients;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Modules\Students\src\Http\Requests\Clients\StudentRequest;
 use Modules\Students\src\Repositories\StudentsRepositoryInterface;
 
 class AccountController extends Controller
@@ -30,6 +32,11 @@ class AccountController extends Controller
         $student = Auth::guard('students')->user();
 
         return view('students::clients.profile', compact('pageTitle', 'pageName', 'student'));
+    }
+
+    public function updateProfile(StudentRequest $request)
+    {
+        return ['success' => true];
     }
 
     public function myCourses()

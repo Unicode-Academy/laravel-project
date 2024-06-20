@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf_token" content="{{ csrf_token() }}" />
     <title>{{ $pageTitle }} - Unicode Academy</title>
     @vite(['resources/sass/app.scss'])
     @yield('stylesheets')
@@ -32,7 +33,7 @@
     </div>
 </body>
 <script>
-var trialUrl = `{{route('courses.data.trial')}}`;
+    var trialUrl = `{{route('courses.data.trial')}}`;
 </script>
 @vite(['resources/js/app.js'])
 @yield('scripts')
