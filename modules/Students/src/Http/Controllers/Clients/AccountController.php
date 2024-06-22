@@ -36,7 +36,14 @@ class AccountController extends Controller
 
     public function updateProfile(StudentRequest $request)
     {
-        return ['success' => true];
+        $id = Auth::guard('students')->user()->id;
+        $status = $this->studentRepository->update($id, [
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+        ]);
+        return ['success' => $status];
     }
 
     public function myCourses()

@@ -87,7 +87,7 @@
                             </td>
                         </tr>
                     </table>
-                    <button class="btn btn-primary">Cập nhật thông tin</button>
+                    <button class="js-btn-update btn btn-primary">Cập nhật thông tin</button>
                 </form>
             </div>
         </div>

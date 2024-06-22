@@ -1,3 +1,4 @@
+import { showMessage } from "./message";
 const profileBtn = document.querySelector(".js-profile-btn");
 if (profileBtn) {
     let status = "table";
@@ -36,7 +37,12 @@ if (profileBtn) {
 //Xử lý update profile
 const profileForm = document.querySelector("form.js-profile");
 if (profileForm) {
+    const button = profileForm.querySelector(".js-btn-update");
+
+    const initialTextBtn = button.innerText;
     const updateProfile = async (formData, token) => {
+        button.innerText = "Đang cập nhật...";
+        button.disabled = true;
         const response = await fetch(`/tai-khoan/thong-tin`, {
             method: "POST",
             headers: {
@@ -47,10 +53,19 @@ if (profileForm) {
             body: JSON.stringify(formData),
         });
         const { errors, success } = await response.json();
+        button.innerText = initialTextBtn;
+        button.disabled = false;
         if (errors) {
             showErrors(errors);
         } else {
             //Hiển thị thông báo khi cập nhật DB
+            const msgSuccess = `Cập nhật thông tin thành công`;
+            const msgError = `Không thể cập nhật vào lúc này`;
+            if (success) {
+                showMessage(msgSuccess, "success");
+            } else {
+                showMessage(msgError, "error");
+            }
         }
     };
     const showErrors = (errors) => {
