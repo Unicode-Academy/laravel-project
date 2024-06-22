@@ -3,6 +3,7 @@
 namespace Modules\Students\src\Repositories;
 
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\Hash;
 use Modules\Students\src\Models\Student;
 use Modules\Students\src\Repositories\StudentsRepositoryInterface;
 

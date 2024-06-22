@@ -5,6 +5,7 @@ namespace Modules\Students\src\Http\Controllers\Clients;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Modules\Students\src\Http\Requests\Clients\PasswordRequest;
 use Modules\Students\src\Http\Requests\Clients\StudentRequest;
 use Modules\Students\src\Repositories\StudentsRepositoryInterface;
 
@@ -66,5 +67,17 @@ class AccountController extends Controller
         $pageName = 'Đổi mật khẩu';
 
         return view('students::clients.change-password', compact('pageTitle', 'pageName'));
+    }
+
+    public function updatePassword(PasswordRequest $request)
+    {
+        $id = Auth::guard('students')->user()->id;
+        $status = $this->studentRepository->setPassword($request->password, $id);
+        if (!$status) {
+            $message = __('students::messages.update.failure');
+        } else {
+            $message = __('students::messages.update.success');
+        }
+        return back()->with('msg', $message)->with('msgType', $status ? 'success' : 'danger');
     }
 }
