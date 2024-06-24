@@ -52,7 +52,10 @@ class AccountController extends Controller
         $pageTitle = 'Khóa học của tôi';
         $pageName = 'Khóa học của tôi';
 
-        return view('students::clients.my-courses', compact('pageTitle', 'pageName'));
+        $studentId = Auth::guard('students')->user()->id;
+        $courses = $this->studentRepository->getCourses($studentId);
+
+        return view('students::clients.my-courses', compact('pageTitle', 'pageName', 'courses'));
     }
     public function myOrders()
     {

@@ -38,4 +38,9 @@ class StudentsRepository extends BaseRepository implements StudentsRepositoryInt
         }
         return false;
     }
+
+    public function getCourses($studentId)
+    {
+        return $this->find($studentId)->courses()->get();
+    }
 }

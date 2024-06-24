@@ -52,12 +52,12 @@ function getSize($size, $type = 'KB')
         $result = round($size / 1024 / 1024, 2);
     }
     return $result;
-
 }
 
 function queryActive($query)
 {
-    return $query->where('status', 1);
+    $tableName = $query->getModel()->getTable();
+    return $query->where($tableName . '.status', 1);
 }
 
 function queryPosition($query)

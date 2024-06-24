@@ -9,6 +9,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Modules\Courses\src\Models\Course;
 
 class Student extends Authenticatable implements MustVerifyEmail, CanResetPassword
 {
@@ -21,7 +22,7 @@ class Student extends Authenticatable implements MustVerifyEmail, CanResetPasswo
         'password',
         'status',
         'address',
-        'phone',
+        'phone'
     ];
 
     public function sendEmailVerificationNotification()
@@ -34,4 +35,8 @@ class Student extends Authenticatable implements MustVerifyEmail, CanResetPasswo
         $this->notify(new ResetPasswordQueued($token));
     }
 
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'students_courses')->withPivot('status');
+    }
 }
