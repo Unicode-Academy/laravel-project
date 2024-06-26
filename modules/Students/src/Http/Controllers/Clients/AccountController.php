@@ -8,14 +8,17 @@ use Illuminate\Support\Facades\Auth;
 use Modules\Students\src\Http\Requests\Clients\PasswordRequest;
 use Modules\Students\src\Http\Requests\Clients\StudentRequest;
 use Modules\Students\src\Repositories\StudentsRepositoryInterface;
+use Modules\Teacher\src\Repositories\TeacherRepositoryInterface;
 
 class AccountController extends Controller
 {
-    protected $studentRepository;
+    private $studentRepository;
+    private $teacherRepository;
 
-    public function __construct(StudentsRepositoryInterface $studentRepository)
+    public function __construct(StudentsRepositoryInterface $studentRepository, TeacherRepositoryInterface $teacherRepository)
     {
         $this->studentRepository = $studentRepository;
+        $this->teacherRepository = $teacherRepository;
     }
     public function index()
     {
@@ -47,15 +50,25 @@ class AccountController extends Controller
         return ['success' => $status];
     }
 
-    public function myCourses()
+    public function myCourses(Request $request)
     {
         $pageTitle = 'Khóa học của tôi';
         $pageName = 'Khóa học của tôi';
 
-        $studentId = Auth::guard('students')->user()->id;
-        $courses = $this->studentRepository->getCourses($studentId);
+        $filters = [];
+        if ($request->teacher_id) {
+            $filters['teacher_id'] = $request->teacher_id;
+        }
 
-        return view('students::clients.my-courses', compact('pageTitle', 'pageName', 'courses'));
+        if ($request->keyword) {
+            $filters['keyword'] = $request->keyword;
+        }
+
+        $studentId = Auth::guard('students')->user()->id;
+        $courses = $this->studentRepository->getCourses($studentId, $filters);
+        $teacher = $this->teacherRepository->getTeachers();
+
+        return view('students::clients.my-courses', compact('pageTitle', 'pageName', 'courses', 'teacher'));
     }
     public function myOrders()
     {

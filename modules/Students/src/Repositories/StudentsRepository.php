@@ -39,8 +39,19 @@ class StudentsRepository extends BaseRepository implements StudentsRepositoryInt
         return false;
     }
 
-    public function getCourses($studentId)
+    public function getCourses($studentId, $filters = [])
     {
-        return $this->find($studentId)->courses()->get();
+        extract($filters);
+        $query = $this->find($studentId)->courses();
+        if (!empty($teacher_id)) {
+            $query->where('teacher_id', $teacher_id);
+        }
+        if (!empty($keyword)) {
+            $query->where(function ($builder) use ($keyword) {
+                $builder->where('name', 'like', '%' . $keyword . '%');
+                $builder->orWhere('detail', 'like', '%' . $keyword . '%');
+            });
+        }
+        return $query->get();
     }
 }
