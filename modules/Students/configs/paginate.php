@@ -1,4 +1,4 @@
-<?php 
+<?php
 return [
-    'account_limit' => 1,
+    'account_limit' => 10,
 ];
