@@ -5,12 +5,12 @@ namespace Modules\Orders\src\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OrderStatus extends Model
+class Order extends Model
 {
     use HasFactory;
-    protected $table = 'orders_status';
-    public function orders()
+    protected $table = 'orders';
+    public function status()
     {
-        return $this->hasMany(Order::class, 'status_id', 'id');
+        return $this->belongsTo(OrderStatus::class, 'status_id', 'id');
     }
 }

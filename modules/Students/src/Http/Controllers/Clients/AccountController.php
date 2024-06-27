@@ -5,6 +5,7 @@ namespace Modules\Students\src\Http\Controllers\Clients;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Modules\Orders\src\Repositories\OrdersRepository;
 use Modules\Students\src\Http\Requests\Clients\PasswordRequest;
 use Modules\Students\src\Http\Requests\Clients\StudentRequest;
 use Modules\Students\src\Repositories\StudentsRepositoryInterface;
@@ -14,11 +15,13 @@ class AccountController extends Controller
 {
     private $studentRepository;
     private $teacherRepository;
+    private $orderRepository;
 
-    public function __construct(StudentsRepositoryInterface $studentRepository, TeacherRepositoryInterface $teacherRepository)
+    public function __construct(StudentsRepositoryInterface $studentRepository, TeacherRepositoryInterface $teacherRepository, OrdersRepository $orderRepository)
     {
         $this->studentRepository = $studentRepository;
         $this->teacherRepository = $teacherRepository;
+        $this->orderRepository = $orderRepository;
     }
     public function index()
     {
@@ -74,7 +77,9 @@ class AccountController extends Controller
         $pageTitle = 'Đơn hàng của tôi';
         $pageName = 'Đơn hàng của tôi';
 
-        return view('students::clients.my-orders', compact('pageTitle', 'pageName'));
+        $orders = $this->orderRepository->getOrdersByStudent(Auth::guard('students')->user()->id);
+
+        return view('students::clients.my-orders', compact('pageTitle', 'pageName', 'orders'));
     }
     public function changePassword()
     {

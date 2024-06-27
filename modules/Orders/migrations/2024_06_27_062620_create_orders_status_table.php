@@ -16,6 +16,8 @@ return new class() extends Migration
         Schema::create('orders_status', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 200);
+            $table->string('color', 100)->nullable();
+            $table->boolean('is_success')->default(false);
             $table->timestamps();
         });
     }

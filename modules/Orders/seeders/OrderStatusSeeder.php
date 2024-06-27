@@ -16,15 +16,23 @@ class OrderStatusSeeder extends Seeder
         $data = [
             [
                 'name' => 'Chờ thanh toán',
+                'color' => 'danger',
+                'is_success' => false
             ],
             [
-                'name' => 'Đã thanh toán'
+                'name' => 'Đã thanh toán',
+                'color' => 'success',
+                'is_success' => true
             ],
             [
-                'name' => 'Thanh toán bất bại'
+                'name' => 'Thanh toán bất bại',
+                'color' => 'danger',
+                'is_success' => false
             ],
             [
-                'name' => 'Hủy thanh toán'
+                'name' => 'Hủy thanh toán',
+                'color' => 'danger',
+                'is_success' => false
             ]
         ];
         OrderStatus::insert($data);

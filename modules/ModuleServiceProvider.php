@@ -23,6 +23,8 @@ use Modules\Teacher\src\Repositories\TeacherRepositoryInterface;
 use Modules\Document\src\Repositories\DocumentRepositoryInterface;
 use Modules\Students\src\Repositories\StudentsRepositoryInterface;
 use Modules\Categories\src\Repositories\CategoriesRepositoryInterface;
+use Modules\Orders\src\Repositories\OrdersRepository;
+use Modules\Orders\src\Repositories\OrdersRepositoryInterface;
 
 class ModuleServiceProvider extends ServiceProvider
 {
@@ -82,6 +84,12 @@ class ModuleServiceProvider extends ServiceProvider
             StudentsRepositoryInterface::class,
             StudentsRepository::class
         );
+
+        //Orders Repository
+        $this->app->singleton(
+            OrdersRepositoryInterface::class,
+            OrdersRepository::class
+        );
     }
 
     public function boot()
@@ -99,7 +107,6 @@ class ModuleServiceProvider extends ServiceProvider
         if ($request->is('admin') || $request->is('admin/*')) {
             $this->app['router']->pushMiddlewareToGroup('web', 'auth');
         }
-
     }
 
     public function register()
