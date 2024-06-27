@@ -39,7 +39,7 @@ class StudentsRepository extends BaseRepository implements StudentsRepositoryInt
         return false;
     }
 
-    public function getCourses($studentId, $filters = [])
+    public function getCourses($studentId, $filters = [], $limit)
     {
         extract($filters);
         $query = $this->find($studentId)->courses();
@@ -52,6 +52,6 @@ class StudentsRepository extends BaseRepository implements StudentsRepositoryInt
                 $builder->orWhere('detail', 'like', '%' . $keyword . '%');
             });
         }
-        return $query->get();
+        return $query->paginate($limit)->withQueryString();
     }
 }

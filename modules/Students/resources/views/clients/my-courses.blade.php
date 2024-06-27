@@ -51,6 +51,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{$courses->links('students::clients.pagination.bootstrap')}}
             </div>
         </div>
     </div>
