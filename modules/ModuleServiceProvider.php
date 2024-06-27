@@ -25,6 +25,8 @@ use Modules\Students\src\Repositories\StudentsRepositoryInterface;
 use Modules\Categories\src\Repositories\CategoriesRepositoryInterface;
 use Modules\Orders\src\Repositories\OrdersRepository;
 use Modules\Orders\src\Repositories\OrdersRepositoryInterface;
+use Modules\Orders\src\Repositories\OrdersStatusRepository;
+use Modules\Orders\src\Repositories\OrdersStatusRepositoryInterface;
 
 class ModuleServiceProvider extends ServiceProvider
 {
@@ -89,6 +91,12 @@ class ModuleServiceProvider extends ServiceProvider
         $this->app->singleton(
             OrdersRepositoryInterface::class,
             OrdersRepository::class
+        );
+
+        //Orders Status Repository
+        $this->app->singleton(
+            OrdersStatusRepositoryInterface::class,
+            OrdersStatusRepository::class
         );
     }
 

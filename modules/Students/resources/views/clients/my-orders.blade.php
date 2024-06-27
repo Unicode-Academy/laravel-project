@@ -9,6 +9,32 @@
             </div>
             <div class="col-9">
                 <h2 class="py-2">Danh sách đơn hàng</h2>
+                <form action="" class="mb-2">
+                    <div class="row">
+                        <div class="col-3">
+                            <select name="status_id" class="form-select">
+                                <option value="">Tất cả trạng thái</option>
+                                @foreach ($ordersStatus as $status)
+                                <option value="{{$status->id}}" {{request()->status_id == $status->id ? 'selected': ''}}>{{$status->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-2">
+                            <input type="text" class="datepicker-1 form-control" name="start_date" placeholder="Từ ngày..." value="{{request()->start_date}}" />
+                        </div>
+                        <div class="col-2">
+                            <input type="text" class="datepicker-2 form-control" name="end_date" placeholder="Đến ngày..." value="{{request()->end_date}}" />
+                        </div>
+                        <div class="col-3">
+                            <input type="number" class="form-control" name="total" placeholder="Tổng tiền..." value="{{request()->total}}" />
+                        </div>
+                        <div class="col-2">
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 <table class="table table-bordered">
                     <thead>
                         <tr>

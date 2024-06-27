@@ -4,8 +4,11 @@ namespace Modules\Students\src\Http\Controllers\Clients;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Modules\Orders\src\Repositories\OrdersRepository;
+use Modules\Orders\src\Repositories\OrdersStatusRepository;
+use Modules\Orders\src\Repositories\OrdersStatusRepositoryInterface;
 use Modules\Students\src\Http\Requests\Clients\PasswordRequest;
 use Modules\Students\src\Http\Requests\Clients\StudentRequest;
 use Modules\Students\src\Repositories\StudentsRepositoryInterface;
@@ -16,12 +19,14 @@ class AccountController extends Controller
     private $studentRepository;
     private $teacherRepository;
     private $orderRepository;
+    private $orderStatusRepository;
 
-    public function __construct(StudentsRepositoryInterface $studentRepository, TeacherRepositoryInterface $teacherRepository, OrdersRepository $orderRepository)
+    public function __construct(StudentsRepositoryInterface $studentRepository, TeacherRepositoryInterface $teacherRepository, OrdersRepository $orderRepository, OrdersStatusRepositoryInterface $orderStatusRepository)
     {
         $this->studentRepository = $studentRepository;
         $this->teacherRepository = $teacherRepository;
         $this->orderRepository = $orderRepository;
+        $this->orderStatusRepository = $orderStatusRepository;
     }
     public function index()
     {
@@ -72,14 +77,29 @@ class AccountController extends Controller
 
         return view('students::clients.my-courses', compact('pageTitle', 'pageName', 'courses', 'teacher'));
     }
-    public function myOrders()
+    public function myOrders(Request $request)
     {
         $pageTitle = 'Đơn hàng của tôi';
         $pageName = 'Đơn hàng của tôi';
 
-        $orders = $this->orderRepository->getOrdersByStudent(Auth::guard('students')->user()->id);
+        $filters = [];
+        if ($request->status_id) {
+            $filters['status_id'] = $request->status_id;
+        }
+        if ($request->start_date) {
+            $filters['start_date'] = Carbon::parse($request->start_date)->format('Y-m-d');
+        }
+        if ($request->end_date) {
+            $filters['end_date'] = Carbon::parse($request->end_date)->format('Y-m-d');;
+        }
+        if ($request->total) {
+            $filters['total'] = $request->total;
+        }
 
-        return view('students::clients.my-orders', compact('pageTitle', 'pageName', 'orders'));
+        $orders = $this->orderRepository->getOrdersByStudent(Auth::guard('students')->user()->id, $filters);
+        $ordersStatus = $this->orderStatusRepository->getOrdersStatus();
+
+        return view('students::clients.my-orders', compact('pageTitle', 'pageName', 'orders', 'ordersStatus'));
     }
     public function changePassword()
     {
