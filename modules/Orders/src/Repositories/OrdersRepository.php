@@ -13,7 +13,7 @@ class OrdersRepository extends BaseRepository implements OrdersRepositoryInterfa
         return Order::class;
     }
 
-    public function getOrdersByStudent($studentId, $filters = [])
+    public function getOrdersByStudent($studentId, $filters = [], $limit)
     {
 
         @['status_id' => $statusId, 'start_date' => $startDate, 'end_date' => $endDate, 'total' => $total] = $filters;
@@ -31,6 +31,6 @@ class OrdersRepository extends BaseRepository implements OrdersRepositoryInterfa
         if ($total && $total >= 0) {
             $query->where('orders.total', '>=', $total);
         }
-        return $query->get();
+        return $query->paginate($limit)->withQueryString();
     }
 }

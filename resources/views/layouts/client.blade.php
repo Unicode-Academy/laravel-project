@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf_token" content="{{ csrf_token() }}" />
     <title>{{ $pageTitle }} - Unicode Academy</title>
+    <link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     @vite(['resources/sass/app.scss'])
     @yield('stylesheets')
 </head>
@@ -35,18 +36,18 @@
 <script>
     var trialUrl = `{{route('courses.data.trial')}}`;
 </script>
-@vite(['resources/js/app.js'])
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
-<link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js"></script>
 <script>
-    $('.datepicker-1').datepicker({
-        uiLibrary: 'bootstrap5'
+    //Datepicker
+    $(".datepicker-1").datepicker({
+        uiLibrary: "bootstrap5",
     });
-    $('.datepicker-2').datepicker({
-        uiLibrary: 'bootstrap5'
+    $(".datepicker-2").datepicker({
+        uiLibrary: "bootstrap5",
     });
 </script>
+@vite(['resources/js/app.js'])
 @yield('scripts')
 
 </html>

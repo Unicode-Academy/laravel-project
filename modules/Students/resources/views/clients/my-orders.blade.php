@@ -65,6 +65,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{$orders->links('students::clients.pagination.bootstrap')}}
             </div>
         </div>
     </div>

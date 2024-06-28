@@ -96,7 +96,7 @@ class AccountController extends Controller
             $filters['total'] = $request->total;
         }
 
-        $orders = $this->orderRepository->getOrdersByStudent(Auth::guard('students')->user()->id, $filters);
+        $orders = $this->orderRepository->getOrdersByStudent(Auth::guard('students')->user()->id, $filters, config('paginate.account_limit'));
         $ordersStatus = $this->orderStatusRepository->getOrdersStatus();
 
         return view('students::clients.my-orders', compact('pageTitle', 'pageName', 'orders', 'ordersStatus'));
