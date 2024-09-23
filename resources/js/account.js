@@ -1,6 +1,8 @@
 import "select2/dist/css/select2.min.css";
 import $ from "jquery";
 import select2 from "select2";
+import html2canvas from "html2canvas-pro";
+import jsPDF from "jspdf";
 select2();
 import { showMessage } from "./message";
 const profileBtn = document.querySelector(".js-profile-btn");
@@ -93,3 +95,22 @@ if (profileForm) {
 
 //Select2
 $(".js-select2").select2();
+
+//Đơn hàng
+const downloadBtn = document.querySelector(".download-btn");
+if (downloadBtn) {
+    downloadBtn.addEventListener("click", () => {
+        const orderDetailEl = document.querySelector(".order-detail");
+        html2canvas(orderDetailEl).then((canvas) => {
+            const image = canvas.toDataURL("image/png");
+            const pdf = new jsPDF({
+                orientation: "landscape",
+            });
+            const imgProps = pdf.getImageProperties(image);
+            const pdfWidth = pdf.internal.pageSize.getWidth() - 30;
+            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+            pdf.addImage(image, "PNG", 15, 15, pdfWidth, pdfHeight);
+            pdf.save("don-hang.pdf");
+        });
+    });
+}
