@@ -50,7 +50,7 @@
                         @foreach ($orders as $key => $order)
                         <tr>
                             <td>{{$key + 1}}</td>
-                            <td><a href="#">#{{$order->id}}</a></td>
+                            <td><a href="{{route('students.account.order-detail', $order->id)}}">#{{$order->id}}</a></td>
                             <td>{{money($order->total)}}</td>
                             <td>
                                 <span class="badge bg-{{$order->status->color}}">
@@ -59,7 +59,7 @@
                             </td>
                             <td>{{\Carbon\Carbon::parse($order->created_at)->format('d/m/Y H:i:s')}}</td>
                             <td class="d-grid">
-                                <a href="#" class="btn btn-outline-primary btn-sm">Chi tiết</a>
+                                <a href="{{route('students.account.order-detail', $order->id)}}" class="btn btn-outline-primary btn-sm">Chi tiết</a>
                             </td>
                         </tr>
                         @endforeach

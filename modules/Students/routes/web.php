@@ -27,6 +27,7 @@ Route::group(['as' => 'students.'], function () {
         Route::post('/thong-tin', 'Clients\AccountController@updateProfile')->name('update-profile');
         Route::get('/khoa-hoc', 'Clients\AccountController@myCourses')->name('courses');
         Route::get('/don-hang', 'Clients\AccountController@myOrders')->name('orders');
+        Route::get('/don-hang/{id}', 'Clients\AccountController@orderDetail')->name('order-detail');
         Route::get('/doi-mat-khau', 'Clients\AccountController@changePassword')->name('password');
         Route::post('/doi-mat-khau', 'Clients\AccountController@updatePassword');
     });

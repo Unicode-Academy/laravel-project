@@ -101,6 +101,13 @@ class AccountController extends Controller
 
         return view('students::clients.my-orders', compact('pageTitle', 'pageName', 'orders', 'ordersStatus'));
     }
+    public function orderDetail($orderId)
+    {
+        $pageTitle = 'Chi tiết đơn hàng';
+        $pageName = 'Chi tiết đơn hàng';
+        $order = $this->orderRepository->getOrder($orderId);
+        return view('students::clients.order-detail', compact('pageTitle', 'pageName', 'order'));
+    }
     public function changePassword()
     {
         $pageTitle = 'Đổi mật khẩu';
