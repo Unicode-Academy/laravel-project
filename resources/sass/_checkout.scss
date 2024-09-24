@@ -1,0 +1,11 @@
+.checkout-page {
+    .bank-copy {
+        cursor: pointer;
+        &:hover {
+            color: red;
+        }
+        &.fa-solid {
+            color: red;
+        }
+    }
+}
