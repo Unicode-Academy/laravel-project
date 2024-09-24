@@ -28,7 +28,12 @@
                                 <th>Trạng thái</th>
                                 <td><span class="badge bg-{{ $order->status->color }}">
                                         {{ $order->status->name }}
-                                    </span></td>
+                                    </span>
+                                    @if ($order->status->is_success == 0)
+                                        <a href="{{ route('students.account.checkout', $order->id) }}"
+                                            class="btn btn-success btn-sm">Thanh toán</a>
+                                    @endif
+                                </td>
                             </tr>
                         </table>
                         <h4>Thông tin chi tiết</h4>

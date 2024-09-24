@@ -30,5 +30,7 @@ Route::group(['as' => 'students.'], function () {
         Route::get('/don-hang/{id}', 'Clients\AccountController@orderDetail')->name('order-detail');
         Route::get('/doi-mat-khau', 'Clients\AccountController@changePassword')->name('password');
         Route::post('/doi-mat-khau', 'Clients\AccountController@updatePassword');
+
+        Route::get('/thanh-toan/{id}', 'Clients\CheckoutController@index')->name('checkout');
     });
 });
