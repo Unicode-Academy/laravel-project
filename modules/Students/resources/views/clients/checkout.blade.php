@@ -4,7 +4,8 @@
     <section class="all-course py-2 checkout-page">
         <div class="container">
             <h2 class="py-2">Thanh toán đơn hàng <a
-                    href="{{ route('students.account.order-detail', $id) }}">#{{ $id }}</a></h2>
+                    href="{{ route('students.account.order-detail', $id) }}">#{{ $id }}</a> <span
+                    class="countdown"><span>00</span>:<span>00</span></h2>
             <hr>
             <div class="row">
                 <div class="col-6">

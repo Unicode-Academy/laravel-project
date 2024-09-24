@@ -8,4 +8,13 @@
             color: red;
         }
     }
+    .countdown {
+        font-size: 1.5rem;
+        > * {
+            padding: 5px;
+            background: red;
+            color: #fff;
+            border-radius: 5px;
+        }
+    }
 }

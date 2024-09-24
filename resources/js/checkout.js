@@ -26,4 +26,20 @@ if (checkoutPageEl) {
         a.download = "qr-code.png";
         a.click();
     });
+
+    const expire = new Date("2024-09-24 09:30:00").getTime();
+    const countdownEl = checkoutPageEl.querySelector(".countdown");
+    const calculatorTimer = () => {
+        const now = new Date().getTime();
+        const distance = expire - now;
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        countdownEl.firstElementChild.innerText = `${
+            minutes < 10 ? "0" + minutes : minutes
+        }`;
+        countdownEl.lastElementChild.innerText = `${
+            seconds < 10 ? "0" + seconds : seconds
+        }`;
+    };
+    setInterval(calculatorTimer, 1000);
 }
