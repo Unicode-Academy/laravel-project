@@ -27,7 +27,7 @@ if (checkoutPageEl) {
         a.click();
     });
 
-    const expire = new Date("2024-09-24 09:30:00").getTime();
+    const expire = new Date(paymentDate).getTime() + 1000 * 60 * 5;
     const countdownEl = checkoutPageEl.querySelector(".countdown");
     const calculatorTimer = () => {
         const now = new Date().getTime();

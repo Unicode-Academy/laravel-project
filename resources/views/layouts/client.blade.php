@@ -34,7 +34,7 @@
     </div>
 </body>
 <script>
-    var trialUrl = `{{route('courses.data.trial')}}`;
+    var trialUrl = `{{ route('courses.data.trial') }}`;
 </script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js"></script>
@@ -47,6 +47,11 @@
         uiLibrary: "bootstrap5",
     });
 </script>
+@if (\Request::route()->getName() === 'students.account.checkout')
+    <script>
+        let paymentDate = '{{ getCurrentPaymentDate() }}';
+    </script>
+@endif
 @vite(['resources/js/app.js'])
 @yield('scripts')
 
