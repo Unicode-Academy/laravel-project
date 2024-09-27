@@ -2,12 +2,11 @@
 
 namespace Modules\Students\src\Http\Controllers\Clients;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Modules\Orders\src\Repositories\OrdersRepository;
-use Modules\Orders\src\Repositories\OrdersStatusRepository;
 use Modules\Orders\src\Repositories\OrdersStatusRepositoryInterface;
 use Modules\Students\src\Http\Requests\Clients\PasswordRequest;
 use Modules\Students\src\Http\Requests\Clients\StudentRequest;
@@ -90,7 +89,7 @@ class AccountController extends Controller
             $filters['start_date'] = Carbon::parse($request->start_date)->format('Y-m-d');
         }
         if ($request->end_date) {
-            $filters['end_date'] = Carbon::parse($request->end_date)->format('Y-m-d');;
+            $filters['end_date'] = Carbon::parse($request->end_date)->format('Y-m-d');
         }
         if ($request->total) {
             $filters['total'] = $request->total;
@@ -106,6 +105,12 @@ class AccountController extends Controller
         $pageTitle = 'Chi tiết đơn hàng';
         $pageName = 'Chi tiết đơn hàng';
         $order = $this->orderRepository->getOrder($orderId);
+        $now = strtotime(date('Y-m-d H:i:s'));
+        $paymentDate = strtotime($order->payment_date);
+        $diff = $now - $paymentDate;
+        if ($diff > 300) {
+            $order->expired = true;
+        }
         return view('students::clients.order-detail', compact('pageTitle', 'pageName', 'order'));
     }
     public function changePassword()
