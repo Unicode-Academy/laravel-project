@@ -27,11 +27,20 @@ if (checkoutPageEl) {
         a.click();
     });
 
-    const expire = new Date(paymentDate).getTime() + 1000 * 60 * 5;
+    const expireObj = new Date(paymentDate);
+    expireObj.setTime(
+        expireObj.getTimezoneOffset() * 60 * 1000 + expireObj.getTime()
+    );
+    const expire = expireObj.getTime() + 2 * 60 * 1000;
     const countdownEl = checkoutPageEl.querySelector(".countdown");
     const calculatorTimer = () => {
-        const now = new Date().getTime();
+        const d = new Date();
+        d.setTime(d.getTimezoneOffset() * 60 * 1000 + d.getTime());
+        const now = d.getTime();
         const distance = expire - now;
+        if (distance <= 0) {
+            return;
+        }
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
         countdownEl.firstElementChild.innerText = `${
