@@ -362,3 +362,28 @@ php artisan module:make-migration TenMigration TenModule
 ```
 php artisan module:make-seeder TenSeeder TenModule
 ```
+
+## Xây dựng chức năng mã giảm giá
+
+-   Quản lý danh sách mã giảm giá
+
+*   code: Mã giảm giá
+*   course_id: Khóa học sẽ được giảm giá
+*   user_id: Khách hàng được giảm giá
+*   start_date: Thời gian bắt đầu mã giảm giá
+*   end_date: Thời gian kết thúc mã giảm giá
+*   total_condition: Điều kiện giảm giá
+*   count: Số lượng mã giảm giá
+*   type: Loại giảm giá (Số tiền, phần trăm)
+*   discount: Giá trị giảm giá
+
+-   Ý tưởng triển khai:
+
+*   Nhập mã giảm giá ==> Verify mã giảm giá (Server kiểm tra)
+*   Nếu đúng: Giảm giá ở trang thanh toán và trong thông tin thanh toán (STK, QR Code)
+*   Nếu sai: Thông báo lỗi
+
+-   Lưu ý:
+
+*   Xử lý bằng ajax ==> Chú ý đến bảo mật
+*   User có thể thêm mã giảm giá vào phút trót hoặc số lượng sắp hết hoặc nhiều user thêm cùng 1 thời điểm ==> Phản hồi kịp thời cho user và kiểm tra khi xử lý thanh toán tự động ==> Áp dụng: http long polling
