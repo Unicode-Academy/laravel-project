@@ -50,6 +50,7 @@
 @if (\Request::route()->getName() === 'students.account.checkout')
     <script>
         let paymentDate = '{{ getCurrentPaymentDate() }}';
+        let checkoutCountdown = `{{ config('checkout.checkout_countdown') }}`;
     </script>
 @endif
 @vite(['resources/js/app.js'])

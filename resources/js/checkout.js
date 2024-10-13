@@ -31,7 +31,7 @@ if (checkoutPageEl) {
     expireObj.setTime(
         expireObj.getTimezoneOffset() * 60 * 1000 + expireObj.getTime()
     );
-    const expire = expireObj.getTime() + 2 * 60 * 1000;
+    const expire = expireObj.getTime() + checkoutCountdown * 60 * 1000;
     const countdownEl = checkoutPageEl.querySelector(".countdown");
     const calculatorTimer = () => {
         const d = new Date();

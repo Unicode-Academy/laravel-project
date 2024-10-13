@@ -41,6 +41,7 @@ class OrdersRepository extends BaseRepository implements OrdersRepositoryInterfa
     public function updatePaymentDate($orderId)
     {
         $order = $this->getOrder($orderId);
+
         if ($order->payment_date) {
             return;
         }

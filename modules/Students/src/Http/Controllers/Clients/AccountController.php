@@ -108,8 +108,12 @@ class AccountController extends Controller
         $now = strtotime(date('Y-m-d H:i:s'));
         $paymentDate = strtotime($order->payment_date);
         $diff = $now - $paymentDate;
-        if ($diff > 300) {
-            $order->expired = true;
+
+        if (config('checkout.checkout_countdown') > 0) {
+            $checkoutCountdown = config('checkout.checkout_countdown') * 60;
+            if ($diff > $checkoutCountdown) {
+                $order->expired = true;
+            }
         }
         return view('students::clients.order-detail', compact('pageTitle', 'pageName', 'order'));
     }
