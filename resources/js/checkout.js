@@ -62,30 +62,38 @@ if (checkoutPageEl) {
             const coupon = couponEl.value;
             const error = couponForm.querySelector(".error");
             error.innerText = "";
-            if (!coupon) {
-                error.innerText = "Vui lòng nhập mã giảm giá";
-                couponEl.focus();
-                return;
-            }
+            // if (!coupon) {
+            //     error.innerText = "Vui lòng nhập mã giảm giá";
+            //     couponEl.focus();
+            //     return;
+            // }
             //Call API
             const csrfToken =
                 document.head.querySelector(`[name="csrf_token"]`).content;
             const verifyCoupon = async () => {
-                fieldset.disabled = true;
-                const response = await fetch(`/tai-khoan/coupon/verify`, {
-                    method: "POST",
-                    headers: {
-                        "X-Csrf-Token": csrfToken,
-                        "Content-Type": "application/json",
-                        Accept: "application/json",
-                    },
-                    body: JSON.stringify({
-                        coupon,
-                    }),
-                });
-                const data = await response.json();
-                fieldset.disabled = false;
-                console.log(data);
+                try {
+                    fieldset.disabled = true;
+                    const response = await fetch(`/tai-khoan/coupon/verify`, {
+                        method: "POST",
+                        headers: {
+                            "X-Csrf-Token": csrfToken,
+                            "Content-Type": "application/json",
+                            Accept: "application/json",
+                        },
+                        body: JSON.stringify({
+                            coupon,
+                        }),
+                    });
+                    const { success, errors, data } = await response.json();
+                    if (!success) {
+                        throw new Error(errors);
+                    }
+                    console.log(data);
+                } catch (errors) {
+                    error.innerText = errors.message;
+                } finally {
+                    fieldset.disabled = false;
+                }
             };
             verifyCoupon();
         });
