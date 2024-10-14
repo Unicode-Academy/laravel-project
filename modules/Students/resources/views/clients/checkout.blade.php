@@ -64,12 +64,7 @@
                     <a href="{{ route('courses.index') }}" class="btn btn-primary btn-sm">Mua thêm khóa học</a>
                 </div>
                 <div class="col-6">
-                    <h4 class="mb-3">Mã giảm giá</h4>
-                    <form action="" class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Nhập mã giảm giá...">
-                        <button class="btn btn-success">Áp dụng</button>
-                    </form>
-
+                    @include('students::clients.partials.coupon')
                     <div class="row">
                         <div class="col-6">
                             <h4 class="mb-3">Thông tin thanh toán</h4>

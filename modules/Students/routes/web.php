@@ -1,7 +1,4 @@
 <?php
-
-use Modules\Student\src\Http\Controllers\StudentController;
-
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::prefix('students')->name('students.')->group(function () {
         Route::get('/', 'StudentController@index')->name('index');
@@ -32,5 +29,9 @@ Route::group(['as' => 'students.'], function () {
         Route::post('/doi-mat-khau', 'Clients\AccountController@updatePassword');
 
         Route::get('/thanh-toan/{id}', 'Clients\CheckoutController@index')->name('checkout');
+
+        Route::prefix('/coupon')->group(function () {
+            Route::post('/verify', 'Clients\CouponController@verify');
+        });
     });
 });

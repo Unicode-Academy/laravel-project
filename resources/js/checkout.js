@@ -51,4 +51,43 @@ if (checkoutPageEl) {
         }`;
     };
     setInterval(calculatorTimer, 1000);
+
+    //Xử lý mã giảm giá
+    const couponForm = checkoutPageEl.querySelector(".coupon-form");
+    if (couponForm) {
+        couponForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const couponEl = couponForm.querySelector("input");
+            const fieldset = couponEl.closest("fieldset");
+            const coupon = couponEl.value;
+            const error = couponForm.querySelector(".error");
+            error.innerText = "";
+            if (!coupon) {
+                error.innerText = "Vui lòng nhập mã giảm giá";
+                couponEl.focus();
+                return;
+            }
+            //Call API
+            const csrfToken =
+                document.head.querySelector(`[name="csrf_token"]`).content;
+            const verifyCoupon = async () => {
+                fieldset.disabled = true;
+                const response = await fetch(`/tai-khoan/coupon/verify`, {
+                    method: "POST",
+                    headers: {
+                        "X-Csrf-Token": csrfToken,
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                    },
+                    body: JSON.stringify({
+                        coupon,
+                    }),
+                });
+                const data = await response.json();
+                fieldset.disabled = false;
+                console.log(data);
+            };
+            verifyCoupon();
+        });
+    }
 }
