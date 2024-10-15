@@ -19,6 +19,8 @@ return new class() extends Migration {
             $table->integer('discount_value')->default(0);
             $table->integer('total_condition')->nullable();
             $table->integer('count')->nullable();
+            $table->timestamp('start_date')->nullable();
+            $table->timestamp('end_date')->nullable();
             $table->timestamps();
         });
     }
