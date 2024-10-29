@@ -18,6 +18,9 @@ class CouponRepository extends BaseRepository implements CouponRepositoryInterfa
     {
         $now = Carbon::now()->format('Y-m-d H:i:s');
         $coupon = $this->model->whereCode($code)->first();
+        if (!$coupon) {
+            return false;
+        }
         $startStatus = true;
         $endStatus = true;
         if ($coupon->start_date && $now < $coupon->start_date) {

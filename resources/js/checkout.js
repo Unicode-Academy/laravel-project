@@ -1,3 +1,5 @@
+import Toastify from "toastify-js";
+import "toastify-js/src/toastify.css";
 const checkoutPageEl = document.querySelector(".checkout-page");
 if (checkoutPageEl) {
     const bankCopyList = checkoutPageEl.querySelectorAll(".bank-copy");
@@ -89,7 +91,19 @@ if (checkoutPageEl) {
                     if (!success) {
                         throw new Error(errors);
                     }
-                    console.log(data);
+                    Toastify({
+                        text: "Áp dụng mã giảm giá thành công",
+                        duration: 3000,
+                        newWindow: true,
+                        close: true,
+                        gravity: "top", // `top` or `bottom`
+                        position: "right", // `left`, `center` or `right`
+                        stopOnFocus: true, // Prevents dismissing of toast on hover
+                        style: {
+                            background:
+                                "linear-gradient(to right, #00b09b, #96c93d)",
+                        },
+                    }).showToast();
                 } catch (errors) {
                     error.innerText = errors.message;
                 } finally {

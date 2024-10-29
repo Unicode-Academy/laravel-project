@@ -49,4 +49,12 @@ class OrdersRepository extends BaseRepository implements OrdersRepositoryInterfa
             'payment_date' => date('Y-m-d H:i:s'),
         ]);
     }
+
+    public function updateDiscount($orderId, $discount, $coupon)
+    {
+        return $this->update($orderId, [
+            'discount' => $discount,
+            'coupon' => $coupon
+        ]);
+    }
 }

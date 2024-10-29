@@ -38,17 +38,20 @@ class CouponController extends Controller
             if ($coupon->discount_type == 'value') {
                 $discount = $coupon->discount_value;
             }
+            //Cập nhật discount vào bảng orders
+            $this->ordersRepository->updateDiscount($request->orderId, $discount, $coupon->code);
             return response()->json([
                 'success' => true,
                 'data' => $discount
             ]);
         } catch (\Exception $exception) {
+
             $code = $exception->getCode();
             return response()->json([
                 'success' => false,
                 'message' => 'Verify Failed',
                 'errors' => $exception->getMessage(),
-            ], $code ?? 500);
+            ], $code ? $code : 500);
         }
     }
 }
