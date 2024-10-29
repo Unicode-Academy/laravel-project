@@ -82,6 +82,7 @@ if (checkoutPageEl) {
                         },
                         body: JSON.stringify({
                             coupon,
+                            orderId,
                         }),
                     });
                     const { success, errors, data } = await response.json();
