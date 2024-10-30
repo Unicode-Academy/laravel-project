@@ -56,6 +56,12 @@ if (checkoutPageEl) {
     //Xử lý mã giảm giá
     const couponForm = checkoutPageEl.querySelector(".coupon-form");
     const couponUsage = checkoutPageEl.querySelector(".coupon-usage");
+    const csrfToken =
+        document.head.querySelector(`[name="csrf_token"]`).content;
+    const discountValueEl = checkoutPageEl.querySelector(".discount-value");
+    const totalValueList = checkoutPageEl.querySelectorAll(`.total-value`);
+    const qrImgEl = checkoutPageEl.querySelector(".qr-img");
+    let qrUrl = qrImgEl.src;
     if (couponForm && couponUsage) {
         couponForm.addEventListener("submit", (e) => {
             e.preventDefault();
@@ -70,8 +76,7 @@ if (checkoutPageEl) {
                 return;
             }
             //Call API
-            const csrfToken =
-                document.head.querySelector(`[name="csrf_token"]`).content;
+
             const verifyCoupon = async () => {
                 try {
                     fieldset.disabled = true;
@@ -95,6 +100,24 @@ if (checkoutPageEl) {
                     couponForm.reset(); //Xóa dữ liệu trong form
                     couponForm.classList.add("d-none");
                     couponUsage.classList.remove("d-none");
+
+                    //Cập nhật giao diện
+                    couponUsage.querySelector(".coupon-value").innerText =
+                        coupon;
+
+                    discountValueEl.innerText =
+                        data.discount.toLocaleString() + " đ";
+                    totalValueList.forEach((el) => {
+                        el.innerText =
+                            data.total_after_discount.toLocaleString() + " đ";
+                    });
+
+                    //Cập nhật mã qr mới
+                    qrUrl = qrUrl.replace(
+                        /amount=(\d+)/,
+                        "amount=" + data.total_after_discount
+                    );
+                    qrImgEl.src = qrUrl;
                 } catch (errors) {
                     error.innerText = errors.message;
                 } finally {
@@ -103,11 +126,37 @@ if (checkoutPageEl) {
             };
             verifyCoupon();
         });
-        const removeCoupon = couponUsage.querySelector(".js-remove-coupon");
-        removeCoupon.addEventListener("click", () => {
-            couponUsage.classList.add("d-none");
-            couponForm.classList.remove("d-none");
-            showMessage("Xóa mã giảm giá thành công");
+        const removeCouponEl = couponUsage.querySelector(".js-remove-coupon");
+        removeCouponEl.addEventListener("click", () => {
+            const removeCoupon = async () => {
+                const response = await fetch(`/tai-khoan/coupon/remove`, {
+                    method: "POST",
+                    headers: {
+                        "X-Csrf-Token": csrfToken,
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                    },
+                    body: JSON.stringify({
+                        orderId,
+                    }),
+                });
+                const { success, data } = await response.json();
+                if (!success) {
+                    return showMessage("Xóa mã giảm giá không thành công");
+                }
+                couponUsage.classList.add("d-none");
+                couponForm.classList.remove("d-none");
+                showMessage("Xóa mã giảm giá thành công");
+
+                //Cập nhật giao diện
+                discountValueEl.innerText = "0";
+                totalValueList.forEach((el) => {
+                    el.innerText = data.total.toLocaleString() + " đ";
+                });
+                qrUrl = qrUrl.replace(/amount=(\d+)/, "amount=" + data.total);
+                qrImgEl.src = qrUrl;
+            };
+            removeCoupon();
         });
     }
 }

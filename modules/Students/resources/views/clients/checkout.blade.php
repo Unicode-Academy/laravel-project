@@ -16,12 +16,16 @@
                     <h4 class="mb-3">Thông tin đơn hàng</h4>
                     <table class="table table-bordered">
                         <tr>
-                            <th width="20%">ID đơn hàng</th>
+                            <th width="25%">ID đơn hàng</th>
                             <td>#{{ $order->id }}</td>
                         </tr>
                         <tr>
                             <th>Tổng đơn hàng</th>
                             <td>{{ money($order->total) }}</td>
+                        </tr>
+                        <tr>
+                            <th>Giảm giá</th>
+                            <td class="discount-value">{{ money($order->discount, freeText: '0') }}</td>
                         </tr>
                         <tr>
                             <th>Thời gian đặt</th>
@@ -33,6 +37,10 @@
                                     {{ $order->status->name }}
                                 </span>
                             </td>
+                        </tr>
+                        <tr>
+                            <th>Tổng thanh toán</th>
+                            <td class="total-value">{{ money($order->total - $order->discount) }}</td>
                         </tr>
                     </table>
                     <h4 class="mb-3">Chi tiết đơn hàng</h4>
@@ -75,15 +83,16 @@
                             <p>- Số tài khoản: <span>049100035576</span> <i class="bank-copy fa-regular fa-copy"></i>
                             </p>
                             <p>- Chủ tài khoản: Tạ Hoàng An</p>
-                            <p>- Số tiền: {{ money($order->total) }}</p>
+                            <p>- Số tiền: <span class="total-value">{{ money($order->total - $order->discount) }}</span>
+                            </p>
                             <p>- Nội dung: <span>thanh toan {{ $id }}</span> <i
                                     class="bank-copy fa-regular fa-copy"></i>
                             </p>
                         </div>
                         <div class="col-6">
                             <div class="text-center">
-                                <img style="width: 230px"
-                                    src="https://img.vietqr.io/image/vietcombank-049100035576-compact2.jpg?amount={{ $order->total }}&addInfo=thanh+toan+{{ $id }}"
+                                <img class="qr-img" style="width: 230px"
+                                    src="https://img.vietqr.io/image/vietcombank-049100035576-compact2.jpg?amount={{ $order->total - $order->discount }}&addInfo=thanh+toan+{{ $id }}"
                                     alt="">
                                 <button class="btn btn-success btn-sm download-qr">Tải QR Code</button>
                             </div>

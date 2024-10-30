@@ -31,7 +31,8 @@ class CouponController extends Controller
             }
             //Tính toán số tiền được giảm
             $discount = 0;
-            if ($coupon->discount_type == 'percent' && $request->orderId && $order = $this->ordersRepository->getOrder($request->orderId)) {
+            $order = $this->ordersRepository->getOrder($request->orderId);
+            if ($coupon->discount_type == 'percent' && $request->orderId && $order) {
                 $discount = ($order->total * $coupon->discount_value) / 100;
             }
 
@@ -42,7 +43,11 @@ class CouponController extends Controller
             $this->ordersRepository->updateDiscount($request->orderId, $discount, $coupon->code);
             return response()->json([
                 'success' => true,
-                'data' => $discount
+                'data' => [
+                    'discount' => $discount,
+                    'total' => $order->total,
+                    'total_after_discount' => $order->total - $discount
+                ]
             ]);
         } catch (\Exception $exception) {
 
@@ -53,5 +58,28 @@ class CouponController extends Controller
                 'errors' => $exception->getMessage(),
             ], $code ? $code : 500);
         }
+    }
+
+    public function remove(Request $request)
+    {
+        $orderId = $request->orderId;
+        if ($orderId) {
+            $status = $this->ordersRepository->updateDiscount($orderId, 0, null);
+            if (!$status) {
+                return response()->json([
+                    'success' => false,
+                ]);
+            }
+            $order = $this->ordersRepository->getOrder($orderId);
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'total' => $order->total
+                ]
+            ]);
+        }
+        return response()->json([
+            'success' => false,
+        ]);
     }
 }
