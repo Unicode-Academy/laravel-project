@@ -8,3 +8,7 @@
         <span class="text-danger error"></span>
     </fieldset>
 </form>
+<div class="coupon-usage btn-group mb-3 d-none">
+    <button class="btn btn-sm btn-success" type="button">9435ZEC4XF</button>
+    <button class="btn btn-sm btn-danger js-remove-coupon" type="button">&times;</button>
+</div>

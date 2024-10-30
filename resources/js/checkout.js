@@ -1,5 +1,4 @@
-import Toastify from "toastify-js";
-import "toastify-js/src/toastify.css";
+import { showMessage } from "./utils";
 const checkoutPageEl = document.querySelector(".checkout-page");
 if (checkoutPageEl) {
     const bankCopyList = checkoutPageEl.querySelectorAll(".bank-copy");
@@ -56,7 +55,8 @@ if (checkoutPageEl) {
 
     //Xử lý mã giảm giá
     const couponForm = checkoutPageEl.querySelector(".coupon-form");
-    if (couponForm) {
+    const couponUsage = checkoutPageEl.querySelector(".coupon-usage");
+    if (couponForm && couponUsage) {
         couponForm.addEventListener("submit", (e) => {
             e.preventDefault();
             const couponEl = couponForm.querySelector("input");
@@ -64,11 +64,11 @@ if (checkoutPageEl) {
             const coupon = couponEl.value;
             const error = couponForm.querySelector(".error");
             error.innerText = "";
-            // if (!coupon) {
-            //     error.innerText = "Vui lòng nhập mã giảm giá";
-            //     couponEl.focus();
-            //     return;
-            // }
+            if (!coupon) {
+                error.innerText = "Vui lòng nhập mã giảm giá";
+                couponEl.focus();
+                return;
+            }
             //Call API
             const csrfToken =
                 document.head.querySelector(`[name="csrf_token"]`).content;
@@ -91,19 +91,10 @@ if (checkoutPageEl) {
                     if (!success) {
                         throw new Error(errors);
                     }
-                    Toastify({
-                        text: "Áp dụng mã giảm giá thành công",
-                        duration: 3000,
-                        newWindow: true,
-                        close: true,
-                        gravity: "top", // `top` or `bottom`
-                        position: "right", // `left`, `center` or `right`
-                        stopOnFocus: true, // Prevents dismissing of toast on hover
-                        style: {
-                            background:
-                                "linear-gradient(to right, #00b09b, #96c93d)",
-                        },
-                    }).showToast();
+                    showMessage("Áp dụng mã giảm giá thành công");
+                    couponForm.reset(); //Xóa dữ liệu trong form
+                    couponForm.classList.add("d-none");
+                    couponUsage.classList.remove("d-none");
                 } catch (errors) {
                     error.innerText = errors.message;
                 } finally {
@@ -111,6 +102,12 @@ if (checkoutPageEl) {
                 }
             };
             verifyCoupon();
+        });
+        const removeCoupon = couponUsage.querySelector(".js-remove-coupon");
+        removeCoupon.addEventListener("click", () => {
+            couponUsage.classList.add("d-none");
+            couponForm.classList.remove("d-none");
+            showMessage("Xóa mã giảm giá thành công");
         });
     }
 }
