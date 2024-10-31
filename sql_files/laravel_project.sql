@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Generation Time: Oct 13, 2024 at 09:30 PM
+-- Generation Time: Oct 31, 2024 at 08:13 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -67,6 +67,83 @@ INSERT INTO `categories_courses` (`id`, `category_id`, `course_id`, `created_at`
 (4, 3, 4, '2024-04-09 23:00:53', '2024-04-09 23:00:53'),
 (5, 2, 5, '2024-04-07 02:52:22', '2024-04-07 02:52:22'),
 (6, 2, 6, '2024-05-03 23:48:29', '2024-05-03 23:48:29');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `coupons`
+--
+
+CREATE TABLE `coupons` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `code` varchar(100) NOT NULL,
+  `discount_type` enum('percent','value') NOT NULL DEFAULT 'percent',
+  `discount_value` int(11) NOT NULL DEFAULT 0,
+  `total_condition` int(11) DEFAULT NULL,
+  `count` int(11) DEFAULT NULL,
+  `start_date` timestamp NULL DEFAULT NULL,
+  `end_date` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `coupons`
+--
+
+INSERT INTO `coupons` (`id`, `code`, `discount_type`, `discount_value`, `total_condition`, `count`, `start_date`, `end_date`, `created_at`, `updated_at`) VALUES
+(1, 'N0B0KF6F4K', 'value', 148077, NULL, NULL, NULL, NULL, '2024-10-14 18:58:52', '2024-10-14 18:58:52'),
+(2, 'SOJ8LHUH0G', 'value', 287577, NULL, NULL, NULL, NULL, '2024-10-14 18:58:52', '2024-10-14 18:58:52'),
+(3, '9435ZEC4XF', 'percent', 10, NULL, NULL, NULL, NULL, '2024-10-14 18:58:52', '2024-10-14 18:58:52'),
+(4, '7XR04CIKLX', 'percent', 12, NULL, NULL, NULL, NULL, '2024-10-14 18:58:52', '2024-10-14 18:58:52'),
+(5, 'P3DLPID2LE', 'value', 238139, NULL, NULL, NULL, NULL, '2024-10-14 18:58:52', '2024-10-14 18:58:52'),
+(6, '79OQAPGWHD', 'percent', 34, NULL, NULL, NULL, NULL, '2024-10-14 18:58:52', '2024-10-14 18:58:52'),
+(7, 'GCAGGLPRY3', 'percent', 29, NULL, NULL, NULL, NULL, '2024-10-14 18:58:52', '2024-10-14 18:58:52'),
+(8, 'OP7F8MLOCL', 'value', 162688, NULL, NULL, NULL, NULL, '2024-10-14 18:58:52', '2024-10-14 18:58:52'),
+(9, '9WC04VRGC2', 'percent', 21, NULL, NULL, NULL, NULL, '2024-10-14 18:58:52', '2024-10-14 18:58:52'),
+(10, 'M6IBBW0UV4', 'value', 122674, NULL, NULL, NULL, NULL, '2024-10-14 18:58:52', '2024-10-14 18:58:52');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `coupons_courses`
+--
+
+CREATE TABLE `coupons_courses` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `coupon_id` int(10) UNSIGNED NOT NULL,
+  `course_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `coupons_students`
+--
+
+CREATE TABLE `coupons_students` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `coupon_id` int(10) UNSIGNED NOT NULL,
+  `student_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `coupons_usage`
+--
+
+CREATE TABLE `coupons_usage` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `coupon_id` int(10) UNSIGNED DEFAULT NULL,
+  `order_id` int(10) UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -215,7 +292,12 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (61, '2024_06_27_062620_create_orders_status_table', 11),
 (62, '2024_06_27_062736_create_orders_table', 11),
 (63, '2024_06_27_063419_create_orders_detail_table', 11),
-(65, '2024_09_27_021855_add_payment_date_column_orders_table', 12);
+(65, '2024_09_27_021855_add_payment_date_column_orders_table', 12),
+(70, '2024_10_14_092624_create_coupons_table', 13),
+(71, '2024_10_14_093109_create_coupons_usage_table', 13),
+(72, '2024_10_14_093440_create_coupons_courses_table', 13),
+(73, '2024_10_14_093610_create_coupons_students_table', 13),
+(74, '2024_10_29_093424_add_discount_column_orders_table', 14);
 
 -- --------------------------------------------------------
 
@@ -227,6 +309,8 @@ CREATE TABLE `orders` (
   `id` int(10) UNSIGNED NOT NULL,
   `student_id` int(10) UNSIGNED DEFAULT NULL,
   `total` double(10,2) NOT NULL DEFAULT 0.00,
+  `discount` int(11) NOT NULL DEFAULT 0,
+  `coupon` varchar(255) DEFAULT NULL,
   `status_id` int(10) UNSIGNED DEFAULT NULL,
   `payment_date` timestamp NULL DEFAULT NULL,
   `payment_complete_date` timestamp NULL DEFAULT NULL,
@@ -238,9 +322,9 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `student_id`, `total`, `status_id`, `payment_date`, `payment_complete_date`, `created_at`, `updated_at`) VALUES
-(1, 25, 1000000.00, 1, NULL, NULL, '2024-06-26 08:22:36', '2024-09-27 04:09:26'),
-(2, 25, 500000.00, 1, '2024-10-13 07:59:29', NULL, '2024-06-27 08:25:37', '2024-10-13 07:59:29');
+INSERT INTO `orders` (`id`, `student_id`, `total`, `discount`, `coupon`, `status_id`, `payment_date`, `payment_complete_date`, `created_at`, `updated_at`) VALUES
+(1, 25, 1000000.00, 0, NULL, 1, '2024-10-14 18:54:32', NULL, '2024-06-26 08:22:36', '2024-10-30 08:43:58'),
+(2, 25, 500000.00, 50000, '9435ZEC4XF', 1, '2024-10-13 07:59:29', NULL, '2024-06-27 08:25:37', '2024-10-29 02:42:54');
 
 -- --------------------------------------------------------
 
@@ -465,6 +549,37 @@ ALTER TABLE `categories_courses`
   ADD KEY `categories_courses_course_id_foreign` (`course_id`);
 
 --
+-- Indexes for table `coupons`
+--
+ALTER TABLE `coupons`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `coupons_code_unique` (`code`);
+
+--
+-- Indexes for table `coupons_courses`
+--
+ALTER TABLE `coupons_courses`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `coupons_courses_coupon_id_foreign` (`coupon_id`),
+  ADD KEY `coupons_courses_course_id_foreign` (`course_id`);
+
+--
+-- Indexes for table `coupons_students`
+--
+ALTER TABLE `coupons_students`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `coupons_students_coupon_id_foreign` (`coupon_id`),
+  ADD KEY `coupons_students_student_id_foreign` (`student_id`);
+
+--
+-- Indexes for table `coupons_usage`
+--
+ALTER TABLE `coupons_usage`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `coupons_usage_coupon_id_foreign` (`coupon_id`),
+  ADD KEY `coupons_usage_order_id_foreign` (`order_id`);
+
+--
 -- Indexes for table `courses`
 --
 ALTER TABLE `courses`
@@ -593,6 +708,30 @@ ALTER TABLE `categories_courses`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `coupons`
+--
+ALTER TABLE `coupons`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `coupons_courses`
+--
+ALTER TABLE `coupons_courses`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `coupons_students`
+--
+ALTER TABLE `coupons_students`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `coupons_usage`
+--
+ALTER TABLE `coupons_usage`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
@@ -620,7 +759,7 @@ ALTER TABLE `lessons`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -686,6 +825,27 @@ ALTER TABLE `videos`
 ALTER TABLE `categories_courses`
   ADD CONSTRAINT `categories_courses_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `categories_courses_course_id_foreign` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `coupons_courses`
+--
+ALTER TABLE `coupons_courses`
+  ADD CONSTRAINT `coupons_courses_coupon_id_foreign` FOREIGN KEY (`coupon_id`) REFERENCES `coupons` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `coupons_courses_course_id_foreign` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `coupons_students`
+--
+ALTER TABLE `coupons_students`
+  ADD CONSTRAINT `coupons_students_coupon_id_foreign` FOREIGN KEY (`coupon_id`) REFERENCES `coupons` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `coupons_students_student_id_foreign` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `coupons_usage`
+--
+ALTER TABLE `coupons_usage`
+  ADD CONSTRAINT `coupons_usage_coupon_id_foreign` FOREIGN KEY (`coupon_id`) REFERENCES `coupons` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `coupons_usage_order_id_foreign` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `courses`
