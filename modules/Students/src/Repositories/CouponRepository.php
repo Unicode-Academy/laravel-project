@@ -2,8 +2,9 @@
 
 namespace Modules\Students\src\Repositories;
 
-use App\Repositories\BaseRepository;
 use Carbon\Carbon;
+use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\Auth;
 use Modules\Students\src\Models\Coupon;
 use Modules\Students\src\Repositories\CouponRepositoryInterface;
 
@@ -19,6 +20,10 @@ class CouponRepository extends BaseRepository implements CouponRepositoryInterfa
         $now = Carbon::now()->format('Y-m-d H:i:s');
         $coupon = $this->model->whereCode($code)->first();
         if (!$coupon) {
+            return false;
+        }
+        $students = $coupon->students;
+        if ($students->count() && !$students->find(Auth::guard('students')->user()->id)) {
             return false;
         }
         $startStatus = true;

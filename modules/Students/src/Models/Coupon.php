@@ -9,4 +9,9 @@ class Coupon extends Model
 {
     use HasFactory;
     protected $table = 'coupons';
+
+    public function students()
+    {
+        return $this->belongsToMany(Student::class, 'coupons_students', 'coupon_id', 'student_id');
+    }
 }
