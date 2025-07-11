@@ -15,7 +15,7 @@ class CouponRepository extends BaseRepository implements CouponRepositoryInterfa
         return Coupon::class;
     }
 
-    public function verifyCoupon($code)
+    public function verifyCoupon($code, $orderId)
     {
         $now = Carbon::now()->format('Y-m-d H:i:s');
         $coupon = $this->model->whereCode($code)->first();
@@ -25,6 +25,16 @@ class CouponRepository extends BaseRepository implements CouponRepositoryInterfa
         $students = $coupon->students;
         if ($students->count() && !$students->find(Auth::guard('students')->user()->id)) {
             return false;
+        }
+        $courses = $coupon->courses();
+
+        if ($courses->count()) {
+            $count = $courses->whereHas('orderDetail', function ($query) use ($orderId) {
+                $query->where('order_id', $orderId);
+            })->count();
+            if (!$count) {
+                return false;
+            }
         }
         $startStatus = true;
         $endStatus = true;
@@ -37,5 +47,17 @@ class CouponRepository extends BaseRepository implements CouponRepositoryInterfa
         }
 
         return $startStatus && $endStatus ? $coupon : false;
+    }
+
+    public function isCourseCoupon($coupon)
+    {
+        return $coupon->courses()->count() > 0;
+    }
+    public function getCourses($coupon, $orderId)
+    {
+        $courses = $coupon->courses()->whereHas('orderDetail', function ($query) use ($orderId) {
+            $query->where('order_id', $orderId);
+        })->get();
+        return $courses;
     }
 }

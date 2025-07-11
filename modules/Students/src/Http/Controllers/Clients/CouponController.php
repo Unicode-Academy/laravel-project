@@ -25,13 +25,14 @@ class CouponController extends Controller
                 throw new \Exception("Mã giảm giá bắt buộc phải nhập", 400);
             }
             // Kiểm tra coupon trong database
-            $coupon = $this->couponRepository->verifyCoupon($coupon);
+            $coupon = $this->couponRepository->verifyCoupon($coupon, $request->orderId);
             if (!$coupon) {
                 throw new \Exception("Mã giảm giá không hợp lệ hoặc đã hết hạn", 400);
             }
             //Tính toán số tiền được giảm
             $discount = 0;
             $order = $this->ordersRepository->getOrder($request->orderId);
+
             if ($coupon->discount_type == 'percent' && $request->orderId && $order) {
                 $discount = ($order->total * $coupon->discount_value) / 100;
             }
@@ -39,6 +40,16 @@ class CouponController extends Controller
             if ($coupon->discount_type == 'value') {
                 $discount = $coupon->discount_value;
             }
+
+            //Kiểm tra coupon xem có phải là trường hợp đặc biệt liên quan courses
+            if ($this->couponRepository->isCourseCoupon($coupon)) {
+                $courses = $this->couponRepository->getCourses($coupon, $request->orderId)->pluck('id')->toArray();
+
+                if ($coupon->discount_type == 'percent') {
+                    $discount = $order->detail()->whereIn('course_id', $courses)->sum('price') * $coupon->discount_value / 100;
+                }
+            }
+
             //Cập nhật discount vào bảng orders
             $this->ordersRepository->updateDiscount($request->orderId, $discount, $coupon->code);
             return response()->json([
