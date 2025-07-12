@@ -22,6 +22,14 @@ class CouponRepository extends BaseRepository implements CouponRepositoryInterfa
         if (!$coupon) {
             return false;
         }
+        //Kiểm tra số lần sử dụng
+        // - Kiểm tra xem coupon đó có giới hạn số lần sử dụng không?
+        // - Nếu không --> bỏ qua
+        // - Nếu có --> Kiểm tra coupons_usage
+        if ($coupon->count && $coupon->usages->count() >= $coupon->count) {
+            return false;
+        }
+
         $students = $coupon->students;
         if ($students->count() && !$students->find(Auth::guard('students')->user()->id)) {
             return false;

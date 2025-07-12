@@ -2,9 +2,10 @@
 
 namespace Modules\Students\src\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Modules\Orders\src\Models\Order;
 use Modules\Courses\src\Models\Course;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Coupon extends Model
 {
@@ -19,5 +20,10 @@ class Coupon extends Model
     public function courses()
     {
         return $this->belongsToMany(Course::class, 'coupons_courses', 'coupon_id', 'course_id')->withoutGlobalScopes();
+    }
+
+    public function usages()
+    {
+        return $this->belongsToMany(Order::class, 'coupons_usage', 'coupon_id', 'order_id');
     }
 }
