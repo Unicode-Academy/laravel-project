@@ -24,14 +24,14 @@ class CouponController extends Controller
             if (!$coupon) {
                 throw new \Exception("Mã giảm giá bắt buộc phải nhập", 400);
             }
+            $order = $this->ordersRepository->getOrder($request->orderId);
             // Kiểm tra coupon trong database
-            $coupon = $this->couponRepository->verifyCoupon($coupon, $request->orderId);
+            $coupon = $this->couponRepository->verifyCoupon($coupon, $order);
             if (!$coupon) {
                 throw new \Exception("Mã giảm giá không hợp lệ hoặc đã hết hạn", 400);
             }
             //Tính toán số tiền được giảm
             $discount = 0;
-            $order = $this->ordersRepository->getOrder($request->orderId);
 
             if ($coupon->discount_type == 'percent' && $request->orderId && $order) {
                 $discount = ($order->total * $coupon->discount_value) / 100;

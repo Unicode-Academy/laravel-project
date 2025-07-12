@@ -15,10 +15,12 @@ class CouponRepository extends BaseRepository implements CouponRepositoryInterfa
         return Coupon::class;
     }
 
-    public function verifyCoupon($code, $orderId)
+    public function verifyCoupon($code, $order)
     {
+        $orderId = $order->id;
         $now = Carbon::now()->format('Y-m-d H:i:s');
         $coupon = $this->model->whereCode($code)->first();
+
         if (!$coupon) {
             return false;
         }
@@ -27,6 +29,11 @@ class CouponRepository extends BaseRepository implements CouponRepositoryInterfa
         // - Nếu không --> bỏ qua
         // - Nếu có --> Kiểm tra coupons_usage
         if ($coupon->count && $coupon->usages->count() >= $coupon->count) {
+            return false;
+        }
+
+        //Kiểm tra điều kiện giảm giá
+        if ($coupon->total_condition && $order->total < $coupon->total_condition) {
             return false;
         }
 

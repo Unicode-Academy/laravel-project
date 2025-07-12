@@ -23,6 +23,10 @@ class CheckoutController extends Controller
             return abort(404);
         }
 
+        $this->orderRepository->updateDiscount($id, 0, null); //reset discount
+        $order->discount = 0;
+        $order->coupon = 0;
+
         $this->orderRepository->updatePaymentDate($id);
         if (config('checkout.checkout_countdown') > 0) {
 
