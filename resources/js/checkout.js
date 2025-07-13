@@ -62,7 +62,7 @@ if (checkoutPageEl) {
     const totalValueList = checkoutPageEl.querySelectorAll(`.total-value`);
     const qrImgEl = checkoutPageEl.querySelector(".qr-img");
     let qrUrl = qrImgEl.src;
-    let isPolling = true;
+    let controller = new AbortController();
     if (couponForm && couponUsage) {
         couponForm.addEventListener("submit", (e) => {
             e.preventDefault();
@@ -120,9 +120,7 @@ if (checkoutPageEl) {
                         "amount=" + data.total_after_discount
                     );
                     qrImgEl.src = qrUrl;
-                    if (isPolling) {
-                        pollingCoupon();
-                    }
+                    pollingCoupon();
                 } catch (errors) {
                     error.innerText = errors.message;
                 } finally {
@@ -143,19 +141,33 @@ if (checkoutPageEl) {
                         coupon,
                         orderId,
                     }),
+                    signal: controller.signal,
                 });
                 const data = await response.json();
-                if (data) {
-                    console.log(data);
-                    if (isPolling) {
-                        pollingCoupon();
-                    }
+                if (data && !data.success) {
+                    couponUsage.classList.add("d-none");
+                    couponForm.classList.remove("d-none");
+                    showMessage("Xóa mã giảm giá thành công");
+
+                    //Cập nhật giao diện
+                    discountValueEl.innerText = "0";
+                    totalValueList.forEach((el) => {
+                        el.innerText = data.total.toLocaleString() + " đ";
+                    });
+                    qrUrl = qrUrl.replace(
+                        /amount=(\d+)/,
+                        "amount=" + data.total
+                    );
+                    qrImgEl.src = qrUrl;
+                    // isPolling = false;
                 }
             };
         });
         const removeCouponEl = couponUsage.querySelector(".js-remove-coupon");
         removeCouponEl.addEventListener("click", () => {
             const removeCoupon = async () => {
+                controller.abort(); //Hủy request polling
+                controller = new AbortController();
                 const response = await fetch(`/tai-khoan/coupon/remove`, {
                     method: "POST",
                     headers: {
@@ -182,7 +194,7 @@ if (checkoutPageEl) {
                 });
                 qrUrl = qrUrl.replace(/amount=(\d+)/, "amount=" + data.total);
                 qrImgEl.src = qrUrl;
-                isPolling = false;
+                // isPolling = false;
             };
             removeCoupon();
         });
