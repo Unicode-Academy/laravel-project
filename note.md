@@ -387,3 +387,24 @@ php artisan module:make-seeder TenSeeder TenModule
 
 *   Xử lý bằng ajax ==> Chú ý đến bảo mật
 *   User có thể thêm mã giảm giá vào phút trót hoặc số lượng sắp hết hoặc nhiều user thêm cùng 1 thời điểm ==> Phản hồi kịp thời cho user và kiểm tra khi xử lý thanh toán tự động ==> Áp dụng: http long polling
+
+## Xây dựng chức năng thanh toán
+
+1. Ví điện tử + cổng thanh toán
+
+-   1pay
+-   vnpay
+-   momo
+
+Khi click vào thanh toán ==> Tạo đơn bên cổng thanh toán ==> Đưa ra danh sách các hình thức thanh toán
+
+Sau khi user thanh toán ==> Cổng thanh toán nhận được thông tin ==> Trả về trạng thái cho ứng dụng
+
+Bên phía ứng dụng ==> Cập nhật trạng thái
+
+2. Dịch vụ biến động số dư
+
+-   Hiển thị số tài khoản, số tiền, nội dung (Để mã đơn hàng). Hoặc dùng QR Code
+-   Đăng ký dịch vụ bên thứ 3 cho phép nhận biến động số dư (Sepay, Payos, casso,...)
+-   Viết webhook trên web và liên kết hợp dịch vụ cung cấp nhận biến động số dư
+-   Khi nào tài khoản có biến động số dư --> Gửi về bên nhà cung cấp --> Nhà cung cấp sẽ gửi về web --> Cập nhật logic liên quan đến đơn hàng
