@@ -33,6 +33,7 @@ Route::group(['as' => 'students.'], function () {
         Route::prefix('/coupon')->group(function () {
             Route::post('/verify', 'Clients\CouponController@verify');
             Route::post('/remove', 'Clients\CouponController@remove');
+            Route::post('/polling', 'Clients\CouponController@pollingCoupon');
         });
     });
 });

@@ -71,6 +71,19 @@ class CouponController extends Controller
         }
     }
 
+    public function pollingCoupon()
+    {
+        $count = 0;
+        while (true) {
+            $count++;
+            if ($count == 5) {
+                break;
+            }
+            sleep(1);
+        }
+        return ['success' => true];
+    }
+
     public function remove(Request $request)
     {
         $orderId = $request->orderId;

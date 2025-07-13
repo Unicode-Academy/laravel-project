@@ -62,9 +62,11 @@ if (checkoutPageEl) {
     const totalValueList = checkoutPageEl.querySelectorAll(`.total-value`);
     const qrImgEl = checkoutPageEl.querySelector(".qr-img");
     let qrUrl = qrImgEl.src;
+    let isPolling = true;
     if (couponForm && couponUsage) {
         couponForm.addEventListener("submit", (e) => {
             e.preventDefault();
+
             const couponEl = couponForm.querySelector("input");
             const fieldset = couponEl.closest("fieldset");
             const coupon = couponEl.value;
@@ -118,6 +120,9 @@ if (checkoutPageEl) {
                         "amount=" + data.total_after_discount
                     );
                     qrImgEl.src = qrUrl;
+                    if (isPolling) {
+                        pollingCoupon();
+                    }
                 } catch (errors) {
                     error.innerText = errors.message;
                 } finally {
@@ -125,6 +130,28 @@ if (checkoutPageEl) {
                 }
             };
             verifyCoupon();
+
+            const pollingCoupon = async () => {
+                const response = await fetch(`/tai-khoan/coupon/polling`, {
+                    method: "POST",
+                    headers: {
+                        "X-Csrf-Token": csrfToken,
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                    },
+                    body: JSON.stringify({
+                        coupon,
+                        orderId,
+                    }),
+                });
+                const data = await response.json();
+                if (data) {
+                    console.log(data);
+                    if (isPolling) {
+                        pollingCoupon();
+                    }
+                }
+            };
         });
         const removeCouponEl = couponUsage.querySelector(".js-remove-coupon");
         removeCouponEl.addEventListener("click", () => {
@@ -155,6 +182,7 @@ if (checkoutPageEl) {
                 });
                 qrUrl = qrUrl.replace(/amount=(\d+)/, "amount=" + data.total);
                 qrImgEl.src = qrUrl;
+                isPolling = false;
             };
             removeCoupon();
         });
