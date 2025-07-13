@@ -130,36 +130,50 @@ if (checkoutPageEl) {
             verifyCoupon();
 
             const pollingCoupon = async () => {
-                const response = await fetch(`/tai-khoan/coupon/polling`, {
-                    method: "POST",
-                    headers: {
-                        "X-Csrf-Token": csrfToken,
-                        "Content-Type": "application/json",
-                        Accept: "application/json",
-                    },
-                    body: JSON.stringify({
-                        coupon,
-                        orderId,
-                    }),
-                    signal: controller.signal,
-                });
-                const data = await response.json();
-                if (data && !data.success) {
-                    couponUsage.classList.add("d-none");
-                    couponForm.classList.remove("d-none");
-                    showMessage("Xóa mã giảm giá thành công");
-
-                    //Cập nhật giao diện
-                    discountValueEl.innerText = "0";
-                    totalValueList.forEach((el) => {
-                        el.innerText = data.total.toLocaleString() + " đ";
+                try {
+                    const response = await fetch(`/tai-khoan/coupon/polling`, {
+                        method: "POST",
+                        headers: {
+                            "X-Csrf-Token": csrfToken,
+                            "Content-Type": "application/json",
+                            Accept: "application/json",
+                        },
+                        body: JSON.stringify({
+                            coupon,
+                            orderId,
+                        }),
+                        signal: controller.signal,
                     });
-                    qrUrl = qrUrl.replace(
-                        /amount=(\d+)/,
-                        "amount=" + data.total
-                    );
-                    qrImgEl.src = qrUrl;
-                    // isPolling = false;
+                    if (!response.ok) {
+                        throw new Error("Server Error");
+                    }
+                    const data = await response.json();
+
+                    if (data.errors_server) {
+                        throw new Error("Server Error");
+                    }
+
+                    if (data && !data.success) {
+                        couponUsage.classList.add("d-none");
+                        couponForm.classList.remove("d-none");
+                        showMessage("Xóa mã giảm giá thành công");
+
+                        //Cập nhật giao diện
+                        discountValueEl.innerText = "0";
+                        totalValueList.forEach((el) => {
+                            el.innerText = data.total.toLocaleString() + " đ";
+                        });
+                        qrUrl = qrUrl.replace(
+                            /amount=(\d+)/,
+                            "amount=" + data.total
+                        );
+                        qrImgEl.src = qrUrl;
+                        // isPolling = false;
+                    }
+                } catch (error) {
+                    if (error.message == "Server Error") {
+                        pollingCoupon();
+                    }
                 }
             };
         });

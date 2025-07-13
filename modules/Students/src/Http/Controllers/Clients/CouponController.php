@@ -68,7 +68,8 @@ class CouponController extends Controller
                 'success' => false,
                 'message' => 'Verify Failed',
                 'errors' => $exception->getMessage(),
-            ], $code ? $code : 500);
+                'errors_server' => $code != 400
+            ],  500);
         }
     }
 
@@ -87,13 +88,14 @@ class CouponController extends Controller
             $data =  $this->verify($request);
             $data = json_decode($data->getContent());
             if (!$data->success) {
-                break;
+                return response()->json([
+                    'success' => false,
+                    'errors' => $data->errors,
+                    'errors_server' => $data->errors_server
+                ], 500);
             }
             sleep(1);
         }
-        return response()->json([
-            'success' => false
-        ], 500);
     }
 
     public function remove(Request $request)
