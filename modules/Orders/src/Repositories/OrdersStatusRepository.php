@@ -16,4 +16,9 @@ class OrdersStatusRepository extends BaseRepository implements OrdersStatusRepos
     {
         return $this->model->orderBy('name', 'ASC')->get();
     }
+
+    public function getOrderStatus($value, $field = 'id')
+    {
+        return $this->model->where($field, $value)->first();
+    }
 }

@@ -50,11 +50,25 @@ class OrdersRepository extends BaseRepository implements OrdersRepositoryInterfa
         ]);
     }
 
+    public function updatePaymentCompleteDate($orderId)
+    {
+        return $this->update($orderId, [
+            'payment_complete_date' => date('Y-m-d H:i:s'),
+        ]);
+    }
+
     public function updateDiscount($orderId, $discount, $coupon)
     {
         return $this->update($orderId, [
             'discount' => $discount,
             'coupon' => $coupon
+        ]);
+    }
+
+    public function updateStatus($orderId, $status)
+    {
+        return $this->update($orderId, [
+            'status_id' => $status
         ]);
     }
 }
