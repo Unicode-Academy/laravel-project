@@ -94,7 +94,7 @@ class CouponController extends Controller
                     'errors_server' => $data->errors_server
                 ], 500);
             }
-            sleep(1);
+            sleep(2);
         }
     }
 

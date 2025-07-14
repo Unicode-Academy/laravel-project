@@ -28,6 +28,28 @@ class PaymentController extends Controller
         $content = $request->content;
         $transferType = $request->transferType;
         $transferAmount = $request->transferAmount;
+        if (!$content || $transferType != 'in' || !$transferAmount) {
+            return response()->json([
+                'success' => false,
+            ], 401);
+        }
+        //Lấy order id từ content
+        preg_match("/thanh toan (\w+)/i", $content, $matches);
+        if (!empty($matches[1])) {
+            $orderId = $matches[1];
+            $order = $this->orderRepository->getOrder($orderId);
+            if (!$order) {
+                return response()->json([
+                    'success' => false,
+                ], 401);
+            }
+            $total = $order->total - $order->discount;
+            if ($total != $transferAmount) {
+                return response()->json([
+                    'success' => false,
+                ], 401);
+            }
+        }
         return [
             'success' => true,
             'content' => $content,
