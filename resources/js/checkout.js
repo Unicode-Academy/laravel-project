@@ -213,4 +213,32 @@ if (checkoutPageEl) {
             removeCoupon();
         });
     }
+
+    //Xử lý cập nhật trạng thái đơn hàng
+    const orderStatusEl = checkoutPageEl.querySelector(".js-status");
+    if (orderStatusEl) {
+        const requestOrderStatus = async () => {
+            const response = await fetch(
+                `/api/students/check-payment/${orderId}`
+            );
+            if (!response.ok) {
+                throw new Error("Server Error");
+            }
+            const { success, data } = await response.json();
+            if (success) {
+                const initBg = orderStatusEl.classList[2];
+                const newBg = `bg-${data.color}`;
+                if (orderStatusEl.innerText !== data.name) {
+                    orderStatusEl.classList.replace(initBg, newBg);
+                    orderStatusEl.innerText = data.name;
+                }
+                setTimeout(() => {
+                    if (data.is_success) {
+                        window.location.href = `/tai-khoan/don-hang/${orderId}`;
+                    }
+                }, 1000);
+            }
+        };
+        setInterval(requestOrderStatus, 5000);
+    }
 }

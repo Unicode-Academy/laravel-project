@@ -100,4 +100,18 @@ class PaymentController extends Controller
             'success' => false,
         ], 401);
     }
+
+    public function checkPayment($orderId)
+    {
+        $order = $this->orderRepository->getOrder($orderId);
+        if (!$order) {
+            return response()->json([
+                'success' => false
+            ]);
+        }
+        return response()->json([
+            'success' => true,
+            'data' => $order->status
+        ]);
+    }
 }

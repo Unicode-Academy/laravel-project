@@ -33,7 +33,7 @@
                         </tr>
                         <tr>
                             <th>Trạng thái</th>
-                            <td><span class="badge bg-{{ $order->status->color }}">
+                            <td><span class="js-status badge bg-{{ $order->status->color }}">
                                     {{ $order->status->name }}
                                 </span>
                             </td>

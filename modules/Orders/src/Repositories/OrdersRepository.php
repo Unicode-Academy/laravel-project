@@ -35,7 +35,7 @@ class OrdersRepository extends BaseRepository implements OrdersRepositoryInterfa
     }
     public function getOrder($orderId)
     {
-        return $this->model->with('detail')->find($orderId);
+        return $this->model->with(['detail', 'status'])->find($orderId);
     }
 
     public function updatePaymentDate($orderId)
