@@ -92,7 +92,7 @@
                         <div class="col-6">
                             <div class="text-center">
                                 <img class="qr-img" style="width: 230px"
-                                    src="https://img.vietqr.io/image/vietcombank-049100035576-compact2.jpg?amount={{ $order->total - $order->discount }}&addInfo=thanh+toan+{{ $id }}"
+                                    src="https://img.vietqr.io/image/OCB-SEPELEARNING-compact2.jpg?amount={{ $order->total - $order->discount }}&addInfo=thanh+toan+{{ $id }}"
                                     alt="">
                                 <button class="btn btn-success btn-sm download-qr">Tải QR Code</button>
                             </div>

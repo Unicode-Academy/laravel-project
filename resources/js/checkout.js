@@ -219,7 +219,7 @@ if (checkoutPageEl) {
     if (orderStatusEl) {
         const requestOrderStatus = async () => {
             const response = await fetch(
-                `/api/students/check-payment/${orderId}`
+                `http://127.0.0.1:8002/api/students/check-payment/${orderId}`
             );
             if (!response.ok) {
                 throw new Error("Server Error");
@@ -234,6 +234,7 @@ if (checkoutPageEl) {
                 }
                 setTimeout(() => {
                     if (data.is_success) {
+                        controller.abort();
                         window.location.href = `/tai-khoan/don-hang/${orderId}`;
                     }
                 }, 1000);
